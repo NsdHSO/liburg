@@ -6,17 +6,16 @@ import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'elix-column-number',
-  templateUrl: './column-number.component.html',
-  styleUrls: ['./column-number.component.scss'],
-  standalone: true,
-  providers: [
-    {
-      provide: BaseColumn,
-      useExisting: ColumnNumberComponent,
-    },
-  ],
-  imports: [MatTableModule, NgIf, FormsModule, MatInputModule],
+    selector: 'elix-column-number',
+    templateUrl: './column-number.component.html',
+    styleUrls: ['./column-number.component.scss'],
+    providers: [
+        {
+            provide: BaseColumn,
+            useExisting: ColumnNumberComponent,
+        },
+    ],
+    imports: [MatTableModule, NgIf, FormsModule, MatInputModule]
 })
 export class ColumnNumberComponent<T> extends BaseColumn {
   @Input()

@@ -2,8 +2,9 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { MatColumnDef } from '@angular/material/table';
 
 @Component({
-  selector: 'elix-base',
-  template: '',
+    selector: 'elix-base',
+    template: '',
+    standalone: false
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class BaseColumn {

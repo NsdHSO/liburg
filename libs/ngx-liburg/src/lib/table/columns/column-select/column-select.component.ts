@@ -22,18 +22,17 @@ export interface ColumnSelect<T> {
 
 
 @Component({
-  selector: 'elix-column-select',
-  templateUrl: './column-select.component.html',
-  styleUrls: ['./column-select.component.scss'],
-  providers: [
-    {
-      provide: BaseColumn,
-      useExisting: ColumnSelectComponent,
-    },
-  ],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [MatInputModule, MatSelectModule, FormsModule, MatTableModule],
+    selector: 'elix-column-select',
+    templateUrl: './column-select.component.html',
+    styleUrls: ['./column-select.component.scss'],
+    providers: [
+        {
+            provide: BaseColumn,
+            useExisting: ColumnSelectComponent,
+        },
+    ],
+    encapsulation: ViewEncapsulation.None,
+    imports: [MatInputModule, MatSelectModule, FormsModule, MatTableModule]
 })
 export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   @Input()

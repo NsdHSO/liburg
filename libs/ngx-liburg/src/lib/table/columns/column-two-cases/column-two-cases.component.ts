@@ -18,18 +18,17 @@ enum SelectEnum {
 }
 
 @Component({
-  selector: 'elix-column-two-cases',
-  templateUrl: './column-two-cases.component.html',
-  styleUrls: ['./column-two-cases.component.scss'],
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: BaseColumn,
-      useExisting: ColumnTwoCasesComponent,
-    },
-  ],
-  imports: [MatTableModule, MatSlideToggleModule, NgIf, FormsModule],
+    selector: 'elix-column-two-cases',
+    templateUrl: './column-two-cases.component.html',
+    styleUrls: ['./column-two-cases.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: BaseColumn,
+            useExisting: ColumnTwoCasesComponent,
+        },
+    ],
+    imports: [MatTableModule, MatSlideToggleModule, NgIf, FormsModule]
 })
 export class ColumnTwoCasesComponent<T> extends BaseColumn implements OnInit {
   @Output()

@@ -6,9 +6,10 @@ import *  as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
 
 @Component({
-  selector: 'ngx-frame-side',
-  templateUrl: './frame.component.html',
-  styleUrls: ['./frame.component.scss'],
+    selector: 'ngx-frame-side',
+    templateUrl: './frame.component.html',
+    styleUrls: ['./frame.component.scss'],
+    standalone: false
 })
 export class FrameComponent {
   public navData: FrameService | any;

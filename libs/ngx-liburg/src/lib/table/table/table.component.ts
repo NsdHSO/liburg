@@ -49,38 +49,31 @@ export interface DataSourceMaterialTable<T> {
 }
 
 @Component({
-  selector: 'elix-table',
-  standalone: true,
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state(
-        'collapsed',
-        style({
-          height: '0px',
-          minHeight: '0',
-        })
-      ),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    MatTableModule,
-    NgStyle,
-    CdkDropList,
-    CdkDrag,
-    AsyncPipe,
-    MatPaginatorModule,
-    MatIconModule,
-    NgIf,
-    NgTemplateOutlet,
-  ],
+    selector: 'elix-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss'],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({
+                height: '0px',
+                minHeight: '0',
+            })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        MatTableModule,
+        NgStyle,
+        CdkDropList,
+        CdkDrag,
+        AsyncPipe,
+        MatPaginatorModule,
+        MatIconModule,
+        NgIf,
+        NgTemplateOutlet,
+    ]
 })
 export class TableComponent<T> implements AfterViewInit, OnDestroy {
   @Input()

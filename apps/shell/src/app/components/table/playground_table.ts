@@ -13,10 +13,9 @@ export interface Driver {
   };
 }
 @Component({
-  selector: 'liburg-table',
-  templateUrl: './playground_table.html',
-  standalone: true,
-  imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent],
+    selector: 'liburg-table',
+    templateUrl: './playground_table.html',
+    imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent]
 })
 export default class PlaygroundTableComponent {
   dataSource = drivers().map((driver: any) => {

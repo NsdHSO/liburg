@@ -7,17 +7,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'elix-column-icon-action',
-  templateUrl: './column-icon-action.component.html',
-  styleUrls: ['./column-icon-action.component.scss'],
-  standalone: true,
-  providers: [
-    {
-      provide: BaseColumn,
-      useExisting: ColumnIconActionComponent,
-    },
-  ],
-  imports: [MatTableModule, MatButtonModule, MatIconModule, NgIf, NgForOf],
+    selector: 'elix-column-icon-action',
+    templateUrl: './column-icon-action.component.html',
+    styleUrls: ['./column-icon-action.component.scss'],
+    providers: [
+        {
+            provide: BaseColumn,
+            useExisting: ColumnIconActionComponent,
+        },
+    ],
+    imports: [MatTableModule, MatButtonModule, MatIconModule, NgIf, NgForOf]
 })
 export class ColumnIconActionComponent extends BaseColumn {
   @Input()

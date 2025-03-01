@@ -11,18 +11,17 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'elix-column-text',
-  standalone: true,
-  templateUrl: './column-text.component.html',
-  styleUrls: ['./column-text.component.scss'],
-  providers: [
-    {
-      provide: BaseColumn,
-      useExisting: ColumnTextComponent,
-    },
-  ],
-  encapsulation: ViewEncapsulation.None,
-  imports: [MatTableModule, MatInputModule, NgIf, FormsModule],
+    selector: 'elix-column-text',
+    templateUrl: './column-text.component.html',
+    styleUrls: ['./column-text.component.scss'],
+    providers: [
+        {
+            provide: BaseColumn,
+            useExisting: ColumnTextComponent,
+        },
+    ],
+    encapsulation: ViewEncapsulation.None,
+    imports: [MatTableModule, MatInputModule, NgIf, FormsModule]
 })
 export class ColumnTextComponent<T> extends BaseColumn {
   @Output()
