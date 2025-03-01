@@ -1,0 +1,77 @@
+<mat-table mat-table [dataSource]="dataSource" multiTemplateDataRows="true" cdkDropList [cdkDropListData]="dataSource"
+           [ngStyle]="{'box-shadow': addedNewEntry ? 'none': ''}"
+           (cdkDropListDropped)="drop($event)">
+  <ng-content></ng-content>
+  <mat-header-row
+    class="header-color gap-1"
+    mat-header-row
+    *matHeaderRowDef="columnsToDispaly; sticky: true"
+  >
+  </mat-header-row>
+  <mat-row
+    mat-row
+    cdkDrag
+    *matRowDef="let row; columns: columnsToDispaly"
+    class="gap-1 header-border-left"
+  ></mat-row>
+  <!-- Footer for tabel -->
+  <ng-container *ngIf="footerShow">
+    <mat-footer-row
+      [class]="footerMessageClass"
+      *matFooterRowDef="columnsToDispaly"
+      [attr.colspan]="columnsToDispaly.length"
+    >
+    </mat-footer-row>
+  </ng-container>
+
+  <!--  Extanble-->
+  <ng-container *ngIf="extensible">
+    <ng-container matColumnDef="extensibleData">
+      <mat-cell
+        *matCellDef="let element"
+        [attr.colspan]="columnsToDispaly.length"
+        class="overflow-hidden"
+      >
+        <div
+          [@detailExpand]="
+            element === (extandble$ | async) ? 'expanded' : 'collapsed'
+          "
+          class="elix__table"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              newElementExtandble;
+              context: { $implicit: element }
+            "
+          >
+          </ng-container>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-row
+      *matRowDef="let row; columns: ['extensibleData']"
+      class="example-detail-row gap-1 header-border-left"
+    ></mat-row>
+  </ng-container>
+</mat-table>
+<div class="new" *ngIf="addedNewEntry" (click)="addNewEntry()">
+  <mat-icon
+    [svgIcon]="'fa_solid:circle-plus'"
+    class="new-entry"
+  ></mat-icon>
+  <div>
+    <p>Added new Entry</p>
+  </div>
+
+</div>
+<mat-paginator
+  [class]="paginationClass"
+  *ngIf="showPagination"
+  (page)="changePage($event)"
+  [length]="lenghtPagination"
+  [pageSizeOptions]="[10, 20, 50]"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

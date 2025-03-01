@@ -1,0 +1,134 @@
+elix-table {
+  transition: all 0.5s ease-in;
+
+  mat-table {
+    color: transparent;
+    border-collapse: collapse;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  }
+
+  .header-border-left {
+    border-left: 1px solid;
+  }
+
+  mat-header-row {
+    mat-header-cell {
+      justify-content: flex-start;
+      border-spacing: 2rem;
+    }
+  }
+
+  mat-row {
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    transition: all ease-in-out .1s;
+    min-height: 32px;
+    border: 0.2px solid;
+    position: relative;
+
+    height: max-content;
+
+    textarea {
+      outline: none;
+    }
+
+    &:hover {
+      background: rgba(1, 1, 222, 0.1);
+    }
+
+    mat-cell {
+      justify-content: flex-start;
+      position: relative;
+      min-height: 1rem;
+      color: black;
+
+      mat-form-field {
+        div {
+          padding: 0 !important;
+          border: 0 !important;
+
+          input {
+            border: 1px solid;
+            box-shadow: inset 0px 0px 3px 1px rgb(0 0 255 / 20%);
+          }
+        }
+      }
+
+      textarea {
+        background: inherit;
+        height: 1.95rem;
+
+        &:focus-visible {
+          outline: none;
+          border: 1px solid var(--primary-color-input);
+        }
+      }
+
+      button {
+        padding: 0 !important;
+        min-width: auto !important;
+      }
+    }
+  }
+
+  mat-header-row {
+    min-height: 1.5rem;
+
+    mat-header-cell {
+      min-height: inherit;
+    }
+  }
+
+  mat-header-cell {
+    color: white !important;
+  }
+
+  .header-color {
+    background: #2d333b;
+    z-index: 99 !important;
+  }
+
+  .mat-form-field-infix {
+    width: auto;
+  }
+
+  .example-detail-row {
+    min-height: 0 !important;
+
+    mat-cell {
+      min-height: inherit;
+
+      .mat-form-field-infix {
+        width: auto !important;
+      }
+    }
+  }
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-preview{
+  z-index: 200;
+  background-color: white;
+  border: 1px solid #5f7651;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+/* Animate an item that has been dropped. */
+.cdk-drag-animating {
+  transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.new{
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 1rem 0.5rem;
+
+  &-entry{
+    color: #52796f !important;
+    padding-right: 0.5rem;
+  }
+}

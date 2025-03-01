@@ -1,0 +1,12 @@
+<ng-container [matColumnDef]="field">
+  <mat-header-cell [class]="className" mat-header-cell *matHeaderCellDef>
+    {{name}}
+  </mat-header-cell>
+  <mat-cell [class]="className" mat-cell *matCellDef="let element">
+
+      <mat-slide-toggle *ngIf="element.editable && editRow; else prettyText"  [(ngModel)]="element.model[field]" ></mat-slide-toggle>
+      <ng-template #prettyText>
+      {{ element.model[field] }}
+    </ng-template>
+  </mat-cell>
+</ng-container>

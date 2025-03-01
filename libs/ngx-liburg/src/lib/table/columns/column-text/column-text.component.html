@@ -1,0 +1,26 @@
+<ng-container [matColumnDef]="field" >
+  <mat-header-cell [class]="className" mat-header-cell *matHeaderCellDef>
+    {{ name }}
+  </mat-header-cell>
+  <mat-cell [class]="className" mat-cell *matCellDef="let element">
+    <mat-form-field
+      appearance="outline"
+      *ngIf="element.editable && editRow; else prettyText"
+      class="column-text__edit"
+    >
+      <input class="text-input"
+        [(ngModel)]="element.model[field]"
+        (ngModelChange)="element.model[field] = $event; changeEntity({change: {dataChanged: element.model[field], data: field}})"
+        matInput
+      />
+    </mat-form-field>
+    <ng-template #prettyText>
+      <div class="text-disable dark:text-white">
+      {{ element.model[field] }}
+    </div>
+    </ng-template>
+  </mat-cell>
+  <mat-footer-cell *matFooterCellDef>
+      {{footerMessage}}
+  </mat-footer-cell>
+</ng-container>
