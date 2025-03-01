@@ -22,7 +22,6 @@ export class FrameComponent {
 
   private navDataIndex: number = 0;
 
-  private _unsubscription = new Subject();
   takeDataFromOutsiders;
 
   constructor(

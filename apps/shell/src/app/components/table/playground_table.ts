@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { drivers } from '../../../assets/driver';
 import { ColumnIconActionComponent, ColumnTextComponent, DataSourceMaterialTable, TableComponent } from '@ngx-liburg';
+import { RouterOutlet } from '@angular/router';
 
 export interface Driver {
   personalInfo: {
@@ -13,9 +14,14 @@ export interface Driver {
   };
 }
 @Component({
-    selector: 'liburg-table',
-    templateUrl: './playground_table.html',
-    imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent]
+  selector: 'liburg-table',
+  templateUrl: './playground_table.html',
+  imports: [
+    TableComponent,
+    ColumnTextComponent,
+    ColumnIconActionComponent,
+    RouterOutlet,
+  ],
 })
 export default class PlaygroundTableComponent {
   dataSource = drivers().map((driver: any) => {

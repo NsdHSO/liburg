@@ -4,7 +4,7 @@ import {
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { FrameWholeModule } from '@ngx-liburg-frame-side';
+import { FrameWholeModule, RouterConfig } from '@ngx-liburg-frame-side';
 import { IconCoreModule } from '@ngx-liburg-icon';
 
 export const CONFIG_MAIN = Object.freeze({
@@ -12,7 +12,7 @@ export const CONFIG_MAIN = Object.freeze({
     {
       path: 'table',
       icon: 'fa_solid:gauge',
-      text: 'Dashboard',
+      text: 'Dashboard'
     },
     {
       path: 'calendar',
@@ -21,7 +21,7 @@ export const CONFIG_MAIN = Object.freeze({
     },
   ],
   iconApp: '',
-});
+}) as RouterConfig;
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
