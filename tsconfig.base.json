@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@ngx-liburg": ["libs/ngx-liburg/src/index.ts"],
-      "@ngx-liburg-frame-side": ["libs/ngx-liburg-frame-side/src/public-api.ts"]
+      "@ngx-liburg-frame-side": [
+        "libs/ngx-liburg-frame-side/src/public-api.ts"
+      ],
+      "@ngx-liburg-icon": ["libs/ngx-liburg-icon/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
