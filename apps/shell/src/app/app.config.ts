@@ -10,7 +10,7 @@ import { IconCoreModule } from '@ngx-liburg-icon';
 export const CONFIG_MAIN = Object.freeze({
   routerDataConfig: [
     {
-      path: 'driver',
+      path: 'table',
       icon: 'fa_solid:gauge',
       text: 'Dashboard',
     },
