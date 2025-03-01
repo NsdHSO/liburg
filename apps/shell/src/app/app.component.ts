@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { FrameWholeModule } from '@ngx-liburg-frame-side';
+
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule, FrameWholeModule],
   selector: 'liburg-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ngx-liburg": ["libs/ngx-liburg/src/index.ts"]
+      "@ngx-liburg": ["libs/ngx-liburg/src/index.ts"],
+      "@ngx-liburg-frame-side": ["libs/ngx-liburg-frame-side/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
