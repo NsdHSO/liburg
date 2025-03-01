@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve shell"
+    "start": "nx serve shell",
+    "build:frame": "nx build ngx-liburg-frame-side",
+    "build:icon": "nx build ngx-liburg-icon",
+    "build:table": "nx build ngx-liburg"
   },
   "private": true,
   "dependencies": {

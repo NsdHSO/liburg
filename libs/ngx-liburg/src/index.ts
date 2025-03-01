@@ -6,7 +6,6 @@
 // export * from './lib/ngx-liburg.component';
 // export * from './lib/ngx-liburg.module';
 
-export * from './lib/table/table-material.module';
 export * from './lib/table/tooltip/tooltip.component'
 export * from './lib/table/columns/column-number/column-number.component'
 export * from './lib/table/columns/column-text/column-text.component'

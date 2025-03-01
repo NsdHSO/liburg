@@ -1,3 +1,23 @@
+<ngx-frame-side />
 
-<ngx-frame-side/>
+<elix-table [dataSource]="dataSource"
+>
+  <elix-column-text
+    className="driver-name"
+    field="first_name"
+    name="Name"
+  >
+  </elix-column-text>
+  <elix-column-text
+    className="driver-revenu"
+    field="revenu"
+    name="Revenu"
+  >
+  </elix-column-text>
+  <elix-column-icon-action
+    className="action"
+    field="action2"
+    name="Action">
 
+  </elix-column-icon-action>
+</elix-table>

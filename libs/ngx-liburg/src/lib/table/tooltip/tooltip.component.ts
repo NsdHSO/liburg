@@ -4,8 +4,9 @@ import { Component, Input } from '@angular/core';
   selector: 'elix-tooltip',
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
+  standalone: true,
+
 })
 export class TooltipComponent {
-  // @ts-ignore
-  @Input() width: number;
+  @Input() width!: number;
 }

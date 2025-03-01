@@ -1,33 +1,59 @@
-import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {BaseColumn} from "../../base-column";
-import {DataSourceMaterialTable} from "../../table/table.component";
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
+import { BaseColumn } from '../../base-column';
+import { DataSourceMaterialTable } from '../../table/table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 enum SelectEnum {
-  TRUE= 'true',
-  FALSE= 'false'
+  TRUE = 'true',
+  FALSE = 'false',
 }
 
 @Component({
-             selector     : 'elix-column-two-cases',
-             templateUrl  : './column-two-cases.component.html',
-             styleUrls    : ['./column-two-cases.component.scss'],
-             encapsulation: ViewEncapsulation.None,
-              providers:[{provide: BaseColumn, useExisting: ColumnTwoCasesComponent}]
-           })
+  selector: 'elix-column-two-cases',
+  templateUrl: './column-two-cases.component.html',
+  styleUrls: ['./column-two-cases.component.scss'],
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnTwoCasesComponent,
+    },
+  ],
+  imports: [MatTableModule, MatSlideToggleModule, NgIf, FormsModule],
+})
 export class ColumnTwoCasesComponent<T> extends BaseColumn implements OnInit {
   @Output()
-  public onValueChanges : EventEmitter<DataSourceMaterialTable<T>> =
-           new EventEmitter();
+  public valueChanges: EventEmitter<DataSourceMaterialTable<T>> =
+    new EventEmitter();
 
-  public chosenList: Array<{value: SelectEnum, view: string}> = [{value: SelectEnum.FALSE, view: 'False'}, {value: SelectEnum.TRUE, view: 'True'}]
+  public chosenList: Array<{ value: SelectEnum; view: string }> = [
+    {
+      value: SelectEnum.FALSE,
+      view: 'False',
+    },
+    {
+      value: SelectEnum.TRUE,
+      view: 'True',
+    },
+  ];
 
-  public ngOnInit() : void {
-  }
+  public ngOnInit(): void {}
 
-  public changeValue() {
-  }
+  public changeValue() {}
 
-  public changeEntity(param : {change : {data : string; dataChanged : any}}) : void {
-    console.log(param)
+  public changeEntity(param: {
+    change: { data: string; dataChanged: any };
+  }): void {
+    console.log(param);
   }
 }

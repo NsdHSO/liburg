@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import {BaseColumn} from "../../base-column";
 import {DataSourceMaterialTable} from "../../table/table.component";
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 
 export interface ColumnSelect<T> {
@@ -21,8 +25,15 @@ export interface ColumnSelect<T> {
   selector: 'elix-column-select',
   templateUrl: './column-select.component.html',
   styleUrls: ['./column-select.component.scss'],
-  providers: [{ provide: BaseColumn, useExisting: ColumnSelectComponent }],
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnSelectComponent,
+    },
+  ],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatInputModule, MatSelectModule, FormsModule, MatTableModule],
 })
 export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   @Input()
@@ -31,7 +42,7 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   @Input()
   truthy: boolean = false;
   @Output()
-  public onValueChanges: EventEmitter<DataSourceMaterialTable<T>> =
+  public valueChanges: EventEmitter<DataSourceMaterialTable<T>> =
     new EventEmitter();
 
   ngOnInit(): void {
@@ -45,6 +56,6 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   }
 
   public changeEntity(rowElement: DataSourceMaterialTable<T>) {
-    this.onValueChanges.emit(rowElement);
+    this.valueChanges.emit(rowElement);
   }
 }

@@ -6,26 +6,43 @@ import {
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
 import { OverlayRef } from '@angular/cdk/overlay';
-import {ElixTooltipService} from "./elix-tooltip.service";
-import {DataSourceMaterialTable} from "../../table/table.component";
+import { ElixTooltipService } from './elix-tooltip.service';
+import { DataSourceMaterialTable } from '../../table/table.component';
+import { MatTableModule } from '@angular/material/table';
+import { TooltipComponent } from '../../tooltip/tooltip.component';
+import { NgStyle } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'elix-column-area-text',
+  standalone: true,
   templateUrl: './column-area-text.component.html',
   styleUrls: ['./column-area-text.component.scss'],
-  providers: [{ provide: BaseColumn, useExisting: ColumnAreaTextComponent }],
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnAreaTextComponent,
+    },
+  ],
+  imports: [
+    MatTableModule,
+    TooltipComponent,
+    NgStyle,
+    FormsModule,
+    MatInputModule,
+  ],
 })
 export class ColumnAreaTextComponent extends BaseColumn {
-  value: boolean = false;
+  value = false;
   vars: any;
   // @ts-ignore
   @ViewChild('tooltipRef') tooltipRef: TemplateRef<any>;
   // @ts-ignore
   tooltipOverlay: OverlayRef;
-  width: number = 400;
+  width = 400;
 
   constructor(
-
     private _elixTooltip: ElixTooltipService,
     private _viewContainer: ViewContainerRef
   ) {

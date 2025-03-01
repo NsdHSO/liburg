@@ -10,17 +10,27 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ngx-liburg": ["libs/ngx-liburg/src/index.ts"],
-      "@ngx-liburg-frame-side": [
-        "libs/ngx-liburg-frame-side/src/public-api.ts"
+      "@ngx-liburg": [
+        "libs/ngx-liburg/src/index.ts"
       ],
-      "@ngx-liburg-icon": ["libs/ngx-liburg-icon/src/public-api.ts"]
+      "@ngx-liburg-frame-side": [
+        "libs/ngx-liburg-frame-side/src/index.ts"
+      ],
+      "@ngx-liburg-icon": [
+        "libs/ngx-liburg-icon/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
