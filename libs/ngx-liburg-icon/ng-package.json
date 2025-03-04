@@ -3,5 +3,12 @@
   "dest": "../../dist/libs/ngx-liburg-icon",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": [
+    {
+      "input": "./src/lib/icon-core/assets/icons/svgs",
+      "output": "assets/icons/svgs",
+      "glob": "**/*.svg"
+    }
+  ]
 }
