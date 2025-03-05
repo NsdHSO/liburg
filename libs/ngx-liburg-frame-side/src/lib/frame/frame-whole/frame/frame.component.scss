@@ -10,7 +10,7 @@
   &__logo-container {
     display: flex;
     align-content: center;
-    padding: 0.93rem;
+    padding: .8rem 0 .8rem 1.2rem;
     width: 100%;
     max-width: 2rem;
 
@@ -27,7 +27,7 @@
 
   &-nav {
     list-style: none;
-    padding: 1rem;
+    padding: 0 1rem 1rem;
     margin: 0;
     display: flex;
     flex-direction: column;
