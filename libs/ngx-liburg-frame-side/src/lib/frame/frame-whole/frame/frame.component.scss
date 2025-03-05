@@ -12,6 +12,7 @@
     align-content: center;
     padding: 0.93rem;
     width: 100%;
+    max-width: 2rem;
 
   }
 
@@ -187,7 +188,7 @@
     z-index: 110;
 
     &-body {
-      max-height:calc(100% - 4rem);
+      max-height: calc(100% - 4rem);
       overflow: auto;
     }
   }
