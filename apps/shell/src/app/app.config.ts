@@ -20,7 +20,7 @@ export const CONFIG_MAIN = Object.freeze({
       text: 'test',
     },
   ],
-  iconApp: '',
+  iconApp: ''
 }) as RouterConfig;
 export const appConfig: ApplicationConfig = {
   providers: [

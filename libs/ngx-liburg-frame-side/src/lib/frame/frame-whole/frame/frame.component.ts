@@ -1,15 +1,26 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import *  as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
+import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'ngx-frame-side',
-    templateUrl: './frame.component.html',
-    styleUrls: ['./frame.component.scss'],
-    standalone: false
+  selector: 'ngx-frame-side',
+  templateUrl: './frame.component.html',
+  styleUrls: ['./frame.component.scss'],
+  imports: [
+    NgForOf,
+    NgIf,
+    RouterLink,
+    MatIcon,
+    RouterLinkActive,
+    RouterOutlet,
+    NgClass,
+    AsyncPipe,
+  ],
 })
 export class FrameComponent {
   public navData: FrameService | any;
@@ -25,7 +36,8 @@ export class FrameComponent {
   takeDataFromOutsiders;
 
   constructor(
-    private _frameService: RouterData.FrameService, private _router: Router,
+    private _frameService: RouterData.FrameService,
+    private _router: Router
   ) {
     this.navData = _frameService;
     this.collapsed = false;
@@ -35,12 +47,14 @@ export class FrameComponent {
       tap((navigationRoute) => {
         this.navData.routerDataConfig.forEach((route: RouterData.Router) => {
           if (route.subRouter) {
-            route.subRouter?.forEach((subRoute: RouterData.Router, index: number) => {
-              if (subRoute.path === navigationRoute) {
-                this.navDataIndex = index;
-                this.subToggle = true;
+            route.subRouter?.forEach(
+              (subRoute: RouterData.Router, index: number) => {
+                if (subRoute.path === navigationRoute) {
+                  this.navDataIndex = index;
+                  this.subToggle = true;
+                }
               }
-            });
+            );
           }
         });
       })
