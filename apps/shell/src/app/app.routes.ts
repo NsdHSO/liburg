@@ -6,4 +6,9 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('./components/table/playground_table').then((c) => c),
   },
+  {
+    path: 'calendar',
+    loadComponent: () =>
+      import('./components/calendar/playground_table').then((c) => c),
+  },
 ];

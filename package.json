@@ -6,7 +6,8 @@
     "start": "nx serve shell",
     "build:frame": "nx build ngx-liburg-frame-side",
     "build:icon": "nx build ngx-liburg-icon",
-    "build:table": "nx build ngx-liburg"
+    "build:table": "nx build ngx-liburg",
+    "build": "nx build shell"
   },
   "private": true,
   "dependencies": {

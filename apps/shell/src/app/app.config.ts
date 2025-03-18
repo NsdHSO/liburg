@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import {
   provideRouter,
-  withEnabledBlockingInitialNavigation,
+  withEnabledBlockingInitialNavigation, withViewTransitions
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { FrameWholeModule, RouterConfig } from '@ngx-liburg-frame-side';
@@ -24,7 +24,7 @@ export const CONFIG_MAIN = Object.freeze({
 }) as RouterConfig;
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
+    provideRouter(appRoutes, withEnabledBlockingInitialNavigation(), withViewTransitions()),
     importProvidersFrom(FrameWholeModule.forRoot(CONFIG_MAIN)),
     importProvidersFrom(IconCoreModule),
   ],

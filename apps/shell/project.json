@@ -29,6 +29,7 @@
       },
       "configurations": {
         "production": {
+          "baseHref": "/liburg/",
           "budgets": [
             {
               "type": "initial",

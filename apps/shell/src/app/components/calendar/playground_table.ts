@@ -6,7 +6,6 @@ import {
   DataSourceMaterialTable,
   TableComponent,
 } from '@ngx-liburg';
-import { RouterLink } from '@angular/router';
 
 export interface Driver {
   personalInfo: {
@@ -22,12 +21,14 @@ export interface Driver {
 @Component({
   selector: 'liburg-table',
   templateUrl: './playground_table.html',
-  imports: [
-    TableComponent,
-    ColumnTextComponent,
-    ColumnIconActionComponent,
-    RouterLink,
-  ],
+  imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent],
+  styles: `
+    :host {
+      h1 {
+        view-transition-name: router-transition-1
+      }
+    }
+  `,
 })
 export default class PlaygroundTableComponent {
   dataSource = drivers().map((driver: any) => {
@@ -37,7 +38,7 @@ export default class PlaygroundTableComponent {
     return {
       actions: [
         {
-          iconClass: 'fa_solid:gauge',
+          iconClass: 'fa_solid:d',
           classCss: 'edit',
           method: (row: Driver) => console.log(row),
         },
