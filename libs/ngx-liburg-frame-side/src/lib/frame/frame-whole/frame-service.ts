@@ -23,7 +23,6 @@ export class RouterConfig {
     }]
   }]
   public iconApp: string = ''
-  public appConfig:any
 }
 @Injectable({
   providedIn: 'root'
