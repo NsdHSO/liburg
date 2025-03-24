@@ -29,6 +29,7 @@ import { ColumnRotateService } from "../columns/service/column-rotate.service";
 import { TableService } from "./table.service";
 import { AsyncPipe, NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { FooterAmountComponent } from '../components/footer-amount/footer-amount.component';
 
 export interface IActionMaterialColumn {
   iconClass: string;
@@ -49,41 +50,50 @@ export interface DataSourceMaterialTable<T> {
 }
 
 @Component({
-    selector: 'elix-table',
-    templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss'],
-    animations: [
-        trigger('detailExpand', [
-            state('collapsed', style({
-                height: '0px',
-                minHeight: '0',
-            })),
-            state('expanded', style({ height: '*' })),
-            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-        ]),
-    ],
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        MatTableModule,
-        NgStyle,
-        CdkDropList,
-        CdkDrag,
-        AsyncPipe,
-        MatPaginatorModule,
-        MatIconModule,
-        NgIf,
-        NgTemplateOutlet,
-    ]
+  selector: 'elix-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    MatTableModule,
+    NgStyle,
+    CdkDropList,
+    CdkDrag,
+    AsyncPipe,
+    MatPaginatorModule,
+    MatIconModule,
+    NgIf,
+    NgTemplateOutlet,
+    FooterAmountComponent,
+  ],
 })
 export class TableComponent<T> implements AfterViewInit, OnDestroy {
   @Input()
-  public dataSource!: Array<DataSourceMaterialTable<T>>;
+  // @ts-ignore
+  public dataSource: Array<DataSourceMaterialTable<T>>;
 
   @Input()
   public extensible: boolean = false;
 
   @Input()
-  public extandble$?: BehaviorSubject<DataSourceMaterialTable<T> | null>;
+  // @ts-ignore
+  public extandble$: BehaviorSubject<DataSourceMaterialTable<T> | null>;
 
   // Footer
   @Input()
@@ -92,6 +102,15 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   // class for footer
   @Input()
   public footerMessageClass: string = '';
+
+  @Input()
+  public footerLabel: string = '';
+
+  @Input()
+  public zebraColor: boolean = false;
+
+  @Input()
+  public footerColumn: string = '';
 
   // new table in row
   @Input()
@@ -110,13 +129,15 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   @Input()
   // @ts-ignore
   public paginationClass: string;
+  @Input()
+  footerAmount: any = false;
 
   @Input()
   public addedNewEntry = false;
 
-  @Output() public addEntry: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public onAddEntry: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() public paginationChange: EventEmitter<PageEvent> =
+  @Output() public onPaginationChange: EventEmitter<PageEvent> =
     new EventEmitter<PageEvent>();
 
   @Input()
@@ -129,10 +150,9 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @ContentChildren(BaseColumn)
-  // @ts-ignore
-  // after the <ng-content> has been initialized, the column definitions are available.
-  public columnDefs: QueryList<BaseColumn>;
+  public columnDefs: QueryList<BaseColumn> | any;
   public columnsToDispaly: string[] = [];
+  public totalAmount: number = 0;
 
   private doubleColumnToDisplay: string[] = [];
   // for avoid memory leak
@@ -151,15 +171,13 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
     this.columnDefs
       .map((resp: BaseColumn) => resp.columnDef)
       .forEach((rep: MatColumnDef) => this.table.addColumnDef(rep));
-    this._columnRotate.rotate$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe((side: string) => {
-        if (side.includes('left')) {
-          this.rotateColumn('left');
-        } else {
-          this.rotateColumn('right');
-        }
-      });
+    this._makeRotationAction();
+    this.totalAmount = this.dataSource
+      .map((column: any) => {
+        return column.model[this.footerColumn];
+      })
+      .reduce((acc, value) => acc + value, 0);
+
     try {
       const duplicate = this.columnsToDispaly.filter(
         (columnDisplay: string, index: number, self: string[]) =>
@@ -175,20 +193,37 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
     } catch (err) {
       console.error(err);
     }
+    this._tableState.pushData(this.totalAmount);
     this._changeDetectorRef.detectChanges();
   }
 
   public addNewEntry() {
-    this.addEntry.next(true);
+    this.onAddEntry.next(true);
   }
 
   public changePage(event: PageEvent) {
-    this.paginationChange.emit(event);
+    this.onPaginationChange.emit(event);
   }
 
   public drop(event: CdkDragDrop<Array<DataSourceMaterialTable<T>>>): void {
     moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
     this.table.renderRows();
+  }
+
+  rowOdd(row: DataSourceMaterialTable<T>) {
+    return this.dataSource.indexOf(row);
+  }
+
+  private _makeRotationAction() {
+    this._columnRotate.rotate$
+      .pipe(takeUntil(this._destroyed))
+      .subscribe((side: string) => {
+        if (side.includes('left')) {
+          this.rotateColumn('left');
+        } else {
+          this.rotateColumn('right');
+        }
+      });
   }
 
   private rotateColumn(side: string) {

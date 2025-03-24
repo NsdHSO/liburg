@@ -20,13 +20,14 @@ import { NgForOf, NgIf } from '@angular/common';
 })
 export class ColumnIconActionComponent extends BaseColumn {
   @Input()
-  iconAction = false;
+  iconAction: boolean = false;
 
-  constructor(private readonly _columnRotate: ColumnRotateService) {
+  constructor(private readonly _columnRotate: ColumnRotateService){
     super();
   }
 
-  scrollColumn(left: string) {
-    this._columnRotate.setSide(left);
+  scrollColumn(left: string){
+    this._columnRotate.setSide(left)
   }
+
 }

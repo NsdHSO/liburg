@@ -19,7 +19,7 @@
       {{ element.model[field] }}
     </ng-template>
   </mat-cell>
-  <mat-footer-cell *matFooterCellDef>
-    {{ footerMessage }}
+  <mat-footer-cell mat-footer-cell *matFooterCellDef="let element">
+      {{(amountFooter| async) | totalAmount}}
   </mat-footer-cell>
 </ng-container>

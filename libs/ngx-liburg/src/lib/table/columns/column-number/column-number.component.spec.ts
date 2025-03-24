@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColumnNumberComponent } from './column-number.component';
 
 describe('ColumnNumberComponent', () => {
-  let component: ColumnNumberComponent;
-  let fixture: ComponentFixture<ColumnNumberComponent>;
+  let component: ColumnNumberComponent<any>;
+  let fixture: ComponentFixture<ColumnNumberComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

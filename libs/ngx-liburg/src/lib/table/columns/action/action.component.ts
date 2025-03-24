@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'elix-action',
+  selector: 'lib-action',
   templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss'],
-  standalone: true,
+  styleUrls: ['./action.component.scss']
 })
-export class ActionComponent {}
+export class ActionComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

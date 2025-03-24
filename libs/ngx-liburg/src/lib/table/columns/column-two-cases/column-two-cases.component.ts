@@ -13,8 +13,8 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 enum SelectEnum {
-  TRUE = 'true',
-  FALSE = 'false',
+  TRUE= 'true',
+  FALSE= 'false'
 }
 
 @Component({
@@ -32,27 +32,18 @@ enum SelectEnum {
 })
 export class ColumnTwoCasesComponent<T> extends BaseColumn implements OnInit {
   @Output()
-  public valueChanges: EventEmitter<DataSourceMaterialTable<T>> =
-    new EventEmitter();
+  public onValueChanges : EventEmitter<DataSourceMaterialTable<T>> =
+           new EventEmitter();
 
-  public chosenList: Array<{ value: SelectEnum; view: string }> = [
-    {
-      value: SelectEnum.FALSE,
-      view: 'False',
-    },
-    {
-      value: SelectEnum.TRUE,
-      view: 'True',
-    },
-  ];
+  public chosenList: Array<{value: SelectEnum, view: string}> = [{value: SelectEnum.FALSE, view: 'False'}, {value: SelectEnum.TRUE, view: 'True'}]
 
-  public ngOnInit(): void {}
+  public ngOnInit() : void {
+  }
 
-  public changeValue() {}
+  public changeValue() {
+  }
 
-  public changeEntity(param: {
-    change: { data: string; dataChanged: any };
-  }): void {
-    console.log(param);
+  public changeEntity(param : {change : {data : string; dataChanged : any}}) : void {
+    console.log(param)
   }
 }

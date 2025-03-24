@@ -1,0 +1,19 @@
+.footer-amount-container {
+  height: 2rem;
+  display: flex;
+  border-top: 0.0625rem solid rgba(0, 0, 0, 0.15);
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.15);
+  align-items: center;
+
+  &__label {
+    margin-left: 5rem;
+    flex: 1;
+    font-weight: 800;
+  }
+
+  &__data {
+    margin-right: 5rem;
+    font-weight: normal;
+    width: 1rem;
+  }
+}

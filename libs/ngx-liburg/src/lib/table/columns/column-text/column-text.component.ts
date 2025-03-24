@@ -25,9 +25,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class ColumnTextComponent<T> extends BaseColumn {
   @Output()
-  public valueChanges: EventEmitter<{ change: unknown }> = new EventEmitter();
+  public onValueChanges: EventEmitter<{change: unknown}> =
+    new EventEmitter();
 
-  public changeEntity(rowElement: { change: unknown }) {
-    this.valueChanges.emit(rowElement);
+  public changeEntity(rowElement: {change: unknown}){
+    this.onValueChanges.emit(rowElement);
   }
 }

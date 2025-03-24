@@ -1,15 +1,23 @@
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
-  private readonly  _columnDisplay: Subject<string[]> =new Subject<string[]>()
+
+  private readonly _amountData: BehaviorSubject<number> = new BehaviorSubject<number>(0)
+  amountData$ = this._amountData.asObservable()
+  private readonly _columnDisplay: Subject<string[]> = new Subject<string[]>()
   columnDisplay$ = this._columnDisplay.asObservable()
+
   constructor(private readonly _brPoint: BreakpointObserver,
   ){
+  }
+
+  pushData(data: number){
+    this._amountData.next(data)
   }
 
   responsive(columnsToDisplay: string[], cloneColumn: string[]){

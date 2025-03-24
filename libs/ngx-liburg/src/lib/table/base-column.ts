@@ -2,30 +2,34 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { MatColumnDef } from '@angular/material/table';
 
 @Component({
-    selector: 'elix-base',
-    template: '',
-    standalone: false
+  selector: 'app-base',
+  template: '',
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class BaseColumn {
   @ViewChild(MatColumnDef)
-  public columnDef!: MatColumnDef;
+  // @ts-ignore
+  public columnDef: MatColumnDef;
 
   @Input()
-  public name!: string;
+  // @ts-ignore
+  public name: string;
 
   @Input()
-  public field!: string;
+  // @ts-ignore
+  public field: string;
 
   @Input()
-  public className!: string;
+  // @ts-ignore
+  public className: string;
 
   @Input()
-  public iconClass!: string;
+  // @ts-ignore
+  public iconClass: string;
 
   @Input()
-  public editRow = false;
+  public editRow: boolean = false;
 
   @Input()
-  public footerMessage!: string | number | null;
+  // @ts-ignore
+  public footerMessage: string | number | null;
 }

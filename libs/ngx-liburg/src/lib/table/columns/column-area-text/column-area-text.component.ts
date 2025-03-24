@@ -33,13 +33,13 @@ import { MatInputModule } from '@angular/material/input';
     ]
 })
 export class ColumnAreaTextComponent extends BaseColumn {
-  value = false;
+  value: boolean = false;
   vars: any;
   // @ts-ignore
   @ViewChild('tooltipRef') tooltipRef: TemplateRef<any>;
   // @ts-ignore
   tooltipOverlay: OverlayRef;
-  width = 400;
+  width: number = 400;
 
   constructor(
     private _elixTooltip: ElixTooltipService,

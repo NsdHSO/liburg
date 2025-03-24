@@ -41,7 +41,7 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   @Input()
   truthy: boolean = false;
   @Output()
-  public valueChanges: EventEmitter<DataSourceMaterialTable<T>> =
+  public onValueChanges: EventEmitter<DataSourceMaterialTable<T>> =
     new EventEmitter();
 
   ngOnInit(): void {
@@ -55,6 +55,6 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   }
 
   public changeEntity(rowElement: DataSourceMaterialTable<T>) {
-    this.valueChanges.emit(rowElement);
+    this.onValueChanges.emit(rowElement);
   }
 }

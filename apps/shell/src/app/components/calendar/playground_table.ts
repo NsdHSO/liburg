@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { drivers } from '../../../assets/driver';
+import { JsonPipe } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import {
   ColumnIconActionComponent,
   ColumnTextComponent,
   DataSourceMaterialTable,
   TableComponent,
 } from '@ngx-liburg';
+import { drivers } from '../../../assets/driver';
 
 export interface Driver {
   personalInfo: {
@@ -21,7 +22,7 @@ export interface Driver {
 @Component({
   selector: 'liburg-table',
   templateUrl: './playground_table.html',
-  imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent],
+  imports: [TableComponent, ColumnTextComponent, ColumnIconActionComponent, JsonPipe],
   styles: `
     :host {
       h1 {
@@ -31,7 +32,7 @@ export interface Driver {
   `,
 })
 export default class PlaygroundTableComponent {
-  dataSource = drivers().map((driver: any) => {
+  dataSource = signal(drivers().map((driver: any) => {
     const model = {
       ...driver,
     };
@@ -47,6 +48,6 @@ export default class PlaygroundTableComponent {
       model: {
         ...model,
       },
-    } as DataSourceMaterialTable<Driver>;
-  });
+    } as DataSourceMaterialTable<Driver>}))
+
 }

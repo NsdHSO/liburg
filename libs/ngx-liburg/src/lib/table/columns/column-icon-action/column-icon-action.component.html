@@ -1,6 +1,8 @@
 <ng-container [matColumnDef]="field">
-  <mat-header-cell [class]="className" mat-header-cell *matHeaderCellDef="let element"
-
+  <mat-header-cell
+    [class]="className"
+    mat-header-cell
+    *matHeaderCellDef="let element"
   >
     <ng-container *ngIf="!iconAction">
       {{
@@ -8,24 +10,29 @@
       }}
     </ng-container>
     <ng-container *ngIf="iconAction">
-      <button mat-button
-              (click)="scrollColumn('left')"
+      <button
+        mat-button
+        (click)="scrollColumn('left')"
       >
         <mat-icon
           [svgIcon]="'fa_solid:arrow-left'"
-          class="your classes "
         ></mat-icon>
       </button>
-      <button mat-button
-              (click)="scrollColumn('right')">
+      <button
+        mat-button
+        (click)="scrollColumn('right')"
+      >
         <mat-icon
           [svgIcon]="'fa_solid:arrow-right'"
-          class="your classes "
         ></mat-icon>
       </button>
     </ng-container>
   </mat-header-cell>
-  <mat-cell [class]="className" mat-cell *matCellDef="let element">
+  <mat-cell
+    [class]="className"
+    mat-cell
+    *matCellDef="let element"
+  >
     <ng-container *ngIf="!iconAction">
 
       <ng-container *ngFor="let action of element.actions">

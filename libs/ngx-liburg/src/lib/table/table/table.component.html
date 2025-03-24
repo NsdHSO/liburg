@@ -1,6 +1,12 @@
-<mat-table mat-table [dataSource]="dataSource" multiTemplateDataRows="true" cdkDropList [cdkDropListData]="dataSource"
-           [ngStyle]="{'box-shadow': addedNewEntry ? 'none': ''}"
-           (cdkDropListDropped)="drop($event)">
+<mat-table
+  mat-table
+  [dataSource]="dataSource"
+  multiTemplateDataRows="true"
+  cdkDropList
+  [cdkDropListData]="dataSource"
+  [style.box-shadow]="addedNewEntry ? 'none': ''"
+  (cdkDropListDropped)="drop($event)"
+>
   <ng-content></ng-content>
   <mat-header-row
     class="header-color gap-1"
@@ -9,17 +15,21 @@
   >
   </mat-header-row>
   <mat-row
+    data-test="mat-row-def"
     mat-row
     cdkDrag
-    *matRowDef="let row; columns: columnsToDispaly"
+    matRipple
+    *matRowDef="let row; columns: columnsToDispaly; let i = index"
     class="gap-1 header-border-left"
+    [class.zebra]="dataSource.indexOf(row) % 2 === 0 && zebraColor"
   ></mat-row>
   <!-- Footer for tabel -->
   <ng-container *ngIf="footerShow">
     <mat-footer-row
-      [class]="footerMessageClass"
+      mat-footer-row
       *matFooterRowDef="columnsToDispaly"
-      [attr.colspan]="columnsToDispaly.length"
+      [attr.colspan]="1"
+      [class]="footerMessageClass"
     >
     </mat-footer-row>
   </ng-container>
@@ -55,20 +65,22 @@
     ></mat-row>
   </ng-container>
 </mat-table>
+<ng-container *ngIf="footerAmount">
+  <lib-footer-amount [amount]="totalAmount" [label]="footerLabel"/>
+</ng-container>
 <div class="new" *ngIf="addedNewEntry" (click)="addNewEntry()">
-  <mat-icon
-    [svgIcon]="'fa_solid:circle-plus'"
-    class="new-entry"
-  ></mat-icon>
+  <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"></mat-icon>
   <div>
     <p>Added new Entry</p>
   </div>
-
 </div>
 <mat-paginator
   [class]="paginationClass"
   *ngIf="showPagination"
   (page)="changePage($event)"
+  [length]="lenghtPagination"
+  [pageSizeOptions]="[10, 20, 50]"
+  showFirstLastButtons
   aria-label="Select page of periodic elements"
 >
 </mat-paginator>
