@@ -132,16 +132,16 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
 
 
   /**
-   * Page
+   * Is an array of allowed values
    */
   public pageSizeOptions = input([10, 20, 50])
   /**
-   * Page Size
+   * Page Size has a default value but can be configured elsewhere.
    */
   public pageSize = input(10)
 
   /**
-   * Page
+   * Page Index sets the current page number.
    */
   public pageIndex = input(1)
 
