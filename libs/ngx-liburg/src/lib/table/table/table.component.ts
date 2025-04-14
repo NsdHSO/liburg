@@ -132,7 +132,7 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
 
 
   /**
-   * Is an array of allowed values
+   * Is an array of allowed values.
    */
   public pageSizeOptions = input([10, 20, 50])
   /**
