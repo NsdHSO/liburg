@@ -11,7 +11,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  EventEmitter,
+  EventEmitter, input,
   Input,
   OnDestroy,
   Output,
@@ -129,6 +129,25 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   @Input()
   // @ts-ignore
   public paginationClass: string;
+
+
+  /**
+   * Page
+   */
+  public pageSizeOptions = input([10, 20, 50])
+  /**
+   * Page Size
+   */
+  public pageSize = input(10)
+
+  /**
+   * Page
+   */
+  public pageIndex = input(1)
+
+  /**
+   *
+   */
   @Input()
   footerAmount: any = false;
 

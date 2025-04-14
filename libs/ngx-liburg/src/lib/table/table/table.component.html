@@ -66,7 +66,7 @@
   </ng-container>
 </mat-table>
 <ng-container *ngIf="footerAmount">
-  <lib-footer-amount [amount]="totalAmount" [label]="footerLabel"/>
+  <lib-footer-amount [amount]="totalAmount" [label]="footerLabel" />
 </ng-container>
 <div class="new" *ngIf="addedNewEntry" (click)="addNewEntry()">
   <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"></mat-icon>
@@ -75,12 +75,13 @@
   </div>
 </div>
 <mat-paginator
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
   [class]="paginationClass"
   *ngIf="showPagination"
   (page)="changePage($event)"
   [length]="lenghtPagination"
-  [pageSizeOptions]="[10, 20, 50]"
-  showFirstLastButtons
+  [pageSizeOptions]="pageSizeOptions()"
   aria-label="Select page of periodic elements"
 >
 </mat-paginator>
