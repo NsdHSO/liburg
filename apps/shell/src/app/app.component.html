@@ -1,2 +1,11 @@
-<ngx-frame-side />
-
+<div class="app-container">
+  <nav class="nav-menu">
+    <a routerLink="/demo" routerLinkActive="active">Demo</a>
+    <a routerLink="/table" routerLinkActive="active">Table</a>
+    <a routerLink="/calendar" routerLinkActive="active">Calendar</a>
+  </nav>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
