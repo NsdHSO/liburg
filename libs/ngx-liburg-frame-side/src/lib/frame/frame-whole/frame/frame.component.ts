@@ -6,6 +6,7 @@ import *  as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
 import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @Component({
   selector: 'ngx-frame-side',
@@ -16,10 +17,11 @@ import { MatIcon } from '@angular/material/icon';
     NgIf,
     RouterLink,
     MatIcon,
+    NgClass,
     RouterLinkActive,
     RouterOutlet,
-    NgClass,
     AsyncPipe,
+    NavigationComponent,
   ],
 })
 export class FrameComponent {
