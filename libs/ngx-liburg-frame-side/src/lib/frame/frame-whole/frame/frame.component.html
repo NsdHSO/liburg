@@ -1,21 +1,9 @@
 <div class="overflow-none">
   <liburg-navigation [collapsed]="collapsed" [indexShows]="indexShows" [navData]="navData" [subToggle]="subToggle"
                      (toggle)="setSubToggle($event)" />
-  <div class="content">
-    <div class="content__header">
-      <ng-content select="[header]"></ng-content>
-    </div>
-    <div class="content__header-body">
-
-      <div class="content__body ">
-        <div class="content__body-ng-content">
-          <ng-content select="[body]"></ng-content>
-        </div>
-        <div>
-          <router-outlet />
-        </div>
-      </div>
-    </div>
-  </div>
+  <liburg-drawer >
+    <div header> Iancu</div>
+    <div body> Body</div>
+  </liburg-drawer>
 </div>
 <ng-container *ngIf="takeDataFromOutsiders| async" />

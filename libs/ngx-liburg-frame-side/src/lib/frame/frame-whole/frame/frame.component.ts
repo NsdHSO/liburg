@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Subject } from 'rxjs';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
-import *  as RouterData from '../frame-service';
+import * as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
-import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
+import { DrawerComponent } from './drawer/drawer.component';
 
 @Component({
   selector: 'ngx-frame-side',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss'],
   imports: [
-    NgForOf,
     NgIf,
-    RouterLink,
-    MatIcon,
-    NgClass,
-    RouterLinkActive,
     RouterOutlet,
     AsyncPipe,
     NavigationComponent,
+    DrawerComponent,
   ],
 })
 export class FrameComponent {

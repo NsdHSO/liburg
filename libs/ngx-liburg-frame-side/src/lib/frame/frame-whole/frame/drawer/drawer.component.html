@@ -1,0 +1,19 @@
+<div class="content__header">
+  <ng-content select="[header]"></ng-content>
+</div>
+<mat-drawer-container class="example-container" [hasBackdrop]="true">
+  <mat-drawer #drawer [mode]="mode" [opened]="opened" [position]="position" [style.width]="width">
+  </mat-drawer>
+  <div class="drawer-content">
+    <div class="content">
+      <div class="content__body">
+        <div class="content__body-header">
+          <ng-content select="[body]"></ng-content>
+        </div>
+        <div>
+          <router-outlet />
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>
