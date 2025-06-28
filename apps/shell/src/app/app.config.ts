@@ -17,8 +17,13 @@ export const CONFIG_MAIN = Object.freeze({
     {
       path: 'calendar',
       icon: 'fa_solid:gauge',
-      text: 'test',
+      text: 'Calendar',
     },
+    {
+      path: 'demo',
+      icon: 'fa_solid:D',
+      text: 'Demo',
+    }
   ],
   iconApp: ''
 }) as RouterConfig;
