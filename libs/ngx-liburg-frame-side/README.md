@@ -1,6 +1,6 @@
 # ngx-liburg-frame-side
 
-A flexible Angular layout framework component that provides a customizable application frame with side navigation, drawer support, and routing integration. Current version: 19.0.13
+A flexible Angular layout framework component that provides a customizable application frame with side navigation, drawer support, and routing integration. Compatible with Angular 15+. Current version: 15.0.0
 
 ## Overview
 
@@ -16,24 +16,19 @@ ngx-liburg-frame-side is a standalone Angular component library that provides a 
 
 ## Recent Changes
 
-### Version 19.0.13
-- Added comprehensive documentation for drawer outlet usage
-- Improved examples for router integration
-- Added detailed instructions for passing data to drawer components
-
-### Version 19.0.12
-- Added background inheritance support throughout the component hierarchy
-- Removed hardcoded background colors in favor of CSS inheritance
-- Enhanced component styling for better theme integration
-
-### Version 19.0.11
-- Performance improvements
-- Code cleanup and optimizations
+### Version 15.0.0
+- Added CSS variable documentation for drawer background customization
+- Added support for Angular 15+
+- Added CSS variables `--app-background-drawer-outlet` and `--app-background-drawer` for customizing drawer backgrounds
+- Comprehensive documentation for drawer outlet usage
+- Examples for router integration
+- Detailed instructions for passing data to drawer components
 
 ### Earlier updates
 - Added close (X) button for drawer component
 - Fixed z-index issues in the drawer header
 - Improved drawer service for better state management
+- Added background inheritance support throughout the component hierarchy
 
 ## Installation
 
@@ -178,6 +173,28 @@ this.router.navigate(
   { queryParams: { source: 'dashboard', filter: 'active' } }
 );
 ```
+
+### 5. Customizing Drawer Background
+
+The drawer component supports custom background colors through CSS variables. You can customize these in your application's global styles:
+
+```css
+:root {
+  /* Background color for the drawer outlet area */
+  --app-background-drawer-outlet: #f5f5f5;
+  
+  /* Background color for the drawer component itself */
+  --app-background-drawer: white;
+}
+```
+
+These variables allow you to control the appearance of different parts of the drawer:
+
+- `--app-background-drawer-outlet`: Controls the background of the entire drawer outlet area
+- `--app-background-drawer`: Controls the background of the drawer component content area
+- `--app-background-drawer-outlet-x-button`: Controls the background color of the drawer outlet's close (X) button
+
+You can set these variables in your global stylesheet or adjust them dynamically using JavaScript for theme switching.
 
 ## Running unit tests
 
