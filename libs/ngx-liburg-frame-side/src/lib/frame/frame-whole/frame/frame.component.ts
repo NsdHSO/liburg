@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
 import * as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
@@ -11,13 +11,7 @@ import { DrawerComponent } from './drawer/drawer.component';
   selector: 'ngx-frame-side',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss'],
-  imports: [
-    NgIf,
-    RouterOutlet,
-    AsyncPipe,
-    NavigationComponent,
-    DrawerComponent,
-  ],
+  imports: [NgIf, AsyncPipe, NavigationComponent, DrawerComponent],
 })
 export class FrameComponent {
   public navData: FrameService | any;
