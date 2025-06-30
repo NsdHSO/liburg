@@ -1,3 +1,8 @@
 .frame-content {
   height: 100vh;
+  background: inherit
+}
+
+:host {
+  background: inherit
 }
