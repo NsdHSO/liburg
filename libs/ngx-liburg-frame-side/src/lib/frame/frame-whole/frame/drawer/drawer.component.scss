@@ -1,5 +1,5 @@
 :host {
-  background: inherit;
+  background: var(--app-background-drawer);
   --color: #263238
 }
 
@@ -27,7 +27,7 @@
 }
 
 mat-drawer {
-  background: inherit;
+  background: var(--app-background-drawer-outlet);
 
   .content-drawer {
     &__header {
