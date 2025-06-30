@@ -16,13 +16,24 @@ export const appRoutes: Route[] = [
             (c) => c.default
           ),
       },
-      {
-        path: '',
-        outlet: 'drawer',
-        loadComponent: () =>
-          import('./components/table/playground_table').then((c) => c.default),
-      },
     ],
+  },
+  {
+    // Define routes for components to be loaded in the drawer outlet
+    path: 'table-sidebar',
+    outlet: 'drawer',
+    loadComponent: () =>
+      import('./components/sidebar/demo-sidebar.component').then(
+        (c) => c.default
+      ),
+  },
+  {
+    path: 'help-sidebar',
+    outlet: 'drawer',
+    loadComponent: () =>
+      import('./components/sidebar/demo-sidebar.component').then(
+        (c) => c.default
+      ),
   },
   {
     path: 'table',

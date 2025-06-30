@@ -224,8 +224,8 @@ export default class TableDemoComponent {
    * and open the drawer
    */
   openTableSidebar() {
-    this.router.navigate([{ outlets: { drawer: ['table-sidebar'] } }]);
-    this.drawerService.open();
+    this.router.navigate([{ outlets: { drawer: ['table-sidebar'] } }], { skipLocationChange: false });
+    // The drawer will open automatically via the router event listener in DrawerService
   }
 
   /**
@@ -233,7 +233,7 @@ export default class TableDemoComponent {
    * and open the drawer
    */
   openHelpSidebar() {
-    this.router.navigate([{ outlets: { drawer: ['help-sidebar'] } }]);
-    this.drawerService.open();
+    this.router.navigate([{ outlets: { drawer: ['help-sidebar'] } }], { skipLocationChange: false });
+    // The drawer will open automatically via the router event listener in DrawerService
   }
 }

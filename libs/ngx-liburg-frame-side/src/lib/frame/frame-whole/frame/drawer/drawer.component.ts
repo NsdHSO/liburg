@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, inject, effect } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +26,7 @@ import { DrawerService } from './services/drawer.service';
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss'],
 })
-export class DrawerComponent implements OnInit, OnDestroy {
+export class DrawerComponent {
   @Input() set opened(value: boolean) {
     if (value !== this._opened) {
       this._opened = value;
@@ -31,17 +38,19 @@ export class DrawerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   get opened(): boolean {
     return this._opened;
   }
+
   private _opened = false;
   @Input() mode: 'over' | 'push' | 'side' = 'over';
   @Input() position: 'start' | 'end' = 'end';
-  @Input() width = '300px';
+  @Input() width = '50%';
 
   @Output() openedChange = new EventEmitter<boolean>();
 
-  private drawerService = inject(DrawerService);
+  protected drawerService = inject(DrawerService);
 
   toggleDrawer() {
     this.drawerService.toggle();
@@ -61,8 +70,4 @@ export class DrawerComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
-  ngOnInit() {}
-  
-  ngOnDestroy() {}
 }

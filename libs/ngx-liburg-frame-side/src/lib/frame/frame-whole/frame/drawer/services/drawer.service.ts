@@ -1,39 +1,51 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 /**
  * Service to control the state of the drawer component
  * This allows any component to open or close the drawer without direct reference
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DrawerService {
   // Signal to track the open state of the drawer
   private _isOpen = signal(false);
-  
+
   // Public read-only access to the drawer state
   public isOpen = this._isOpen.asReadonly();
-  
-  constructor() {}
-  
+
+  private router = inject(Router);
+  routeNavigationOpenDrawer =     this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    tap((event: NavigationEnd) => {
+      // Check if the URL contains a drawer outlet segment
+      if (event.url.includes('(drawer:')) {
+        this.open();
+      }
+    })
+  )
+
   /**
    * Open the drawer
    */
   open(): void {
     this._isOpen.set(true);
   }
-  
+
   /**
    * Close the drawer
    */
   close(): void {
     this._isOpen.set(false);
   }
-  
+
   /**
    * Toggle the open state of the drawer
    */
   toggle(): void {
-    this._isOpen.update(state => !state);
+    this._isOpen.update((state) => !state);
   }
 }

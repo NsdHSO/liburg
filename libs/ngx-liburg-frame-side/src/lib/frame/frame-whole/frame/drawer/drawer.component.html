@@ -1,4 +1,5 @@
-
+@if (drawerService.routeNavigationOpenDrawer | async) {
+}
 <mat-drawer-container class="example-container" [hasBackdrop]="true">
   <mat-drawer
     #drawer [mode]="mode" [opened]="opened" [position]="position"
