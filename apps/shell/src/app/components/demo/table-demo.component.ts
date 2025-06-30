@@ -1,18 +1,20 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DrawerService } from '@ngx-liburg-frame-side';
 import {
-  TableComponent,
-  ColumnTextComponent,
-  ColumnNumberComponent,
-  ColumnSelectComponent,
   ColumnAreaTextComponent,
   ColumnIconActionComponent,
+  ColumnNumberComponent,
+  ColumnSelectComponent,
+  ColumnTextComponent,
   ColumnTwoCasesComponent,
   DataSourceMaterialTable,
   IActionMaterialColumn,
+  TableComponent,
 } from '@ngx-liburg';
 import { MatButtonModule } from '@angular/material/button';
+import { filter, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 interface DemoData {
   id: number;
@@ -35,14 +37,27 @@ interface DemoData {
     ColumnIconActionComponent,
     ColumnTwoCasesComponent,
     MatButtonModule,
+    AsyncPipe,
   ],
   template: `
     <div class="demo-container">
       <h2>ngx-liburg Table Demo</h2>
 
       <div class="drawer-controls">
-        <button mat-raised-button color="primary" (click)="openTableSidebar()">Open Table Sidebar</button>
-        <button mat-raised-button color="accent" (click)="openHelpSidebar()">Open Help</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openTableSidebar()"
+        >
+          Open Table Sidebar
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="openHelpSidebar()"
+        >
+          Open Help
+        </button>
       </div>
 
       <elix-table
@@ -54,27 +69,30 @@ interface DemoData {
         [footerAmount]="true"
         [addedNewEntry]="true"
         (onAddEntry)="handleAddEntry()"
-        (onPaginationChange)="handlePageChange($event)">
-
+        (onPaginationChange)="handlePageChange($event)"
+      >
         <!-- Text Column -->
         <elix-column-text
           [field]="'name'"
           [name]="'Name'"
           [editRow]="true"
-          (onValueChanges)="handleValueChange($event)">
+          (onValueChanges)="handleValueChange($event)"
+        >
         </elix-column-text>
 
         <!-- Number Column -->
         <elix-column-number
           [field]="'age'"
           [name]="'Age'"
-          [editRow]="true">
+          [editRow]="true"
+        >
         </elix-column-number>
 
         <!-- Area Text Column -->
         <elix-column-area-text
           [field]="'description'"
-          [name]="'Description'">
+          [name]="'Description'"
+        >
         </elix-column-area-text>
 
         <!-- Select Column -->
@@ -82,49 +100,72 @@ interface DemoData {
           [field]="'type'"
           [name]="'Type'"
           [options]="selectOptions"
-          [editRow]="true">
+          [editRow]="true"
+        >
         </elix-column-select>
 
         <!-- Two Cases Column -->
         <elix-column-two-cases
           [field]="'status'"
           [name]="'Status'"
-          [editRow]="true">
+          [editRow]="true"
+        >
         </elix-column-two-cases>
 
         <!-- Action Column -->
         <elix-column-icon-action
           [field]="'actions'"
-          [name]="'Actions'">
+          [name]="'Actions'"
+        >
         </elix-column-icon-action>
       </elix-table>
     </div>
-  `,
-  styles: [`
-    .demo-container {
-      padding: 2rem;
+    @if (actionOfDrawer |async) {
 
-      h2 {
-        margin-bottom: 1rem;
-        color: #333;
-      }
-
-      .drawer-controls {
-        margin-bottom: 1.5rem;
-        display: flex;
-        gap: 0.5rem;
-      }
     }
-  `]
+  `,
+  styles: [
+    `
+      .demo-container {
+        padding: 2rem;
+
+        h2 {
+          margin-bottom: 1rem;
+          color: #333;
+        }
+
+        .drawer-controls {
+          margin-bottom: 1.5rem;
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
+    `,
+  ],
 })
 export default class TableDemoComponent {
   private router = inject(Router);
   private drawerService = inject(DrawerService);
   // Sample data for select options
   selectOptions = [
-    { index: 1, value: true, name: 'Active' },
-    { index: 2, value: false, name: 'Inactive' },
+    {
+      index: 1,
+      value: true,
+      name: 'Active',
+    },
+    {
+      index: 2,
+      value: false,
+      name: 'Inactive',
+    },
   ];
+
+  actionOfDrawer = this.drawerService.drawerAction.pipe(
+    filter(Boolean),
+    tap((v) => {
+      this.drawerService.close();
+    })
+  );
 
   // Table data with signals for reactivity
   tableData = signal<DataSourceMaterialTable<DemoData>[]>([
@@ -135,7 +176,10 @@ export default class TableDemoComponent {
         age: 30,
         description: 'Software Engineer with 5 years of experience',
         status: true,
-        type: { value: 'type1', name: 'Type 1' },
+        type: {
+          value: 'type1',
+          name: 'Type 1',
+        },
       },
       editable: true,
       actions: this.getActions(),
@@ -147,7 +191,10 @@ export default class TableDemoComponent {
         age: 28,
         description: 'Product Manager specializing in SaaS',
         status: false,
-        type: { value: 'type2', name: 'Type 2' },
+        type: {
+          value: 'type2',
+          name: 'Type 2',
+        },
       },
       editable: true,
       actions: this.getActions(),
@@ -159,7 +206,10 @@ export default class TableDemoComponent {
         age: 35,
         description: 'Senior Developer with full-stack experience',
         status: true,
-        type: { value: 'type3', name: 'Type 3' },
+        type: {
+          value: 'type3',
+          name: 'Type 3',
+        },
       },
       editable: true,
       actions: this.getActions(),
@@ -188,12 +238,12 @@ export default class TableDemoComponent {
   handleDelete(row: DemoData) {
     console.log('Delete row:', row);
     const currentData = this.tableData();
-    this.tableData.set(currentData.filter(item => item.model.id !== row.id));
+    this.tableData.set(currentData.filter((item) => item.model.id !== row.id));
   }
 
   handleAddEntry() {
     const currentData = this.tableData();
-    const newId = Math.max(...currentData.map(item => item.model.id)) + 1;
+    const newId = Math.max(...currentData.map((item) => item.model.id)) + 1;
 
     const newEntry: DataSourceMaterialTable<DemoData> = {
       model: {
@@ -202,7 +252,10 @@ export default class TableDemoComponent {
         age: 25,
         description: 'New team member',
         status: true,
-        type: { value: 'type1', name: 'Type 1' },
+        type: {
+          value: 'type1',
+          name: 'Type 1',
+        },
       },
       editable: true,
       actions: this.getActions(),
@@ -224,7 +277,9 @@ export default class TableDemoComponent {
    * and open the drawer
    */
   openTableSidebar() {
-    this.router.navigate([{ outlets: { drawer: ['table-sidebar'] } }], { skipLocationChange: false });
+    this.router.navigate([{ outlets: { drawer: ['table-sidebar'] } }], {
+      skipLocationChange: false,
+    });
     // The drawer will open automatically via the router event listener in DrawerService
   }
 
@@ -233,7 +288,9 @@ export default class TableDemoComponent {
    * and open the drawer
    */
   openHelpSidebar() {
-    this.router.navigate([{ outlets: { drawer: ['help-sidebar'] } }], { skipLocationChange: false });
+    this.router.navigate([{ outlets: { drawer: ['help-sidebar'] } }], {
+      skipLocationChange: false,
+    });
     // The drawer will open automatically via the router event listener in DrawerService
   }
 }

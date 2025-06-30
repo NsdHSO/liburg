@@ -1,6 +1,6 @@
-import { inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 /**
@@ -14,11 +14,13 @@ export class DrawerService {
   // Signal to track the open state of the drawer
   private _isOpen = signal(false);
 
+  private _drawerAction = new Subject<boolean>();
+
   // Public read-only access to the drawer state
   public isOpen = this._isOpen.asReadonly();
-
+  public drawerAction = this._drawerAction.asObservable();
   private router = inject(Router);
-  routeNavigationOpenDrawer =     this.router.events.pipe(
+  routeNavigationOpenDrawer = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     tap((event: NavigationEnd) => {
       // Check if the URL contains a drawer outlet segment
@@ -26,7 +28,7 @@ export class DrawerService {
         this.open();
       }
     })
-  )
+  );
 
   /**
    * Open the drawer
@@ -40,7 +42,7 @@ export class DrawerService {
    */
   close(): void {
     this._isOpen.set(false);
-    
+
     // Clear the drawer outlet from the URL
     // We navigate to the same URL but without the drawer outlet
     // This is done by setting the drawer outlet to null
