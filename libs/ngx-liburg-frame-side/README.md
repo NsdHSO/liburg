@@ -1,6 +1,6 @@
 # ngx-liburg-frame-side
 
-A flexible Angular layout framework component that provides a customizable application frame with side navigation, drawer support, and routing integration. Compatible with Angular 15+. Current version: 15.0.0
+A flexible Angular layout framework component that provides a customizable application frame with side navigation, drawer support, and routing integration. Compatible with Angular 15+. Current version: 19.0.18
 
 ## Overview
 
@@ -15,6 +15,13 @@ ngx-liburg-frame-side is a standalone Angular component library that provides a 
 - **Angular Material Integration**: Built with Angular Material components
 
 ## Recent Changes
+
+### Version 19.0.18
+- Added support for actionOfDrawer to control drawer behavior programmatically
+- Enhanced drawer service with additional actions (open, close, toggle, resize, setPosition, setContent, setOptions)
+- Improved type safety with ActionOfDrawer enum
+- Better integration with Angular component lifecycle
+- Performance optimizations for drawer animations
 
 ### Version 15.0.0
 - Added CSS variable documentation for drawer background customization
