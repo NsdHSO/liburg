@@ -11,11 +11,13 @@
       <div
         class="content-drawer__header"
       >
-        <mat-icon
-          (click)="onBackdropClick()"
-          class="content-drawer__header-icon"
-          [svgIcon]="'fa_solid:x'"
-        ></mat-icon>
+        <span>
+          <mat-icon
+            (click)="onBackdropClick()"
+            class="content-drawer__header-icon"
+            [svgIcon]="'fa_solid:x'"
+          ></mat-icon>
+        </span>
       </div>
       <router-outlet name="drawer"></router-outlet>
     </section>
