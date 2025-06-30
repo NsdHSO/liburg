@@ -1,9 +1,13 @@
-<div class="overflow-none">
+<div class="frame-content">
   <liburg-navigation [collapsed]="collapsed" [indexShows]="indexShows" [navData]="navData" [subToggle]="subToggle"
                      (toggle)="setSubToggle($event)" />
   <liburg-drawer >
-    <div header> Iancu</div>
-    <div body> Body</div>
+    <div header>
+      <ng-content select="[header]"></ng-content>
+    </div>
+    <div body>
+      <ng-content select="[body]"></ng-content>
+    </div>
   </liburg-drawer>
 </div>
 <ng-container *ngIf="takeDataFromOutsiders| async" />

@@ -1,4 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { DrawerService } from '@ngx-liburg-frame-side';
 import {
   TableComponent,
   ColumnTextComponent,
@@ -10,6 +12,7 @@ import {
   DataSourceMaterialTable,
   IActionMaterialColumn,
 } from '@ngx-liburg';
+import { MatButtonModule } from '@angular/material/button';
 
 interface DemoData {
   id: number;
@@ -31,11 +34,17 @@ interface DemoData {
     ColumnAreaTextComponent,
     ColumnIconActionComponent,
     ColumnTwoCasesComponent,
+    MatButtonModule,
   ],
   template: `
     <div class="demo-container">
       <h2>ngx-liburg Table Demo</h2>
-      
+
+      <div class="drawer-controls">
+        <button mat-raised-button color="primary" (click)="openTableSidebar()">Open Table Sidebar</button>
+        <button mat-raised-button color="accent" (click)="openHelpSidebar()">Open Help</button>
+      </div>
+
       <elix-table
         [dataSource]="tableData()"
         [zebraColor]="true"
@@ -46,7 +55,7 @@ interface DemoData {
         [addedNewEntry]="true"
         (onAddEntry)="handleAddEntry()"
         (onPaginationChange)="handlePageChange($event)">
-        
+
         <!-- Text Column -->
         <elix-column-text
           [field]="'name'"
@@ -54,20 +63,20 @@ interface DemoData {
           [editRow]="true"
           (onValueChanges)="handleValueChange($event)">
         </elix-column-text>
-        
+
         <!-- Number Column -->
         <elix-column-number
           [field]="'age'"
           [name]="'Age'"
           [editRow]="true">
         </elix-column-number>
-        
+
         <!-- Area Text Column -->
         <elix-column-area-text
           [field]="'description'"
           [name]="'Description'">
         </elix-column-area-text>
-        
+
         <!-- Select Column -->
         <elix-column-select
           [field]="'type'"
@@ -75,14 +84,14 @@ interface DemoData {
           [options]="selectOptions"
           [editRow]="true">
         </elix-column-select>
-        
+
         <!-- Two Cases Column -->
         <elix-column-two-cases
           [field]="'status'"
           [name]="'Status'"
           [editRow]="true">
         </elix-column-two-cases>
-        
+
         <!-- Action Column -->
         <elix-column-icon-action
           [field]="'actions'"
@@ -94,15 +103,23 @@ interface DemoData {
   styles: [`
     .demo-container {
       padding: 2rem;
-      
+
       h2 {
         margin-bottom: 1rem;
         color: #333;
+      }
+
+      .drawer-controls {
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: 0.5rem;
       }
     }
   `]
 })
 export default class TableDemoComponent {
+  private router = inject(Router);
+  private drawerService = inject(DrawerService);
   // Sample data for select options
   selectOptions = [
     { index: 1, value: true, name: 'Active' },
@@ -177,7 +194,7 @@ export default class TableDemoComponent {
   handleAddEntry() {
     const currentData = this.tableData();
     const newId = Math.max(...currentData.map(item => item.model.id)) + 1;
-    
+
     const newEntry: DataSourceMaterialTable<DemoData> = {
       model: {
         id: newId,
@@ -200,5 +217,23 @@ export default class TableDemoComponent {
 
   handleValueChange(event: any) {
     console.log('Value changed:', event);
+  }
+
+  /**
+   * Navigate to load the table-sidebar component in the drawer outlet
+   * and open the drawer
+   */
+  openTableSidebar() {
+    this.router.navigate([{ outlets: { drawer: ['table-sidebar'] } }]);
+    this.drawerService.open();
+  }
+
+  /**
+   * Navigate to load the help-sidebar component in the drawer outlet
+   * and open the drawer
+   */
+  openHelpSidebar() {
+    this.router.navigate([{ outlets: { drawer: ['help-sidebar'] } }]);
+    this.drawerService.open();
   }
 }

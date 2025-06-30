@@ -8,17 +8,48 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'demo',
-    loadComponent: () =>
-      import('./components/demo/table-demo.component').then((c) => c.default),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/demo/table-demo.component').then(
+            (c) => c.default
+          ),
+      },
+      {
+        path: '',
+        outlet: 'drawer',
+        loadComponent: () =>
+          import('./components/table/playground_table').then((c) => c.default),
+      },
+    ],
   },
   {
     path: 'table',
-    loadComponent: () =>
-      import('./components/table/playground_table').then((c) => c),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/table/playground_table').then((c) => c),
+      },
+      {
+        path: '',
+        outlet: 'drawer',
+        loadComponent: () =>
+          import('./components/sidebar/demo-sidebar.component').then(
+            (c) => c.default
+          ),
+      },
+    ],
   },
   {
     path: 'calendar',
-    loadComponent: () =>
-      import('./components/calendar/playground_table').then((c) => c),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/calendar/playground_table').then((c) => c),
+      },
+    ],
   },
 ];
