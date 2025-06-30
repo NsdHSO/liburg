@@ -42,15 +42,7 @@ export const appRoutes: Route[] = [
         path: '',
         loadComponent: () =>
           import('./components/table/playground_table').then((c) => c),
-      },
-      {
-        path: '',
-        outlet: 'drawer',
-        loadComponent: () =>
-          import('./components/sidebar/demo-sidebar.component').then(
-            (c) => c.default
-          ),
-      },
+      }
     ],
   },
   {

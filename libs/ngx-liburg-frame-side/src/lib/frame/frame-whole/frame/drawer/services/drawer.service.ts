@@ -36,10 +36,15 @@ export class DrawerService {
   }
 
   /**
-   * Close the drawer
+   * Close the drawer and clear the drawer outlet from the URL
    */
   close(): void {
     this._isOpen.set(false);
+    
+    // Clear the drawer outlet from the URL
+    // We navigate to the same URL but without the drawer outlet
+    // This is done by setting the drawer outlet to null
+    this.router.navigate([{ outlets: { drawer: null } }]);
   }
 
   /**

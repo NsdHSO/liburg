@@ -60,6 +60,14 @@ export class DrawerComponent {
     this.drawerService.close();
   }
 
+  /**
+   * Handle backdrop click event
+   * Closes the drawer and clears the outlet from URL
+   */
+  onBackdropClick() {
+    this.drawerService.close();
+  }
+
   constructor() {
     // Use Angular signal effect to respond to drawer service state changes
     effect(() => {

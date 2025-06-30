@@ -1,11 +1,24 @@
 @if (drawerService.routeNavigationOpenDrawer | async) {
 }
-<mat-drawer-container class="example-container" [hasBackdrop]="true">
+<mat-drawer-container
+  class="example-container" [hasBackdrop]="true"
+  (backdropClick)="onBackdropClick()">
   <mat-drawer
     #drawer [mode]="mode" [opened]="opened" [position]="position"
     [style.width]="width"
   >
-    <router-outlet name="drawer"></router-outlet>
+    <section class="content-drawer">
+      <div
+        class="content-drawer__header"
+      >
+        <mat-icon
+          (click)="onBackdropClick()"
+          class="content-drawer__header-icon"
+          [svgIcon]="'fa_solid:x'"
+        ></mat-icon>
+      </div>
+      <router-outlet name="drawer"></router-outlet>
+    </section>
   </mat-drawer>
   <div class="drawer-content">
     <div class="content">
