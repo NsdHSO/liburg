@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Subject } from 'rxjs';
+import { BehaviorSubject, filter, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 /**
@@ -14,11 +14,21 @@ export class DrawerService {
   // Signal to track the open state of the drawer
   private _isOpen = signal(false);
 
-  private _drawerAction = new Subject<boolean>();
+  /**
+   * This Flag is to use a modal or what do you want to put in middle of close backdrop
+   */
+  configForCloseButton = new BehaviorSubject<boolean>(false);
+
+  private _closeButtonWasPressed = new Subject<boolean>();
+
+  /**
+   * MUST
+   * finalize(() => this.drawerService.configForCloseButton.next(false))
+   */
+  closeButtonWasPressed$ = this._closeButtonWasPressed.asObservable();
 
   // Public read-only access to the drawer state
   public isOpen = this._isOpen.asReadonly();
-  public drawerAction = this._drawerAction.asObservable();
   private router = inject(Router);
   routeNavigationOpenDrawer = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
@@ -54,5 +64,9 @@ export class DrawerService {
    */
   toggle(): void {
     this._isOpen.update((state) => !state);
+  }
+
+  set sendSignalForParentCloseButton(value: boolean) {
+    this._closeButtonWasPressed.next(value);
   }
 }

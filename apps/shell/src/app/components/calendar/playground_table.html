@@ -1,3 +1,19 @@
+<div class="drawer-controls">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openTableSidebar()"
+  >
+    Open Table Sidebar
+  </button>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="openHelpSidebar()"
+  >
+    Open Help
+  </button>
+</div>
 <elix-table [dataSource]="dataSource()"
 >
   <elix-column-text
@@ -13,11 +29,3 @@
     field="action2"
     name="Action" />
 </elix-table>
-<section
-  style="display: flex; justify-content: flex-end"
->
-  <h1>Calendar Dashboard</h1>
-</section>
-<pre style="color:red">
-  {{dataSource() | json}}
-</pre>

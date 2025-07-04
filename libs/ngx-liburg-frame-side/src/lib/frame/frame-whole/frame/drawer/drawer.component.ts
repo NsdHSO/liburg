@@ -11,7 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
-import { DrawerService } from './services/drawer.service';
+import { DrawerService } from './services';
 
 @Component({
   selector: 'liburg-drawer',
@@ -27,7 +27,8 @@ import { DrawerService } from './services/drawer.service';
   styleUrls: ['./drawer.component.scss'],
 })
 export class DrawerComponent {
-  @Input() set opened(value: boolean) {
+  @Input()
+  set opened(value: boolean) {
     if (value !== this._opened) {
       this._opened = value;
       // Update the service when the input property changes
@@ -65,7 +66,11 @@ export class DrawerComponent {
    * Closes the drawer and clears the outlet from URL
    */
   onBackdropClick() {
-    this.drawerService.close();
+    if (this.drawerService.configForCloseButton.value) {
+      this.drawerService.sendSignalForParentCloseButton = true;
+    } else {
+      this.drawerService.close();
+    }
   }
 
   constructor() {

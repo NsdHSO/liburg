@@ -34,13 +34,20 @@ mat-drawer {
       display: flex;
       justify-content: flex-end;
 
-      &-icon {
-        padding: .5rem;
-        color: var(--app-background-drawer-outlet-x-button);
+      &-action {
 
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.05);
+        display: flex;
+        padding: .5rem;
+        align-items: center;
+        justify-content: center;
+
+        &-icon {
+          color: var(--app-background-drawer-outlet-x-button);
+
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+          }
         }
       }
     }

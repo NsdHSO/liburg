@@ -13,7 +13,7 @@ import {
   TableComponent,
 } from '@ngx-liburg';
 import { MatButtonModule } from '@angular/material/button';
-import { filter, tap } from 'rxjs';
+import { filter, finalize, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 interface DemoData {
@@ -120,9 +120,7 @@ interface DemoData {
         </elix-column-icon-action>
       </elix-table>
     </div>
-    @if (actionOfDrawer |async) {
-
-    }
+    @if (actionOfDrawer |async) { }
   `,
   styles: [
     `
@@ -160,11 +158,13 @@ export default class TableDemoComponent {
     },
   ];
 
-  actionOfDrawer = this.drawerService.drawerAction.pipe(
+  actionOfDrawer = this.drawerService.closeButtonWasPressed$.pipe(
     filter(Boolean),
     tap((v) => {
+      console.log('Close button was pressed:', v);
       this.drawerService.close();
-    })
+    }),
+    finalize(() => this.drawerService.configForCloseButton.next(false))
   );
 
   // Table data with signals for reactivity

@@ -1,4 +1,6 @@
 import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { DrawerService } from '@ngx-liburg-frame-side';
 
 export const appRoutes: Route[] = [
   {
@@ -15,6 +17,7 @@ export const appRoutes: Route[] = [
           import('./components/demo/table-demo.component').then(
             (c) => c.default
           ),
+        resolve: [() => inject(DrawerService).configForCloseButton.next(true)],
       },
     ],
   },
@@ -42,7 +45,7 @@ export const appRoutes: Route[] = [
         path: '',
         loadComponent: () =>
           import('./components/table/playground_table').then((c) => c),
-      }
+      },
     ],
   },
   {
