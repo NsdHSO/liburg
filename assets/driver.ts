@@ -1,3 +1,12 @@
+
+export function drivers3(): any {
+  return     [
+    {
+      test: "test",
+      action: "test",
+      identifierName: "test",
+    },
+  ]}
 export function drivers(): any {
   return     [
     {
