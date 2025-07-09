@@ -14,6 +14,23 @@
     Open Help
   </button>
 </div>
+
+<elix-table [dataSource]="dataSource3()"
+>
+  <elix-column-text
+    className="driver-name"
+    field="test"
+    name="Test" />
+  <elix-column-text
+    className="driver-revenu"
+    field="identifierName"
+    name="Identifier Name" />
+  <elix-column-icon-action
+    className="action"
+    field="action"
+    name="Action" />
+</elix-table>
+
 <elix-table [dataSource]="dataSource()"
 >
   <elix-column-text

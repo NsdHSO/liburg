@@ -6,7 +6,7 @@ import {
   DataSourceMaterialTable,
   TableComponent,
 } from '@ngx-liburg';
-import { drivers } from '../../../assets/driver';
+import { drivers, drivers3 } from '../../../assets/driver';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
 
@@ -44,6 +44,26 @@ export default class PlaygroundTableComponent {
 
   dataSource = signal(
     drivers().map((driver: any) => {
+      const model = {
+        ...driver,
+      };
+      return {
+        actions: [
+          {
+            iconClass: 'fa_solid:d',
+            classCss: 'edit',
+            method: (row: Driver) => console.log(row),
+          },
+        ],
+        editable: true,
+        model: {
+          ...model,
+        },
+      } as DataSourceMaterialTable<Driver>;
+    })
+  );
+  dataSource3 = signal(
+    drivers3().map((driver: any) => {
       const model = {
         ...driver,
       };

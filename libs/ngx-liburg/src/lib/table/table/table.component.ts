@@ -11,7 +11,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  EventEmitter, input,
+  EventEmitter, inject, input,
   Input,
   OnDestroy,
   Output,
@@ -22,8 +22,8 @@ import {
 } from '@angular/core';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatColumnDef, MatTable, MatTableModule } from '@angular/material/table';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { BaseColumn } from '../base-column';
 import { ColumnRotateService } from "../columns/service/column-rotate.service";
 import { TableService } from "./table.service";
@@ -72,7 +72,6 @@ export interface DataSourceMaterialTable<T> {
   encapsulation: ViewEncapsulation.None,
   imports: [
     MatTableModule,
-    NgStyle,
     CdkDropList,
     CdkDrag,
     AsyncPipe,
@@ -83,7 +82,7 @@ export interface DataSourceMaterialTable<T> {
     FooterAmountComponent,
   ],
 })
-export class TableComponent<T> implements AfterViewInit, OnDestroy {
+export class TableComponent<T> implements AfterViewInit {
   @Input()
   // @ts-ignore
   public dataSource: Array<DataSourceMaterialTable<T>>;
@@ -146,6 +145,20 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   public pageIndex = input(1)
 
   /**
+   * TableService instance for managing table state and responsive behavior.
+   */
+  private readonly _tableState = inject(TableService);
+
+  /**
+   * ColumnRotateService instance for handling column rotation logic.
+   */
+  private readonly _columnRotate = inject(ColumnRotateService);
+
+  /**
+   * ChangeDetectorRef instance for triggering change detection.
+   */
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  /**
    *
    */
   @Input()
@@ -172,16 +185,45 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
   public columnDefs: QueryList<BaseColumn> | any;
   public columnsToDispaly: string[] = [];
   public totalAmount: number = 0;
-
   private doubleColumnToDisplay: string[] = [];
-  // for avoid memory leak
-  private _destroyed = new Subject<void>();
 
-  constructor(
-    private readonly _tableState: TableService,
-    private readonly _columnRotate: ColumnRotateService,
-    private readonly _changeDetectorRef: ChangeDetectorRef
-  ) {}
+  /**
+   * Observable that listens to column rotation events and updates the displayed columns accordingly.
+   * Rotates columns left or right based on the emitted value from the ColumnRotateService.
+   */
+  protected rotates$ = this._columnRotate.rotate$
+    .pipe(
+      tap((side: string) => {
+        if (side.includes('left')) {
+          this.rotateColumn('left');
+        } else {
+          this.rotateColumn('right');
+        }
+      })
+    );
+
+  /**
+   * Observable that listens to layout column changes from the TableService.
+   * Updates the columnsToDispaly array and triggers change detection.
+   */
+  protected colForLaylout$ = this._tableState.columnDisplay$
+    .pipe(
+      tap((columns) => {
+        this.columnsToDispaly = columns;
+        this._changeDetectorRef.detectChanges();
+      })
+    );
+
+  /**
+   * Observable that triggers the responsive column logic in the TableService.
+   * Ensures the table layout adapts to screen size and column configuration.
+   */
+  protected colResponse$ = this._tableState.responsive(
+    this.columnsToDispaly,
+    this.doubleColumnToDisplay
+  );
+
+
 
   public ngAfterViewInit(): void {
     this.columnsToDispaly = this.columnDefs.map(
@@ -190,7 +232,6 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
     this.columnDefs
       .map((resp: BaseColumn) => resp.columnDef)
       .forEach((rep: MatColumnDef) => this.table.addColumnDef(rep));
-    this._makeRotationAction();
     this.totalAmount = this.dataSource
       .map((column: any) => {
         return column.model[this.footerColumn];
@@ -203,7 +244,6 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
           index === self.findIndex((value: string) => value === columnDisplay)
       );
       this.doubleColumnToDisplay = this.columnsToDispaly;
-      this._setColumnForLayout();
       if (duplicate.length < this.columnsToDispaly.length) {
         throw new Error(
           'You duplicate value what you want to display, Please look in definitions at columns'
@@ -231,18 +271,6 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
 
   rowOdd(row: DataSourceMaterialTable<T>) {
     return this.dataSource.indexOf(row);
-  }
-
-  private _makeRotationAction() {
-    this._columnRotate.rotate$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe((side: string) => {
-        if (side.includes('left')) {
-          this.rotateColumn('left');
-        } else {
-          this.rotateColumn('right');
-        }
-      });
   }
 
   private rotateColumn(side: string) {
@@ -274,22 +302,5 @@ export class TableComponent<T> implements AfterViewInit, OnDestroy {
       this.doubleColumnToDisplay[i] = this.doubleColumnToDisplay[i - 1];
     }
     this.doubleColumnToDisplay[0] = intermediateColumn;
-  }
-
-  private _setColumnForLayout() {
-    this._tableState.responsive(
-      this.columnsToDispaly,
-      this.doubleColumnToDisplay
-    );
-    this._tableState.columnDisplay$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe((columns) => {
-        this.columnsToDispaly = columns;
-      });
-  }
-
-  public ngOnDestroy() {
-    this._destroyed.next();
-    this._destroyed.complete();
   }
 }

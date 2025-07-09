@@ -4,7 +4,7 @@ import { FrameComponent, FrameWholeModule } from '@ngx-liburg-frame-side';
 import { IconCoreModule } from '@ngx-liburg-icon';
 
 @Component({
-    imports: [IconCoreModule, FrameComponent, RouterModule],
+    imports: [IconCoreModule, FrameComponent],
     selector: 'liburg-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']

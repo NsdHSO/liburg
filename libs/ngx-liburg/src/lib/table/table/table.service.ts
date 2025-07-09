@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, Subject, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +21,14 @@ export class TableService {
   }
 
   responsive(columnsToDisplay: string[], cloneColumn: string[]){
-    this._brPoint
+    return this._brPoint
       .observe([
         Breakpoints.XSmall,
         Breakpoints.Small,
         Breakpoints.Medium,
-        Breakpoints.Large,
+        Breakpoints.Large,  
         Breakpoints.XLarge,
-      ])
-      .subscribe(() => {
+      ]).pipe(tap(() => {
         if ( this._brPoint.isMatched(
           Breakpoints.XSmall) ) {
           columnsToDisplay = cloneColumn.filter(
@@ -77,6 +76,6 @@ export class TableService {
           );
         }
         this._columnDisplay.next(columnsToDisplay)
-      });
+      }))
   }
 }
