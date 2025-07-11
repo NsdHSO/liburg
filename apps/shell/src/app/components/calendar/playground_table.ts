@@ -51,7 +51,7 @@ export default class PlaygroundTableComponent {
       return {
         actions: [
           {
-            iconClass: 'fa_solid:d',
+            iconClass: 'fa_solid:crop-simple',
             classCss: 'edit',
             method: (row: Driver) => console.log(row),
           },
