@@ -3,32 +3,49 @@ import {
   EventEmitter,
   Output,
   ViewEncapsulation,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms';
 
+// PrimeNG Imports
+import { InputTextModule } from 'primeng/inputtext'; // For pInputText directive
+
 @Component({
-    selector: 'elix-column-text',
-    templateUrl: './column-text.component.html',
-    styleUrls: ['./column-text.component.scss'],
-    providers: [
-        {
-            provide: BaseColumn,
-            useExisting: ColumnTextComponent,
-        },
-    ],
-    encapsulation: ViewEncapsulation.None,
-    imports: [MatTableModule, MatInputModule, NgIf, FormsModule]
+  selector: 'elix-column-text',
+  templateUrl: './column-text.component.html',
+  styleUrls: ['./column-text.component.scss'],
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnTextComponent,
+    },
+  ],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true, // Enable standalone component
+  imports: [
+    CommonModule, // For NgIf
+    FormsModule,
+    InputTextModule, // PrimeNG InputText module
+  ],
 })
 export class ColumnTextComponent<T> extends BaseColumn {
   @Output()
-  public onValueChanges: EventEmitter<{change: unknown}> =
-    new EventEmitter();
+  public onValueChanges: EventEmitter<{ change: unknown }> = new EventEmitter();
 
-  public changeEntity(rowElement: {change: unknown}){
+  // Reference to the templates defined in the HTML
+  @ViewChild('columnTextHeaderTemplate')
+  public override headerTemplate!: TemplateRef<any>;
+
+  @ViewChild('columnTextBodyTemplate')
+  public override bodyTemplate!: TemplateRef<any>;
+
+  @ViewChild('columnTextFooterTemplate')
+  public override footerTemplate!: TemplateRef<any>;
+
+  public changeEntity(rowElement: { change: unknown }) {
     this.onValueChanges.emit(rowElement);
   }
 }

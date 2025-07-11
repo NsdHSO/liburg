@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgForOf } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import {
   ColumnIconActionComponent,
@@ -29,6 +29,7 @@ export interface Driver {
     ColumnTextComponent,
     ColumnIconActionComponent,
     JsonPipe,
+    NgForOf,
     MatButton,
   ],
   styles: `
@@ -82,7 +83,24 @@ export default class PlaygroundTableComponent {
       } as DataSourceMaterialTable<Driver>;
     })
   );
-  /**
+
+ test = [
+  {
+    dataSource: signal(this.dataSource().map((item: any) => JSON.parse(JSON.stringify(item)))),
+    rows: [
+      { className: 'emergency-ic', field: 'driverName', name: 'Edit Emergency IC' },
+      { className: 'action3', field: 'action2', name: 'Action' },
+    ],
+  },
+  {
+    dataSource: signal(this.dataSource3().map((item: any) => JSON.parse(JSON.stringify(item)))),
+    rows: [
+      { className: 'emergency-ic', field: 'test', name: 'Edit Emergency IC' },
+      { className: 'action3', field: 'action', name: 'Action' },
+    ],
+  },
+];
+/**
    * Navigate to load the table-sidebar component in the drawer outlet
    * and open the drawer
    */

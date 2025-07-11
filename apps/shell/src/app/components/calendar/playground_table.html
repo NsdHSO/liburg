@@ -7,22 +7,42 @@
 </h1>
 
 <div class="drawer-controls">
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="openTableSidebar()"
-  >
+  <button mat-raised-button color="primary" (click)="openTableSidebar()">
     Open Table Sidebar
   </button>
-  <button
-    mat-raised-button
-    color="accent"
-    (click)="openHelpSidebar()"
-  >
+  <button mat-raised-button color="accent" (click)="openHelpSidebar()">
     Open Help
   </button>
 </div>
+TEST TABLE
+<ng-container *ngFor="let item of test">
+  same pointer
+  <!-- Table with dataSource as a function -->
+  <!-- Using the dataSource function to get the data for the table -->
+<elix-table
+          [dataSource]="item.dataSource()"
+          [zebraColor]="true"
+          [showPagination]="true"
 
+        >
+          @for (row of item.rows; track row) {
+            @if (!$last) {
+              <elix-column-text
+                [className]="row.className"
+                [field]="row.field"
+                [name]="row.name" />
+            } @else {
+              <elix-column-icon-action
+                [className]="row.className"
+                [field]="row.field"
+                [name]="row.name" />
+
+            }
+          }
+        </elix-table>
+
+</ng-container>
+Separate pointer
 <elix-table [dataSource]="dataSource3()"
 >
   <elix-column-text

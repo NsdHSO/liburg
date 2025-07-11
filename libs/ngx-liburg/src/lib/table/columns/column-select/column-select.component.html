@@ -1,22 +1,21 @@
-<ng-container [matColumnDef]="field">
-  <mat-header-cell [class]="className" mat-header-cell *matHeaderCellDef>
-    {{ name }}
-  </mat-header-cell>
-  <mat-cell [class]="className" mat-cell *matCellDef="let element">
-    <mat-form-field class="flex" appearance="outline">
-      {{ element.model[field].name }}
-      <mat-select
-        name="select"
+<ng-template #columnSelectHeaderTemplate let-col>
+  <span [class]="className">{{ name }}</span>
+</ng-template>
+
+<ng-template #columnSelectBodyTemplate let-element>
+  <span [class]="className">
+    <div class="flex">
+      <p-dropdown
+        [options]="options"
         [(ngModel)]="element.model[field]"
         (ngModelChange)="element.model[field] = $event; changeEntity(element)"
-      >
-        <mat-option *ngFor="let option of options" [value]="option">
-          {{ option.value }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </mat-cell>
-  <mat-footer-cell *matFooterCellDef>
-    {{footerMessage}}
-  </mat-footer-cell>
-</ng-container>
+        optionLabel="name"  [style]="{'width': '100%'}"
+        [editable]="false" placeholder="Select an option"
+      ></p-dropdown>
+    </div>
+  </span>
+</ng-template>
+
+<ng-template #columnSelectFooterTemplate>
+  {{ footerMessage }}
+</ng-template>

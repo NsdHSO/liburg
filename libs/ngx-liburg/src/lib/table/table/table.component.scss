@@ -1,120 +1,138 @@
+// elix-table.component.scss
+
 elix-table {
   transition: all 0.5s ease-in;
 
-  mat-table {
-    color: transparent;
+  .p-datatable {
     border-collapse: collapse;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
-  }
 
-  .header-border-left {
-    border-left: 1px solid;
-  }
-
-  mat-header-row {
-    mat-header-cell {
-      justify-content: flex-start;
-      border-spacing: 2rem;
+    .p-datatable-wrapper {
+      overflow: auto; // Ensures internal scrolling if content overflows
     }
   }
 
-  .zebra {
-    background-color: #eee;
+  // Header styles
+  .p-datatable-thead { // Targets the <thead> element
+    & > tr {
+      &.header-color {
+        z-index: 99 !important;
+        background: #2d333b !important;
+        min-height: 1.5rem;
+      }
+    }
+
+    & > tr > th { // Targets individual <th> header cells
+      // REMOVE: display: flex !important;  <-- This was the main culprit for stacking
+      // Instead, use text-align for simple centering or target PrimeNG's inner content div.
+      text-align: center; // Center text in headers
+      vertical-align: middle; // Vertically align content
+      height: 2rem !important; // Override PrimeNG's default header cell height
+      color: white !important; // Header text color
+      padding: 0.5rem 0.75rem; // Add some padding to header cells for content
+
+      // Target the content wrapper PrimeNG creates for sortable columns
+      .p-column-header-content {
+        display: flex;       // Apply flexbox here for content + sort icon
+        align-items: center; // Vertically align content
+        justify-content: center; // Horizontally center content
+        gap: 0.25rem;        // Space between text and sort icon
+        width: 100%;         // Ensure content takes full width of the cell
+      }
+    }
   }
 
-  mat-row {
-    border: 0.0625rem solid rgba(0, 0, 0, 0.15);
-    transition: all ease-in-out .1s;
+  // Row styles
+  .p-datatable-tbody > tr {
+    &.header-border-left {
+      border-left: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15); // Add bottom border for rows
+    transition: all ease-in-out 0.1s;
     min-height: 32px !important;
     position: relative;
-
     height: max-content;
-
-    textarea {
-      outline: none;
-    }
 
     &:hover {
       background: rgba(1, 1, 222, 0.1);
     }
 
-    mat-cell {
-      justify-content: flex-start;
-      position: relative;
-      min-height: 1rem;
-      color: black;
-
-      mat-form-field {
-        div {
-          padding: 0 !important;
-          border: 0 !important;
-
-          input {
-            border: 1px solid;
-            box-shadow: inset 0px 0px 3px 1px rgb(0 0 255 / 20%);
-          }
-        }
-      }
-
-      textarea {
-        background: inherit;
-        height: 1.95rem;
-
-        &:focus-visible {
-          outline: none;
-          border: 1px solid var(--primary-color-input);
-        }
-      }
-
-      button {
-        padding: 0 !important;
-        min-width: auto !important;
-      }
+    &.zebra {
+      background-color: #eee;
     }
   }
 
-  mat-header-row {
-    min-height: 1.5rem;
-    gap: 1px;
+  // Cell styles
+  .p-datatable-tbody > tr > td {
+    justify-content: flex-start;
+    position: relative;
+    min-height: 1rem;
+    color: black;
+    padding: 0.5rem 0.75rem; // Add padding to cells
 
-    mat-header-cell {
-      min-height: inherit;
-      height: 2rem !important;
-      background: #2d333b !important;
-      display: flex !important;
-      justify-content: center !important;
+    // Input field styles within cells (for elix-column-text, elix-column-number, elix-column-select)
+    .column-text__edit,
+    .column-number__edit,
+    .p-dropdown {
+      // Ensure these target the PrimeNG input/dropdown elements directly
+      // Adjust padding/borders/shadows as needed for the PrimeNG components
+      .p-inputtext,
+      .p-dropdown-label.p-inputtext { // Target the input text and dropdown label specifically
+        border: 1px solid var(--primary-border-color, #ccc);
+        box-shadow: inset 0px 0px 3px 1px rgba(0, 0, 255, 0.2);
+        padding: 0.25rem 0.5rem;
+        min-height: 1.95rem;
+        box-sizing: border-box; // Include padding and border in the element's total width and height
+      }
+    }
+
+    textarea {
+      background: inherit;
+      height: 1.95rem;
+      border: 1px solid var(--primary-border-color, #ccc);
+      padding: 0.25rem 0.5rem;
+      box-sizing: border-box; // Include padding and border in the element's total width and height
+
+      &:focus-visible {
+        outline: none;
+        border: 1px solid var(--primary-color-input, #007bff);
+        box-shadow: inset 0px 0px 3px 1px rgba(0, 0, 255, 0.4);
+      }
+    }
+
+    button {
+      padding: 0 !important;
+      min-width: auto !important;
+      // You might need to be more specific for PrimeNG button styles, e.g. .p-button.p-button-text
     }
   }
 
-  mat-header-cell {
-    color: white !important;
+  // Footer styles
+  .p-datatable-tfoot > tr {
+    // ... (styles for footer rows)
   }
 
-  .header-color {
-    z-index: 99 !important;
+  .p-datatable-tfoot > tr > td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
   }
 
-  .mat-form-field-infix {
-    width: auto;
-  }
-
+  // Extensible row detail styles
   .example-detail-row {
     min-height: 0 !important;
 
-    mat-cell {
+    td {
       min-height: inherit;
       display: flex !important;
       justify-content: center !important;
-
-      .mat-form-field-infix {
-        width: auto !important;
-      }
+      padding: 0; // Remove default padding for detail row cell
     }
   }
 }
 
+// CDK Drag and Drop styles (should remain fine)
 .cdk-drop-list-dragging .cdk-drag {
   transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
 }
@@ -125,20 +143,29 @@ elix-table {
   border: 1px solid #5f7651;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   height: 32px !important;
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
 }
 
-/* Animate an item that has been dropped. */
 .cdk-drag-animating {
   transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.new{
+// New Entry Button styles (should remain fine)
+.new {
   display: flex;
   align-items: center;
   padding: 1rem 0 1rem 0.5rem;
+  cursor: pointer;
 
   &-entry {
     color: #52796f !important;
     padding-right: 0.5rem;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
   }
 }

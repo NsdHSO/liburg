@@ -1,13 +1,14 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, TemplateRef, inject } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { FormControl, FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { AsyncPipe, NgIf } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
+import { FormsModule, FormControl } from '@angular/forms'; // Keep FormsModule for ngModel
+import { AsyncPipe, CommonModule, NgIf } from '@angular/common'; // Import CommonModule
 import { takeUntil } from 'rxjs/operators';
 import { TableService } from '../../table/table.service';
 import { Subject } from 'rxjs';
-import { TotalAmountPipe } from '../utils/pipe/total-amount.pipe';
+import { TotalAmountPipe } from '../utils/pipe/total-amount.pipe'; // Your custom pipe
+
+// PrimeNG Imports
+import { InputTextModule } from 'primeng/inputtext'; // For pInputText directive
 
 @Component({
   selector: 'elix-column-number',
@@ -19,40 +20,36 @@ import { TotalAmountPipe } from '../utils/pipe/total-amount.pipe';
       useExisting: ColumnNumberComponent,
     },
   ],
+  standalone: true, // Enable standalone component
   imports: [
-    MatTableModule,
-    NgIf,
-    FormsModule,
-    MatInputModule,
-    AsyncPipe,
-    TotalAmountPipe,
+    CommonModule, // For NgIf, AsyncPipe
+    FormsModule, // For ngModel
+    InputTextModule, // PrimeNG InputText module
+    TotalAmountPipe, // Your custom pipe
   ],
 })
-export class ColumnNumberComponent<T> extends BaseColumn implements OnDestroy {
+export class ColumnNumberComponent<T> extends BaseColumn {
   @Input()
-  // @ts-ignore
-  public editRow: boolean = false;
+  public override editRow: boolean = false;
+
+  // textValidator and nonNumber seem unused for validation in your original HTML,
+  // but if you intend to use them, ensure proper validation directives (e.g., Reactive Forms)
+  // are integrated with PrimeNG input components if needed.
   textValidator: FormControl = new FormControl();
-  // @ts-ignore
-  nonNumber: boolean;
-  public amountFooter;
+  nonNumber: boolean = false; // Initialize property
+
+  public amountFooter: any;
   private _destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly _tableState: TableService) {
-    super();
-    this.amountFooter = _tableState.amountData$;
-  }
+  private readonly _tableState = inject(TableService); // Using inject for TableService
 
-  changeEntity(element: any) {
-    this.textValidator.valueChanges
-      .pipe(takeUntil(this._destroyed$))
-      .subscribe((resp) => {
-        console.log(resp);
-      });
-  }
+  // Reference to the templates defined in the HTML
+  @ViewChild('columnNumberHeaderTemplate')
+  public override headerTemplate!: TemplateRef<any>;
 
-  ngOnDestroy(): void {
-    this._destroyed$.next(true);
-    this._destroyed$.complete();
-  }
+  @ViewChild('columnNumberBodyTemplate')
+  public override bodyTemplate!: TemplateRef<any>;
+
+  @ViewChild('columnNumberFooterTemplate')
+  public override footerTemplate!: TemplateRef<any>;
 }
