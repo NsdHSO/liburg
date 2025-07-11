@@ -28,6 +28,14 @@ export interface Driver {
     ColumnIconActionComponent,
     RouterLink,
   ],
+  styles: `
+    :host {
+    .action, .edit-test {
+      background-color: #000000;
+      border: none;
+    }
+    }
+  `,
 })
 export default class PlaygroundTableComponent {
   dataSource = drivers().map((driver: any) => {
@@ -38,7 +46,7 @@ export default class PlaygroundTableComponent {
       actions: [
         {
           iconClass: 'fa_solid:gauge',
-          classCss: 'edit',
+          classCss: 'edit-test',
           method: (row: Driver) => console.log(row),
         },
       ],

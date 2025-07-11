@@ -16,7 +16,6 @@
           (click)="action.method(element)"
           [class]="action.classCss"
           [icon]="action.iconClass.startsWith('fa_') ? null : action.iconClass"
-          [ngClass]="action.iconClass.startsWith('fa_') ? action.iconClass.replace('fa_solid:', 'fa-solid fa-') : ''"
         >
           <mat-icon [svgIcon]="action.iconClass"></mat-icon>
         </button>
