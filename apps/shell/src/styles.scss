@@ -1,9 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'reset-css';
+@use 'reset-css'; // This is fine as it likely just injects CSS
+@use '@angular/material/prebuilt-themes/indigo-pink.css'; // This is fine for importing a CSS file
 
-@use '@angular/material/prebuilt-themes/indigo-pink.css';
-:root{
-  --app-background-drawer-outlet: #f8f9fa;
-  --app-background-drawer-outlet-x-button: fuchsia;
-  --app-background-drawer:#f8f9fa ;
+// >>>>>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT CHANGE HERE <<<<<<<<<<<<<<<<<<<<<<<<<
+// Use Sass modules for your SCSS partials to ensure correct function availability
+// Ensure _colors.scss has all your $app-* variable definitions.
+@use './assets/styles/colors' as base-colors; // Use a namespace for colors
+@use './assets/styles/themes' as app-themes;   // Use a namespace for themes
+@use './assets/styles/mixins' as app-mixins;   // Use a namespace for mixins
+// >>>>>>>>>>>>>>>>>>>>>>>>>>> END IMPORTANT CHANGE <<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+:root {
+  // Apply light theme variables by default
+  @include app-mixins.apply-theme(app-themes.$light-theme);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    // Override with dark theme variables
+    @include app-mixins.apply-theme(app-themes.$dark-theme);
+  }
 }
