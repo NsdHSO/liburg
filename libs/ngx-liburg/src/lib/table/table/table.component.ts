@@ -34,7 +34,8 @@ import { FooterAmountComponent } from '../components/footer-amount/footer-amount
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button'; // For general buttons
-import { RippleModule } from 'primeng/ripple'; // For ripple effect on buttons
+import { RippleModule } from 'primeng/ripple';
+import { PageEvent } from '@angular/material/paginator'; // For ripple effect on buttons
 
 export interface IActionMaterialColumn {
   // This interface can remain as is for logic
@@ -85,6 +86,8 @@ export interface DataSourceMaterialTable<T> {
 export class TableComponent<T>
   implements AfterViewInit, AfterContentInit, OnDestroy
 {
+  private _currentPageIndex: number = 0; // Initialize with default page index
+
   // Implement OnDestroy
   @Input()
   public dataSource: Array<DataSourceMaterialTable<T>> = [];
@@ -261,12 +264,20 @@ export class TableComponent<T>
     this.onAddEntry.next(true);
   }
 
-  public changePage(event: any) {
-    // PrimeNG Paginator event object
-    // PrimeNG Paginator event structure:
-    // { first: 0, rows: 10, page: 0, pageCount: 1 }
-    this.onPaginationChange.emit(event);
+  public changePage(primeNgEvent: any): void {
+    const materialPageEvent: PageEvent = {
+      pageIndex: primeNgEvent.page?? 0,
+      pageSize: primeNgEvent.rows,
+      length: this.lenghtPagination,
+      previousPageIndex: this._currentPageIndex, // Use the stored value
+    };
+
+    // Update for the next event call
+    this._currentPageIndex = primeNgEvent.page;
+
+    this.onPaginationChange.emit(materialPageEvent);
   }
+
 
   public drop(event: CdkDragDrop<Array<DataSourceMaterialTable<T>>>): void {
     moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);

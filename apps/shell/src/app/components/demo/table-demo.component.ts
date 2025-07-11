@@ -221,7 +221,9 @@ export default class TableDemoComponent {
       {
         iconClass: 'fa_solid:edit',
         classCss: 'edit-action',
-        method: (row: DemoData) => this.handleEdit(row),
+        method: (row: DataSourceMaterialTable<any>) => {
+          row.editable = !row.editable;
+        },
       },
       {
         iconClass: 'fa_solid:trash',
@@ -231,7 +233,8 @@ export default class TableDemoComponent {
     ];
   }
 
-  handleEdit(row: DemoData) {
+  handleEdit(row: DataSourceMaterialTable<any>) {
+    row.editable != row.editable
     console.log('Edit row:', row);
   }
 
