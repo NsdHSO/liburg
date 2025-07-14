@@ -71,6 +71,8 @@ elix-table {
 
   // Cell styles
   .p-datatable-tbody > tr > td {
+     text-align: center;
+      vertical-align: middle;
     justify-content: flex-start;
     position: relative;
     min-height: 1rem;

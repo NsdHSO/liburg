@@ -23,6 +23,7 @@ TEST TABLE
           [dataSource]="item.dataSource()"
           [zebraColor]="true"
           [showPagination]="true"
+          (onPaginationChange)="onPaginationChange($event)"
         >
           @for (row of item.rows; track row) {
             @if (!$last) {

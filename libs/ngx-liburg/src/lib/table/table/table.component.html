@@ -1,6 +1,5 @@
 <p-table
   [value]="dataSource"
-  [paginator]="showPagination"
   [rows]="pageSize()"
   [totalRecords]="lenghtPagination"
   (onPage)="changePage($event)"
@@ -78,6 +77,12 @@
     {{ getColumnFooterMessage(col) }}
   </ng-template>
 </p-table>
+<mat-paginator
+  [length]="lenghtPagination" [pageSize]="pageSize()"
+  [pageSizeOptions]="pageSizeOptions()" (page)="changePage($event)"
+  aria-label="Select page"
+>
+</mat-paginator>
 
 <ng-container *ngIf="footerAmount">
   <lib-footer-amount [amount]="totalAmount" [label]="footerLabel" />

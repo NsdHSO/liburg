@@ -41,6 +41,9 @@ export interface Driver {
   `,
 })
 export default class PlaygroundTableComponent {
+onPaginationChange($event: any) {
+console.log('Pagination changed:', $event);
+}
   private router = inject(Router);
 
   dataSource = signal(
@@ -88,7 +91,7 @@ export default class PlaygroundTableComponent {
   {
     dataSource: signal(this.dataSource().map((item: any) => JSON.parse(JSON.stringify(item)))),
     rows: [
-      { className: 'emergency-ic', field: 'driverName', name: 'Edit Emergency IC' },
+      { className: 'emergency-ic', field: 'fuelType', name: 'Edit Emergency IC' },
       { className: 'action3', field: 'action2', name: 'Action' },
     ],
   },

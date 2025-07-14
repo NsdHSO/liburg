@@ -31,11 +31,10 @@ import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FooterAmountComponent } from '../components/footer-amount/footer-amount.component';
 
 // PrimeNG Imports
-import { TableModule } from 'primeng/table';
-import { PaginatorModule } from 'primeng/paginator';
+import { TableModule, TablePageEvent } from 'primeng/table';
 import { ButtonModule } from 'primeng/button'; // For general buttons
 import { RippleModule } from 'primeng/ripple';
-import { PageEvent } from '@angular/material/paginator'; // For ripple effect on buttons
+import { PageEvent , MatPaginatorModule} from '@angular/material/paginator';
 
 export interface IActionMaterialColumn {
   // This interface can remain as is for logic
@@ -77,7 +76,7 @@ export interface DataSourceMaterialTable<T> {
   imports: [
     CommonModule, // For NgIf, NgTemplateOutlet, AsyncPipe
     TableModule, // PrimeNG Table Module
-    PaginatorModule, // PrimeNG Paginator (if not included in TableModule for specific version)
+    MatPaginatorModule,
     ButtonModule,
     RippleModule,
     FooterAmountComponent,
@@ -264,17 +263,7 @@ export class TableComponent<T>
     this.onAddEntry.next(true);
   }
 
-  public changePage(primeNgEvent: any): void {
-    const materialPageEvent: PageEvent = {
-      pageIndex: primeNgEvent.page?? 0,
-      pageSize: primeNgEvent.rows,
-      length: this.lenghtPagination,
-      previousPageIndex: this._currentPageIndex, // Use the stored value
-    };
-
-    // Update for the next event call
-    this._currentPageIndex = primeNgEvent.page;
-
+  public changePage(materialPageEvent: any): void {
     this.onPaginationChange.emit(materialPageEvent);
   }
 
