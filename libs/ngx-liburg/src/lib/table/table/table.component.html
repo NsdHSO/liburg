@@ -106,8 +106,7 @@
   <lib-footer-amount [amount]="totalAmount()" [label]="footerLabel()" />
 </ng-container>
 <div class="new" *ngIf="addedNewEntry()" (click)="addNewEntry()">
-  <i class="pi pi-plus-circle new-entry"></i>
-  <div>
+  <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"/>
+
     <p>Added new Entry</p>
-  </div>
 </div>

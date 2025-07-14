@@ -35,6 +35,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIcon } from '@angular/material/icon';
 
 export interface IActionMaterialColumn {
   iconClass: string;
@@ -78,6 +79,7 @@ export interface DataSourceMaterialTable<T> {
     ButtonModule,
     RippleModule,
     FooterAmountComponent,
+    MatIcon,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush, // Consider OnPush for signal-based components
 })

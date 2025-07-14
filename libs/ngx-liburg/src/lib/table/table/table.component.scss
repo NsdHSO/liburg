@@ -138,12 +138,9 @@ elix-table {
     }
   }
 
-  // PRIME NG PAGINATOR STYLES
-  .p-paginator {
+  .mat-mdc-paginator {
     background: var(--app-paginator-background);
     color: var(--app-paginator-text-color);
-    padding: 0.5rem 1rem;
-    border-top: 1px solid var(--app-border-color-table-row-bottom);
 
     .p-paginator-left-content,
     .p-paginator-right-content {
@@ -207,18 +204,17 @@ elix-table {
       }
     }
 
-    .p-dropdown {
-      // THIS IS THE CRITICAL PART: Ensure the label's text color is visible
-      .p-dropdown-label {
-        background-color: var(--app-paginator-dropdown-background);
-        color: var(--app-paginator-dropdown-text-color); // This variable must be a light color!
-        border: 1px solid var(--app-paginator-dropdown-border-color);
-        border-radius: var(--app-paginator-dropdown-border-radius);
-        padding: 0.25rem 0.5rem;
-        min-height: 1.95rem; /* Ensure consistent height with other inputs */
-        display: flex; /* Allow content to align */
-        align-items: center; /* Vertically center content */
-      }
+    .cdk-overlay-pane {
+
+      background-color: var(--app-paginator-dropdown-background);
+      color: var(--app-paginator-dropdown-text-color); // This variable must be a light color!
+      border: 1px solid var(--app-paginator-dropdown-border-color);
+      border-radius: var(--app-paginator-dropdown-border-radius);
+      padding: 0.25rem 0.5rem;
+      min-height: 1.95rem; /* Ensure consistent height with other inputs */
+      display: flex; /* Allow content to align */
+      align-items: center; /* Vertically center content */
+
     }
   }
 
@@ -283,12 +279,13 @@ elix-table {
     cursor: pointer;
 
     &-entry {
-      color: var(--app-color-new-entry-icon) !important;
+      color: var(--app-text-color-dark) !important;
       padding-right: 0.5rem;
       font-size: 1.5rem;
     }
 
     p {
+      color: var(--app-text-color-dark) !important;
       margin: 0;
     }
   }
