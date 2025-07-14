@@ -178,12 +178,14 @@ elix-table {
       }
     }
 
-    .p-paginator-first,
+    .mat-mdc-paginator-navigation-previous,
     .p-paginator-prev,
-    .p-paginator-next,
+    .mat-mdc-paginator-navigation-next,
     .p-paginator-last,
-    .p-dropdown-trigger {
+    .mat-mdc-select-value
+   {
       color: var(--app-paginator-icon-color);
+      
       min-width: 2rem;
       height: 2rem;
       border-radius: 50%;
@@ -197,11 +199,13 @@ elix-table {
         background-color: var(--app-paginator-icon-hover-background);
         color: var(--app-paginator-icon-hover-color);
       }
-
-      &.p-disabled {
+      svg{
+        fill: var(--app-paginator-icon-color);
+      }
+      &.mat-mdc-button-disabled-interactive {
         opacity: 0.6;
         cursor: not-allowed;
-      }
+        color: var(--app-paginator-dropdown-item-hover-background);      }
     }
 
     .cdk-overlay-pane {
