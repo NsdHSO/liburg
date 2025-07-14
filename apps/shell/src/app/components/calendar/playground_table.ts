@@ -31,6 +31,7 @@ export interface Driver {
     JsonPipe,
     NgForOf,
     MatButton,
+    TableComponent,
   ],
   styles: `
     :host {
@@ -41,9 +42,9 @@ export interface Driver {
   `,
 })
 export default class PlaygroundTableComponent {
-onPaginationChange($event: any) {
-console.log('Pagination changed:', $event);
-}
+  onPaginationChange($event: any) {
+    console.log('Pagination changed:', $event);
+  }
   private router = inject(Router);
 
   dataSource = signal(
@@ -87,23 +88,31 @@ console.log('Pagination changed:', $event);
     })
   );
 
- test = [
-  {
-    dataSource: signal(this.dataSource().map((item: any) => JSON.parse(JSON.stringify(item)))),
-    rows: [
-      { className: 'emergency-ic', field: 'fuelType', name: 'Edit Emergency IC' },
-      { className: 'action3', field: 'action2', name: 'Action' },
-    ],
-  },
-  {
-    dataSource: signal(this.dataSource3().map((item: any) => JSON.parse(JSON.stringify(item)))),
-    rows: [
-      { className: 'emergency-ic', field: 'test', name: 'Edit Emergency IC' },
-      { className: 'action3', field: 'action', name: 'Action' },
-    ],
-  },
-];
-/**
+  test = [
+    {
+      dataSource: signal(
+        this.dataSource().map((item: any) => JSON.parse(JSON.stringify(item)))
+      ),
+      rows: [
+        {
+          className: 'emergency-ic',
+          field: 'fuelType',
+          name: 'Edit Emergency IC',
+        },
+        { className: 'action3', field: 'action2', name: 'Action' },
+      ],
+    },
+    {
+      dataSource: signal(
+        this.dataSource3().map((item: any) => JSON.parse(JSON.stringify(item)))
+      ),
+      rows: [
+        { className: 'emergency-ic', field: 'test', name: 'Edit Emergency IC' },
+        { className: 'action3', field: 'action', name: 'Action' },
+      ],
+    },
+  ];
+  /**
    * Navigate to load the table-sidebar component in the drawer outlet
    * and open the drawer
    */

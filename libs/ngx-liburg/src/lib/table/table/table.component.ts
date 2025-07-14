@@ -125,7 +125,7 @@ export class TableComponent<T>
 
   // numberOf Entry
   @Input()
-  public lenghtPagination: number = 0;
+  public lengthPagination: number = 0;
 
   @Input()
   public paginationClass: string = '';

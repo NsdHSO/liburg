@@ -24,6 +24,7 @@ TEST TABLE
           [zebraColor]="true"
           [showPagination]="true"
           (onPaginationChange)="onPaginationChange($event)"
+          [lengthPagination]="item.dataSource().length"
         >
           @for (row of item.rows; track row) {
             @if (!$last) {
