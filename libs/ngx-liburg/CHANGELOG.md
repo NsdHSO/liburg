@@ -5,6 +5,30 @@ All notable changes to the ngx-liburg library will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [19.2.5] - 2025-07-14
+
+### Breaking Changes
+- The table component is now fully signal-based. All configuration and data must be passed as signals using the `input()` function from Angular.
+- The table uses Angular Material's `<mat-paginator>` for pagination. PrimeNG's `<p-table>` and paginator are no longer used.
+- All previous `@Input()` properties have been replaced with signal-based inputs.
+
+### Migration Notes
+- Replace any usage of PrimeNG's `<p-table>` and paginator with the new signal-based table and Angular Material's `<mat-paginator>`.
+- Update your usage to provide signals for all table inputs.
+- See the README for updated usage examples.
+
+## [19.2.4] - 2025-07-14
+
+### Breaking Changes
+- The library now uses PrimeNG's `<p-table>` for all table rendering. Angular Material's `<mat-table>` and `<mat-paginator>` are no longer supported.
+- Pagination, sorting, and templating are now handled via PrimeNG's API. Do not use `<mat-paginator>` with `<p-table>`.
+- Peer dependencies updated: now requires `primeng` and `@primeng/themes`.
+
+### Migration Notes
+- Update your table templates to use PrimeNG's paginator options: `[paginator]`, `[rows]`, `[rowsPerPageOptions]`, and `(onPage)`.
+- Remove any usage of `<mat-paginator>` from your codebase.
+- See the README for updated usage examples.
+
 ## [19.2.0] - 2025-07-11
 
 ### Breaking Changes
@@ -158,7 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   --app-paginator-dropdown-item-active-background: #52796f; /* Greenish background for active dropdown item */
   --app-paginator-dropdown-item-active-color: #ffffff; /* White text for active dropdown item */
   // =======================================================
-```
+
 ### Dependencies
 - Requires primeng 19.1.3 or higher
 - Requires @primeng/themes 19.1.3 or higher

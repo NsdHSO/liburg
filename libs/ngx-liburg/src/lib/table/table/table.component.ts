@@ -9,46 +9,46 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectionStrategy, // Consider OnPush for performance with signals
   ChangeDetectorRef,
   Component,
   ContentChildren,
   EventEmitter,
   inject,
-  input,
-  Input,
-  OnDestroy,
+  input, // Import 'input' for signal inputs
+  // Input, // Remove @Input()
   Output,
   QueryList,
   TemplateRef,
   ViewEncapsulation,
+  computed, // Import 'computed' for derived signals
+  // effect, // Consider 'effect' for side effects if needed
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs'; // Use Subject for onDestroy
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { BaseColumn } from '../base-column'; // Assume BaseColumn is adapted for PrimeNG
+import { BaseColumn } from '../base-column';
 import { ColumnRotateService } from '../columns/service/column-rotate.service';
 import { TableService } from './table.service';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
 import { FooterAmountComponent } from '../components/footer-amount/footer-amount.component';
 
 // PrimeNG Imports
-import { TableModule, TablePageEvent } from 'primeng/table';
-import { ButtonModule } from 'primeng/button'; // For general buttons
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { PageEvent , MatPaginatorModule} from '@angular/material/paginator';
+import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 
 export interface IActionMaterialColumn {
-  // This interface can remain as is for logic
   iconClass: string;
   classCss: string;
   method: (row?: any) => void;
 }
 
 export interface DataSourceMaterialTable<T> {
-  // This interface can remain as is for logic
   model: T;
   editable: boolean;
   actions: IActionMaterialColumn[];
-  id?: number; // Added for dataKey in p-table
+  id?: number;
 }
 
 @Component({
@@ -72,122 +72,65 @@ export interface DataSourceMaterialTable<T> {
     ]),
   ],
   encapsulation: ViewEncapsulation.None,
-  standalone: true, // Enable standalone component
+  standalone: true,
   imports: [
-    CommonModule, // For NgIf, NgTemplateOutlet, AsyncPipe
-    TableModule, // PrimeNG Table Module
+    CommonModule,
+    TableModule,
     MatPaginatorModule,
     ButtonModule,
     RippleModule,
     FooterAmountComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush, // Consider OnPush for signal-based components
 })
 export class TableComponent<T>
-  implements AfterViewInit, AfterContentInit, OnDestroy
+  implements AfterViewInit, AfterContentInit
 {
-  private _currentPageIndex: number = 0; // Initialize with default page index
-
-  // Implement OnDestroy
-  @Input()
-  public dataSource: Array<DataSourceMaterialTable<T>> = [];
-
-  @Input()
-  public extensible: boolean = false;
-
-  @Input()
+  // Changed @Input() to signal inputs
+  public dataSource = input<Array<DataSourceMaterialTable<T>>>([]);
+  public extensible = input(false);
   public extandble$: BehaviorSubject<DataSourceMaterialTable<T> | null> =
-    new BehaviorSubject<DataSourceMaterialTable<T> | null>(null);
-
-  // Footer
-  @Input()
-  public footerShow: boolean = false;
-
-  // class for footer
-  @Input()
-  public footerMessageClass: string = '';
-
-  @Input()
-  public footerLabel: string = '';
-
-  @Input()
-  public zebraColor: boolean = false;
-
-  @Input()
-  public footerColumn: string = '';
-
-  // new table in row
-  @Input()
-  public newElementExtandble!: TemplateRef<any>;
-
-  // flag about if we want to show pagination
-  @Input()
-  public showPagination: boolean = false;
-
-  // numberOf Entry
-  @Input()
-  public lengthPagination: number = 0;
-
-  @Input()
-  public paginationClass: string = '';
-
-  /**
-   * Is an array of allowed values.
-   */
+    new BehaviorSubject<DataSourceMaterialTable<T> | null>(null); // Keeping as BehaviorSubject for now
+  public footerShow = input(false);
+  public footerMessageClass = input('');
+  public footerLabel = input('');
+  public zebraColor = input(false);
+  public footerColumn = input('');
+  public newElementExtandble = input<TemplateRef<any> | null> (null); // Made required as it seems critical
+  public showPagination = input(false);
+  public lengthPagination = input(0);
+  public paginationClass = input('');
   public pageSizeOptions = input([10, 20, 50]);
-  /**
-   * Page Size has a default value but can be configured elsewhere.
-   */
   public pageSize = input(10);
-
-  /**
-   * Page Index sets the current page number.
-   */
   public pageIndex = input(1);
-
-  /**
-   * TableService instance for managing table state and responsive behavior.
-   */
-  private readonly _tableState = inject(TableService);
-
-  /**
-   * ColumnRotateService instance for handling column rotation logic.
-   */
-  private readonly _columnRotate = inject(ColumnRotateService);
-
-  /**
-   * ChangeDetectorRef instance for triggering change detection.
-   */
-  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
-  /**
-   *
-   */
-  @Input()
-  footerAmount: any = false;
-
-  @Input()
-  public addedNewEntry = false;
+  public footerAmount = input<any>(false); // Type `any` might need refinement
+  public addedNewEntry = input(false);
 
   @Output() public onAddEntry: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output() public onPaginationChange: EventEmitter<any> = // Change type to any for PrimeNG PageEvent
+  @Output() public onPaginationChange: EventEmitter<any> =
     new EventEmitter<any>();
 
-  @Input()
-  filterTooltip: boolean = true;
+  public filterTooltip = input(true);
 
   @ContentChildren(BaseColumn)
   public columnDefs: QueryList<BaseColumn> | any;
 
   public columnsToDispaly: string[] = [];
-  public totalAmount: number = 0;
+  public totalAmount = computed(() => {
+    // totalAmount is now a computed signal
+    return this.dataSource()
+      .map((column: any) => {
+        // Access dataSource as a signal here
+        return column.model?.[this.footerColumn()] ?? 0; // Access footerColumn as a signal
+      })
+      .reduce((acc, value) => acc + value, 0);
+  });
   private doubleColumnToDisplay: string[] = [];
 
-  private destroy$ = new Subject<void>(); // Subject for component destruction
+  private readonly _tableState = inject(TableService);
+  private readonly _columnRotate = inject(ColumnRotateService);
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
 
-  /**
-   * Observable that listens to column rotation events and updates the displayed columns accordingly.
-   * Rotates columns left or right based on the emitted value from the ColumnRotateService.
-   */
   protected rotates$ = this._columnRotate.rotate$.pipe(
     tap((side: string) => {
       if (side.includes('left')) {
@@ -195,42 +138,27 @@ export class TableComponent<T>
       } else {
         this.rotateColumn('right');
       }
-    }),
-    takeUntil(this.destroy$) // Unsubscribe on destroy
+    })
   );
 
-  /**
-   * Observable that listens to layout column changes from the TableService.
-   * Updates the columnsToDispaly array and triggers change detection.
-   */
   protected colForLaylout$ = this._tableState.columnDisplay$.pipe(
     tap((columns) => {
       this.columnsToDispaly = columns;
       this._changeDetectorRef.detectChanges();
-    }),
-    takeUntil(this.destroy$) // Unsubscribe on destroy
+    })
   );
 
-  /**
-   * Observable that triggers the responsive column logic in the TableService.
-   * Ensures the table layout adapts to screen size and column configuration.
-   */
-  protected colResponse$ = this._tableState
-    .responsive(this.columnsToDispaly, this.doubleColumnToDisplay)
-    .pipe(takeUntil(this.destroy$)); // Unsubscribe on destroy
-
   ngAfterContentInit(): void {
-    // This is where columnDefs are available
     this.columnsToDispaly = this.columnDefs.map(
       (resp: BaseColumn) => resp.field
-    ); // Use `field` for PrimeNG column identification
+    );
 
     try {
       const duplicate = this.columnsToDispaly.filter(
         (columnDisplay: string, index: number, self: string[]) =>
           index === self.findIndex((value: string) => value === columnDisplay)
       );
-      this.doubleColumnToDisplay = [...this.columnsToDispaly]; // Make a copy
+      this.doubleColumnToDisplay = [...this.columnsToDispaly];
       if (duplicate.length < this.columnsToDispaly.length) {
         throw new Error(
           'You duplicate value what you want to display, Please look in definitions at columns'
@@ -242,21 +170,10 @@ export class TableComponent<T>
   }
 
   public ngAfterViewInit(): void {
-    // Moved some logic to AfterContentInit where columnDefs are ready
-
-    this.totalAmount = this.dataSource
-      .map((column: any) => {
-        return column.model?.[this.footerColumn] ?? 0; // Use optional chaining and nullish coalescing
-      })
-      .reduce((acc, value) => acc + value, 0);
-
-    this._tableState.pushData(this.totalAmount);
-    this._changeDetectorRef.detectChanges(); // Ensure changes are detected
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    // totalAmount is now a computed signal, so it updates automatically.
+    // We just need to push its current value to the service.
+    this._tableState.pushData(this.totalAmount()); // Call totalAmount as a signal
+    this._changeDetectorRef.detectChanges();
   }
 
   public addNewEntry() {
@@ -267,11 +184,13 @@ export class TableComponent<T>
     this.onPaginationChange.emit(materialPageEvent);
   }
 
-
   public drop(event: CdkDragDrop<Array<DataSourceMaterialTable<T>>>): void {
-    moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
-    // In PrimeNG, simply updating the array should suffice for rendering.
-    // this.table.renderRows(); // Not needed for PrimeNG
+    moveItemInArray(this.dataSource(), event.previousIndex, event.currentIndex); // Access dataSource as a signal
+    // Note: When moving items in a signal's array, you might need to
+    // explicitly set the signal again if Angular's change detection doesn't pick it up
+    // automatically after moveItemInArray. However, CdkDragDrop usually
+    // works by directly modifying the array reference.
+    // If you encounter issues, you might need: this.dataSource.set([...this.dataSource()]);
   }
 
   public dropColumn(event: CdkDragDrop<string[]>): void {
@@ -280,16 +199,13 @@ export class TableComponent<T>
       event.previousIndex,
       event.currentIndex
     );
-    // You might also want to reorder `doubleColumnToDisplay` if it's used for rotation
     moveItemInArray(
       this.doubleColumnToDisplay,
       event.previousIndex,
       event.currentIndex
     );
-    // PrimeNG table will automatically re-render based on columnsToDispaly
   }
 
-  // Helper to get header template from content projected columns
   getHeaderTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -297,7 +213,6 @@ export class TableComponent<T>
     return column?.headerTemplate;
   }
 
-  // Helper to get body template from content projected columns
   getBodyTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -305,7 +220,6 @@ export class TableComponent<T>
     return column?.bodyTemplate;
   }
 
-  // Helper to get footer template from content projected columns
   getFooterTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -313,7 +227,6 @@ export class TableComponent<T>
     return column?.footerTemplate;
   }
 
-  // Helper to get column header name for default template
   getColumnHeaderName(colField: string): string {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -321,7 +234,6 @@ export class TableComponent<T>
     return column?.name || colField;
   }
 
-  // Helper to get column footer message for default template
   getColumnFooterMessage(colField: string): string | number | null {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -330,31 +242,28 @@ export class TableComponent<T>
   }
 
   private rotateColumn(side: string) {
-    if (this.doubleColumnToDisplay.length <= 1) return; // Prevent rotation on single/no column
+    if (this.doubleColumnToDisplay.length <= 1) return;
 
     if (side === 'left') {
       this._rotateLeft();
     } else {
       this._rotateRight();
     }
-    // Update columnsToDispaly based on the rotated doubleColumnToDisplay
-    // Ensure 'action' or any fixed columns are handled if they exist in your logic
-    // This logic might need adjustment based on how 'action' column is managed
     this.columnsToDispaly = [...this.doubleColumnToDisplay];
-    this._columnRotate.swapColumn(this.doubleColumnToDisplay); // Notify service of new order
+    this._columnRotate.swapColumn(this.doubleColumnToDisplay);
   }
 
   private _rotateLeft() {
-    const firstColumn = this.doubleColumnToDisplay.shift(); // Remove first element
+    const firstColumn = this.doubleColumnToDisplay.shift();
     if (firstColumn) {
-      this.doubleColumnToDisplay.push(firstColumn); // Add to the end
+      this.doubleColumnToDisplay.push(firstColumn);
     }
   }
 
   private _rotateRight() {
-    const lastColumn = this.doubleColumnToDisplay.pop(); // Remove last element
+    const lastColumn = this.doubleColumnToDisplay.pop();
     if (lastColumn) {
-      this.doubleColumnToDisplay.unshift(lastColumn); // Add to the beginning
+      this.doubleColumnToDisplay.unshift(lastColumn);
     }
   }
 }

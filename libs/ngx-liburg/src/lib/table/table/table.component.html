@@ -1,34 +1,59 @@
-<p-table [value]="dataSource" [rows]="pageSize()" [totalRecords]="lengthPagination" (onPage)="changePage($event)"
-  [rowsPerPageOptions]="pageSizeOptions()" [multiSortMeta]="[]" dataKey="id" styleClass="p-datatable-gridlines"
-  [style.box-shadow]="addedNewEntry ? 'none': ''">
+<p-table
+  [value]="dataSource()"
+  [rows]="pageSize()"
+  [totalRecords]="lengthPagination()"
+  (onPage)="changePage($event)"
+  [rowsPerPageOptions]="pageSizeOptions()"
+  [multiSortMeta]="[]"
+  dataKey="id"
+  styleClass="p-datatable-gridlines"
+  [style.box-shadow]="addedNewEntry() ? 'none' : ''"
+>
   <ng-template pTemplate="header">
     <tr class="header-color gap-1">
       @for (col of columnsToDispaly; track col) {
       <th pSortableColumn="{{ col }}">
         <ng-container
-          *ngTemplateOutlet="getHeaderTemplate(col) || defaultHeaderTemplate; context: { $implicit: col }"></ng-container>
+          *ngTemplateOutlet="
+            getHeaderTemplate(col) || defaultHeaderTemplate;
+            context: { $implicit: col }
+          "
+        ></ng-container>
         <p-sortIcon [field]="col"></p-sortIcon>
       </th>
       }
-      <th *ngIf="extensible && (extandble$ | async)" class="extensible-header"></th>
+      <th *ngIf="extensible() && (extandble$ | async)" class="extensible-header"></th>
     </tr>
   </ng-template>
 
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-    <tr data-test="mat-row-def" [pSelectableRow]="rowData" class="gap-1 header-border-left"
-      [class.zebra]="rowIndex % 2 === 0 && zebraColor">
+    <tr
+      data-test="mat-row-def"
+      [pSelectableRow]="rowData"
+      class="gap-1 header-border-left"
+      [class.zebra]="rowIndex % 2 === 0 && zebraColor()"
+    >
       @for (col of columnsToDispaly; track col) {
       <td>
         <ng-container
-          *ngTemplateOutlet="getBodyTemplate(col) || defaultBodyTemplate; context: { $implicit: rowData, field: col }"></ng-container>
+          *ngTemplateOutlet="
+            getBodyTemplate(col) || defaultBodyTemplate;
+            context: { $implicit: rowData, field: col }
+          "
+        ></ng-container>
       </td>
       }
     </tr>
 
-    <tr *ngIf="extensible && (extandble$ | async) === rowData" class="example-detail-row gap-1 header-border-left">
+    <tr
+      *ngIf="extensible() && (extandble$ | async) === rowData"
+      class="example-detail-row gap-1 header-border-left"
+    >
       <td [attr.colspan]="columnsToDispaly.length" class="overflow-hidden">
         <div [@detailExpand]="(extandble$ | async) ? 'expanded' : 'collapsed'" class="elix__table">
-          <ng-container *ngTemplateOutlet="newElementExtandble; context: { $implicit: rowData }">
+          <ng-container
+            *ngTemplateOutlet="newElementExtandble(); context: { $implicit: rowData }"
+          >
           </ng-container>
         </div>
       </td>
@@ -36,11 +61,15 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <tr *ngIf="footerShow">
+    <tr *ngIf="footerShow()">
       @for (col of columnsToDispaly; track col) {
       <td>
         <ng-container
-          *ngTemplateOutlet="getFooterTemplate(col) || defaultFooterTemplate; context: { $implicit: col }"></ng-container>
+          *ngTemplateOutlet="
+            getFooterTemplate(col) || defaultFooterTemplate;
+            context: { $implicit: col }
+          "
+        ></ng-container>
       </td>
       }
     </tr>
@@ -56,15 +85,22 @@
     {{ getColumnFooterMessage(col) }}
   </ng-template>
 </p-table>
-@if (showPagination) {
-<mat-paginator [pageSize]="pageSize()" [pageIndex]="pageIndex()" [class]="paginationClass" (page)="changePage($event)"
-  [length]="lengthPagination" [pageSizeOptions]="pageSizeOptions()" aria-label="Select page of periodic elements" />
+@if (showPagination()) {
+<mat-paginator
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
+  [class]="paginationClass()"
+  (page)="changePage($event)"
+  [length]="lengthPagination()"
+  [pageSizeOptions]="pageSizeOptions()"
+  aria-label="Select page of periodic elements"
+/>
 }
 
-<ng-container *ngIf="footerAmount">
-  <lib-footer-amount [amount]="totalAmount" [label]="footerLabel" />
+<ng-container *ngIf="footerAmount()">
+  <lib-footer-amount [amount]="totalAmount()" [label]="footerLabel()" />
 </ng-container>
-<div class="new" *ngIf="addedNewEntry" (click)="addNewEntry()">
+<div class="new" *ngIf="addedNewEntry()" (click)="addNewEntry()">
   <i class="pi pi-plus-circle new-entry"></i>
   <div>
     <p>Added new Entry</p>
