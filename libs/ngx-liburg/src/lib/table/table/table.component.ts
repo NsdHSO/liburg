@@ -25,7 +25,7 @@ import {
   // effect, // Consider 'effect' for side effects if needed
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { BaseColumn } from '../base-column';
 import { ColumnRotateService } from '../columns/service/column-rotate.service';
 import { TableService } from './table.service';
