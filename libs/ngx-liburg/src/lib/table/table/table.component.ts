@@ -9,22 +9,20 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   AfterContentInit,
   AfterViewInit,
-  ChangeDetectionStrategy, // Consider OnPush for performance with signals
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ContentChildren,
   EventEmitter,
   inject,
-  input, // Import 'input' for signal inputs
-  // Input, // Remove @Input()
+  input,
   Output,
   QueryList,
   TemplateRef,
   ViewEncapsulation,
-  computed, // Import 'computed' for derived signals
-  // effect, // Consider 'effect' for side effects if needed
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseColumn } from '../base-column';
 import { ColumnRotateService } from '../columns/service/column-rotate.service';
@@ -36,7 +34,7 @@ import { FooterAmountComponent } from '../components/footer-amount/footer-amount
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 export interface IActionMaterialColumn {
   iconClass: string;
@@ -83,9 +81,7 @@ export interface DataSourceMaterialTable<T> {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush, // Consider OnPush for signal-based components
 })
-export class TableComponent<T>
-  implements AfterViewInit, AfterContentInit
-{
+export class TableComponent<T> implements AfterViewInit, AfterContentInit {
   // Changed @Input() to signal inputs
   public dataSource = input<Array<DataSourceMaterialTable<T>>>([]);
   public extensible = input(false);
@@ -96,7 +92,7 @@ export class TableComponent<T>
   public footerLabel = input('');
   public zebraColor = input(false);
   public footerColumn = input('');
-  public newElementExtandble = input<TemplateRef<any> | null> (null); // Made required as it seems critical
+  public newElementExtandble = input<TemplateRef<any> | null>(null); // Made required as it seems critical
   public showPagination = input(false);
   public lengthPagination = input(0);
   public paginationClass = input('');

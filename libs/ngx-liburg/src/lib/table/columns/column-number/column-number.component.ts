@@ -1,12 +1,16 @@
-import { Component, Input, OnDestroy, ViewChild, TemplateRef, inject } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { FormsModule, FormControl } from '@angular/forms'; // Keep FormsModule for ngModel
-import { AsyncPipe, CommonModule, NgIf } from '@angular/common'; // Import CommonModule
-import { takeUntil } from 'rxjs/operators';
+import { FormControl, FormsModule } from '@angular/forms'; // Keep FormsModule for ngModel
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { TableService } from '../../table/table.service';
 import { Subject } from 'rxjs';
 import { TotalAmountPipe } from '../utils/pipe/total-amount.pipe'; // Your custom pipe
-
 // PrimeNG Imports
 import { InputTextModule } from 'primeng/inputtext'; // For pInputText directive
 

@@ -4,7 +4,9 @@
   "sourceRoot": "apps/shell-e2e/src",
   "projectType": "application",
   "tags": [],
-  "implicitDependencies": ["shell"],
+  "implicitDependencies": [
+    "shell"
+  ],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -24,9 +26,13 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/shell-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/shell-e2e/**/*.{js,ts}"
+        ]
       }
     }
   }

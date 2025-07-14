@@ -17,6 +17,7 @@ ngx-liburg-frame-side is a standalone Angular component library that provides a 
 ## Recent Changes
 
 ### Version 19.0.18
+
 - Added support for actionOfDrawer to control drawer behavior programmatically
 - Enhanced drawer service with additional actions (open, close, toggle, resize, setPosition, setContent, setOptions)
 - Improved type safety with ActionOfDrawer enum
@@ -24,6 +25,7 @@ ngx-liburg-frame-side is a standalone Angular component library that provides a 
 - Performance optimizations for drawer animations
 
 ### Version 15.0.0
+
 - Added CSS variable documentation for drawer background customization
 - Added support for Angular 15+
 - Added CSS variables `--app-background-drawer-outlet` and `--app-background-drawer` for customizing drawer backgrounds
@@ -32,6 +34,7 @@ ngx-liburg-frame-side is a standalone Angular component library that provides a 
 - Detailed instructions for passing data to drawer components
 
 ### Earlier updates
+
 - Added close (X) button for drawer component
 - Fixed z-index issues in the drawer header
 - Improved drawer service for better state management
@@ -156,6 +159,7 @@ export class MyComponent {
 You can pass data to drawer components using:
 
 1. Route parameters:
+
 ```typescript
 // Navigate with parameters
 this.router.navigate([{ outlets: { drawer: ['details-panel', itemId] } }]);
@@ -173,6 +177,7 @@ export class DetailsPanelComponent {
 ```
 
 2. Query parameters:
+
 ```typescript
 // Navigate with query parameters
 this.router.navigate(

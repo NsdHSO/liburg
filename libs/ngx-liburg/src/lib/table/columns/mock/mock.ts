@@ -1,23 +1,21 @@
-import { of } from "rxjs";
+import { of } from 'rxjs';
 
 export function overlay() {
-  return{
+  return {
     create: () => {
       return {
-        attach: () => {
-        },
-        backdropClick: of('test')
-      }
+        attach: () => {},
+        backdropClick: of('test'),
+      };
     },
     position: () => {
       return {
         flexibleConnectedTo: () => {
           return {
-            withPositions: () => {
-            }
-          }
-        }
-      }
+            withPositions: () => {},
+          };
+        },
+      };
     },
-  }
+  };
 }

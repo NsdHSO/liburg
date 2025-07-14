@@ -1,18 +1,18 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
-  ViewEncapsulation,
-  ViewChild,
   TemplateRef,
-  inject // Added inject for ColumnRotateService
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { CommonModule, NgIf, NgFor } from '@angular/common'; // Import NgFor
+import { CommonModule } from '@angular/common'; // Import NgFor
 import { ButtonModule } from 'primeng/button'; // For pButton
 import { RippleModule } from 'primeng/ripple'; // For pRipple
-import { ColumnRotateService } from "../service/column-rotate.service"; // Assuming this path
+import { ColumnRotateService } from '../service/column-rotate.service'; // Assuming this path
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -31,7 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule, // Provides NgIf and NgFor
     ButtonModule,
     RippleModule,
-    MatIconModule
+    MatIconModule,
   ],
 })
 export class ColumnIconActionComponent extends BaseColumn {

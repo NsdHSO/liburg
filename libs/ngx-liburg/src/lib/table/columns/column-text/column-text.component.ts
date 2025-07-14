@@ -2,12 +2,12 @@ import {
   Component,
   EventEmitter,
   Output,
-  ViewEncapsulation,
+  TemplateRef,
   ViewChild,
-  TemplateRef
+  ViewEncapsulation,
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { CommonModule, NgIf } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms';
 
 // PrimeNG Imports

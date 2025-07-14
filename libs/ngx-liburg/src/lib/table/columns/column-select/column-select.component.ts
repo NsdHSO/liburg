@@ -4,15 +4,14 @@ import {
   Input,
   OnInit,
   Output,
-  ViewEncapsulation,
-  ViewChild,
   TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { BaseColumn } from "../../base-column";
-import { DataSourceMaterialTable } from "../../table/table.component"; // Ensure this path is correct
+import { BaseColumn } from '../../base-column';
+import { DataSourceMaterialTable } from '../../table/table.component'; // Ensure this path is correct
 import { FormsModule } from '@angular/forms'; // For ngModel
-import { CommonModule, NgFor, NgIf } from '@angular/common'; // Import CommonModule, NgFor, NgIf
-
+import { CommonModule } from '@angular/common'; // Import CommonModule, NgFor, NgIf
 // PrimeNG Imports
 import { DropdownModule } from 'primeng/dropdown'; // For p-dropdown
 
@@ -53,10 +52,10 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
 
   // Reference to the templates defined in the HTML
   @ViewChild('columnSelectHeaderTemplate')
-  public override  headerTemplate!: TemplateRef<any>;
+  public override headerTemplate!: TemplateRef<any>;
 
   @ViewChild('columnSelectBodyTemplate')
-  public override  bodyTemplate!: TemplateRef<any>;
+  public override bodyTemplate!: TemplateRef<any>;
 
   @ViewChild('columnSelectFooterTemplate')
   public override footerTemplate!: TemplateRef<any>;
@@ -74,8 +73,16 @@ export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
     if (this.truthy) {
       // Ensure 'value' property matches the generic type T if used elsewhere
       this.options = [
-        { index: 1, value: true as T, name: 'True' },
-        { index: 0, value: false as T, name: 'False' },
+        {
+          index: 1,
+          value: true as T,
+          name: 'True',
+        },
+        {
+          index: 0,
+          value: false as T,
+          name: 'False',
+        },
       ];
     }
   }

@@ -3,6 +3,7 @@
 ## Breaking Changes
 
 ### vNEXT
+
 - **Dependency Injection:** The TableComponent and other components now use Angular's `inject()` function for service injection instead of constructor parameters. If you extend or mock these components, update your code accordingly.
 - **Private Service Fields:** Service dependencies like `TableService`, `ColumnRotateService`, and `ChangeDetectorRef` are now private readonly fields injected via `inject()`. Access them as `this._tableState`, `this._columnRotate`, and `this._changeDetectorRef`.
 - **Standalone/Signal API:** If you use Angular signals or standalone components, ensure your Angular version supports these features.

@@ -234,7 +234,7 @@ export default class TableDemoComponent {
   }
 
   handleEdit(row: DataSourceMaterialTable<any>) {
-    row.editable != row.editable
+    row.editable != row.editable;
     console.log('Edit row:', row);
   }
 

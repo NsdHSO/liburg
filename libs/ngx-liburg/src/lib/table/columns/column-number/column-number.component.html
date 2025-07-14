@@ -4,7 +4,9 @@
 
 <ng-template #columnNumberBodyTemplate let-element>
   <span [class]="className">
-    <div *ngIf="element.editable && editRow; else prettyText" class="column-number__edit p-field">
+    <div
+      *ngIf="element.editable && editRow; else prettyText"
+      class="column-number__edit p-field">
       <input
         pInputText
         type="number"

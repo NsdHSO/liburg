@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [19.2.5] - 2025-07-14
 
 ### Breaking Changes
+
 - The table component is now fully signal-based. All configuration and data must be passed as signals using the `input()` function from Angular.
 - The table uses Angular Material's `<mat-paginator>` for pagination. PrimeNG's `<p-table>` and paginator are no longer used.
 - All previous `@Input()` properties have been replaced with signal-based inputs.
 
 ### Migration Notes
+
 - Replace any usage of PrimeNG's `<p-table>` and paginator with the new signal-based table and Angular Material's `<mat-paginator>`.
 - Update your usage to provide signals for all table inputs.
 - See the README for updated usage examples.
@@ -20,11 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [19.2.4] - 2025-07-14
 
 ### Breaking Changes
+
 - The library now uses PrimeNG's `<p-table>` for all table rendering. Angular Material's `<mat-table>` and `<mat-paginator>` are no longer supported.
 - Pagination, sorting, and templating are now handled via PrimeNG's API. Do not use `<mat-paginator>` with `<p-table>`.
 - Peer dependencies updated: now requires `primeng` and `@primeng/themes`.
 
 ### Migration Notes
+
 - Update your table templates to use PrimeNG's paginator options: `[paginator]`, `[rows]`, `[rowsPerPageOptions]`, and `(onPage)`.
 - Remove any usage of `<mat-paginator>` from your codebase.
 - See the README for updated usage examples.
@@ -32,17 +36,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [19.2.0] - 2025-07-11
 
 ### Breaking Changes
+
 - Migrated from Angular Material to PrimeNG component library
 - Changed component API to align with PrimeNG patterns
 - Updated styling system to use @primeng/themes
 
 ### Added
+
 - Added comprehensive CSS token system in styles.scss for consistent theming:
   - Layout tokens:
     - `--app-background-drawer-outlet`
     - `--app-background-drawer-outlet-x-button`
     - `--app-background-drawer`
-  
+
   - Application-wide tokens:
     - `--app-text-color`: Default text color
     - `--app-text-color-dark`: Darker text color
@@ -105,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `--app-paginator-dropdown-item-hover-color`: Item hover text color
     - `--app-paginator-dropdown-item-active-background`: Active item background
     - `--app-paginator-dropdown-item-active-color`: Active item text color
+
 ```scss
 /* You can add global styles to this file, and also import other style files */
 
