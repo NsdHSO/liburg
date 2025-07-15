@@ -41,7 +41,7 @@ interface DemoData {
   ],
   template: `
     <div class="demo-container">
-      <h2>ngx-liburg Table Demo</h2>
+      <h2>ngx-liburg Table Demo Try</h2>
 
       <div class="drawer-controls">
         <button
