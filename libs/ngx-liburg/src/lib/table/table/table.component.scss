@@ -178,6 +178,7 @@ elix-table {
       }
     }
 
+    
     .mat-mdc-paginator-navigation-previous,
     .p-paginator-prev,
     .mat-mdc-paginator-navigation-next,
@@ -202,7 +203,7 @@ elix-table {
       svg{
         fill: var(--app-paginator-icon-color);
       }
-      &.mat-mdc-button-disabled-interactive {
+      &.mat-mdc-button-disabled {
         opacity: 0.6;
         cursor: not-allowed;
         color: var(--app-paginator-dropdown-item-hover-background);      }

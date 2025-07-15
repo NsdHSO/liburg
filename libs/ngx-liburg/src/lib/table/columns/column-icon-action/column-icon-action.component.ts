@@ -14,6 +14,7 @@ import { ButtonModule } from 'primeng/button'; // For pButton
 import { RippleModule } from 'primeng/ripple'; // For pRipple
 import { ColumnRotateService } from '../service/column-rotate.service'; // Assuming this path
 import { MatIconModule } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'elix-column-icon-action',
@@ -29,8 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [
     CommonModule, // Provides NgIf and NgFor
-    ButtonModule,
-    RippleModule,
+    MatButton,
     MatIconModule,
   ],
 })
@@ -52,4 +52,8 @@ export class ColumnIconActionComponent extends BaseColumn {
 
   @ViewChild('columnActionFooterTemplate')
   public override footerTemplate!: TemplateRef<any>;
+
+  scrollColumn(left: string){
+    this._columnRotate.setSide(left)
+  }
 }

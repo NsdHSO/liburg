@@ -3,6 +3,24 @@
     <ng-container *ngIf="!iconAction">
       {{ name }}
     </ng-container>
+    <ng-container *ngIf="iconAction">
+      <button
+        mat-button
+        (click)="scrollColumn('left')"
+      >
+        <mat-icon
+          [svgIcon]="'fa_solid:arrow-left'"
+        ></mat-icon>
+      </button>
+      <button
+        mat-button
+        (click)="scrollColumn('right')"
+      >
+        <mat-icon
+          [svgIcon]="'fa_solid:arrow-right'"
+        ></mat-icon>
+      </button>
+    </ng-container>
   </span>
 </ng-template>
 
@@ -11,14 +29,12 @@
     <ng-container *ngIf="!iconAction">
       <ng-container *ngFor="let action of element.actions">
         <button
-          pButton
-          pRipple
+        mat-button
           (click)="action.method(element)"
           [class]="action.classCss"
-          [icon]="action.iconClass.startsWith('fa_') ? null : action.iconClass"
         >
-          <mat-icon [svgIcon]="action.iconClass"></mat-icon>
-        </button>
+          <mat-icon *ngIf="action.iconClass.startsWith('fa_')" [svgIcon]="action.iconClass"></mat-icon>
+          </button>
       </ng-container>
     </ng-container>
   </span>

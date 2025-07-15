@@ -116,6 +116,7 @@ interface DemoData {
         <elix-column-icon-action
           [field]="'actions'"
           [name]="'Actions'"
+          c
         >
         </elix-column-icon-action>
       </elix-table>
