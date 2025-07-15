@@ -88,7 +88,7 @@ jobs:
         run: |
           cat > libs/ngx-liburg/.releaserc.json << 'EOF'
           {
-            "branches": ["main"],
+            "branches": ["master"],
             "tagFormat": "ngx-liburg-v${version}",
             "plugins": [
               "@semantic-release/commit-analyzer",
@@ -168,7 +168,7 @@ jobs:
         run: |
           cat > libs/ngx-liburg-icon/.releaserc.json << 'EOF'
           {
-            "branches": ["main"],
+            "branches": ["master"],
             "tagFormat": "ngx-liburg-icon-v${version}",
             "plugins": [
               "@semantic-release/commit-analyzer",
@@ -248,7 +248,7 @@ jobs:
         run: |
           cat > libs/ngx-liburg-frame-side/.releaserc.json << 'EOF'
           {
-            "branches": ["main"],
+            "branches": ["master"],
             "tagFormat": "ngx-liburg-frame-side-v${version}",
             "plugins": [
               "@semantic-release/commit-analyzer",
