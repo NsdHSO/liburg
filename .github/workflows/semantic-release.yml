@@ -111,6 +111,10 @@ jobs:
       - name: Build library
         run: pnpm nx build ngx-liburg --configuration=production
       
+      - name: Install semantic-release plugins
+        run: |
+          pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
+      
       - name: Semantic Release for ngx-liburg
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -119,9 +123,9 @@ jobs:
           cd libs/ngx-liburg
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            pnpm dlx semantic-release --dry-run
+            semantic-release --dry-run
           else
-            pnpm dlx semantic-release
+            semantic-release
           fi
 
   release_ngx_liburg_icon:
@@ -187,6 +191,10 @@ jobs:
       - name: Build library
         run: pnpm nx build ngx-liburg-icon --configuration=production
       
+      - name: Install semantic-release plugins
+        run: |
+          pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
+      
       - name: Semantic Release for ngx-liburg-icon
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -195,9 +203,9 @@ jobs:
           cd libs/ngx-liburg-icon
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            pnpm dlx semantic-release --dry-run
+            semantic-release --dry-run
           else
-            pnpm dlx semantic-release
+            semantic-release
           fi
 
   release_ngx_liburg_frame_side:
@@ -263,6 +271,10 @@ jobs:
       - name: Build library
         run: pnpm nx build ngx-liburg-frame-side --configuration=production
       
+      - name: Install semantic-release plugins
+        run: |
+          pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
+      
       - name: Semantic Release for ngx-liburg-frame-side
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -271,7 +283,7 @@ jobs:
           cd libs/ngx-liburg-frame-side
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            pnpm dlx semantic-release --dry-run
+            semantic-release --dry-run
           else
-            pnpm dlx semantic-release
+            semantic-release
           fi
