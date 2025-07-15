@@ -70,8 +70,14 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
       
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       
       - name: Setup Git identity
         run: |
@@ -103,7 +109,7 @@ jobs:
           EOF
       
       - name: Build library
-        run: nx build ngx-liburg --configuration=production
+        run: pnpm nx build ngx-liburg --configuration=production
       
       - name: Semantic Release for ngx-liburg
         env:
@@ -113,9 +119,9 @@ jobs:
           cd libs/ngx-liburg
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            npx semantic-release --dry-run
+            pnpm dlx semantic-release --dry-run
           else
-            npx semantic-release
+            pnpm dlx semantic-release
           fi
 
   release_ngx_liburg_icon:
@@ -140,8 +146,14 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
       
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       
       - name: Setup Git identity
         run: |
@@ -173,7 +185,7 @@ jobs:
           EOF
       
       - name: Build library
-        run: nx build ngx-liburg-icon --configuration=production
+        run: pnpm nx build ngx-liburg-icon --configuration=production
       
       - name: Semantic Release for ngx-liburg-icon
         env:
@@ -183,9 +195,9 @@ jobs:
           cd libs/ngx-liburg-icon
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            npx semantic-release --dry-run
+            pnpm dlx semantic-release --dry-run
           else
-            npx semantic-release
+            pnpm dlx semantic-release
           fi
 
   release_ngx_liburg_frame_side:
@@ -210,8 +222,14 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
       
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       
       - name: Setup Git identity
         run: |
@@ -243,7 +261,7 @@ jobs:
           EOF
       
       - name: Build library
-        run: nx build ngx-liburg-frame-side --configuration=production
+        run: pnpm nx build ngx-liburg-frame-side --configuration=production
       
       - name: Semantic Release for ngx-liburg-frame-side
         env:
@@ -253,7 +271,7 @@ jobs:
           cd libs/ngx-liburg-frame-side
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            npx semantic-release --dry-run
+            pnpm dlx semantic-release --dry-run
           else
-            npx semantic-release
+            pnpm dlx semantic-release
           fi
