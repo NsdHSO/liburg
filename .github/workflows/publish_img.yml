@@ -55,3 +55,35 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}  # Use built-in token
           branch: gh-pages  # Corrected branch name
           folder: dist/apps/shell  # Precise folder to deploy
+
+      - name: Generate Version
+        id: version
+        run: |
+          # Generate a version based on the date and a timestamp
+          DATE=$(date +%Y.%m.%d)
+          TIMESTAMP=$(date +%H%M)
+          VERSION="$DATE-$TIMESTAMP"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          
+      - name: Create Git Tag
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git tag "app-v${{ steps.version.outputs.version }}"
+          git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: "app-v${{ steps.version.outputs.version }}"
+          release_name: "Application Release v${{ steps.version.outputs.version }}"
+          body: |
+            ## Application Release v${{ steps.version.outputs.version }}
+            
+            This release contains the latest version of the application.
+            
+            Deployed to GitHub Pages at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          draft: false
+          prerelease: false

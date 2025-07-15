@@ -156,22 +156,6 @@ jobs:
             git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
           fi
 
-      - name: Create GitHub Release
-        if: ${{ github.event.inputs.dry_run != 'true' }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          tag_name: "ngx-liburg-v${{ steps.bump-version.outputs.new_version }}"
-          release_name: "ngx-liburg v${{ steps.bump-version.outputs.new_version }}"
-          body: |
-            ## ngx-liburg v${{ steps.bump-version.outputs.new_version }}
-            
-            Automated release of ngx-liburg library.
-            
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/master/libs/ngx-liburg/CHANGELOG.md) for details.
-          draft: false
-          prerelease: false
 
   release-ngx-liburg-icon:
     needs: detect-changes
