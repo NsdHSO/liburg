@@ -1,4 +1,5 @@
-// Paginator styles
+elix-table{
+  // Paginator styles
 .mat-mdc-paginator {
   background: var(--app-paginator-background);
   color: var(--app-paginator-text-color);
@@ -96,4 +97,5 @@
       font-weight: bold;
     }
   }
+}
 }

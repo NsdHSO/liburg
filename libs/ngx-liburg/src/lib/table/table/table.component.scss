@@ -1,15 +1,13 @@
-// Main table component styles - imports modularized components
+// Main table component styles using modern Sass modules
+@use './styles/base' as base;
+@use './styles/header' as header;
+@use './styles/rows' as rows;
+@use './styles/cells' as cells;
+@use './styles/footer' as footer;
+@use './styles/paginator' as paginator;
+@use './styles/new-entry' as newentry;
 
 elix-table {
   transition: all 0.5s ease-in;
-  
-  @import './styles/base';
-  @import './styles/header';
-  @import './styles/rows';
-  @import './styles/cells';
-  @import './styles/footer';
-  @import './styles/paginator';
-  @import './styles/drag-drop';
-  @import './styles/new-entry';
 }
 

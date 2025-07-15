@@ -1,7 +1,6 @@
-// Main navigation component styles - imports modularized components
-
-@import './styles/base';
-@import './styles/nav';
-@import './styles/links';
-@import './styles/collapsed';
-@import './styles/active';
+// Main navigation component styles using modern Sass modules
+@use './styles/base' as base;
+@use './styles/nav' as nav;
+@use './styles/links' as links;
+@use './styles/collapsed' as collapsed;
+@use './styles/active' as active;

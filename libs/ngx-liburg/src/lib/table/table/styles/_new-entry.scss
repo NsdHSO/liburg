@@ -1,4 +1,5 @@
-// New entry button styles
+elix-table{
+  // New entry button styles
 .new {
   display: flex;
   align-items: center;
@@ -15,4 +16,6 @@
     color: var(--app-text-color-dark) !important;
     margin: 0;
   }
+}
+
 }
