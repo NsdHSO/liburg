@@ -96,7 +96,7 @@ jobs:
           " CHANGELOG.md
       
       - name: Build library
-        run: nx build ngx-liburg
+        run: nx build ngx-liburg --configuration=production
       
       - name: Publish to npm
         run: |
@@ -152,7 +152,7 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
       
       - name: Build library
-        run: nx build ngx-liburg-icon
+        run: nx build ngx-liburg-icon --configuration=production
       
       - name: Publish to npm
         run: |
@@ -208,7 +208,7 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
       
       - name: Build library
-        run: nx build ngx-liburg-frame-side
+        run: nx build ngx-liburg-frame-side --configuration=production
       
       - name: Publish to npm
         run: |

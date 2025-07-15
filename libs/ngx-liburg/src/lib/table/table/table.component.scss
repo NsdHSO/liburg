@@ -1,30 +1,23 @@
-// elix-table.component.scss
-
+// Optimized table component styles
 elix-table {
   transition: all 0.5s ease-in;
-
+  // Datatable base
   .p-datatable {
     border-collapse: collapse;
     border-radius: 0.5rem;
     box-shadow: var(--app-shadow-medium);
     background-color: var(--app-background-color-table-datatable);
-
-    .p-datatable-wrapper {
-      overflow: auto; // Ensures internal scrolling if content overflows
-    }
+    .p-datatable-wrapper { overflow: auto; }
   }
 
   // Header styles
-  .p-datatable-thead { // Targets the <thead> element
-    & > tr {
-      &.header-color {
-        z-index: 99 !important;
-        background: var(--app-background-table-color) !important;
-        min-height: 1.5rem;
-      }
+  .p-datatable-thead > tr {
+    &.header-color {
+      z-index: 99 !important;
+      background: var(--app-background-table-color) !important;
+      min-height: 1.5rem;
     }
-
-    & > tr > th { // Targets individual <th> header cells
+    > th {
       text-align: center;
       vertical-align: middle;
       height: 2rem !important;
@@ -32,7 +25,6 @@ elix-table {
       padding: 0.5rem 0.75rem;
       background-color: var(--app-background-table-header-cell);
       border-color: var(--app-border-color-table-header);
-
       .p-column-header-content {
         display: flex;
         align-items: center;
@@ -40,7 +32,6 @@ elix-table {
         gap: 0.25rem;
         width: 100%;
       }
-
       &.p-datatable-sortable-column:not(.p-datatable-column-sorted):hover {
         background: var(--app-datatable-header-cell-hover-background) !important;
         color: var(--app-datatable-header-cell-hover-color) !important;
@@ -50,24 +41,15 @@ elix-table {
 
   // Row styles
   .p-datatable-tbody > tr {
-    &.header-border-left {
-      border-left: 1px solid var(--app-border-color-table-row-left);
-    }
-
+    &.header-border-left { border-left: 1px solid var(--app-border-color-table-row-left); }
     border-bottom: 1px solid var(--app-border-color-table-row-bottom);
     transition: all ease-in-out 0.1s;
     min-height: 32px !important;
     position: relative;
     height: max-content;
     background-color: var(--app-background-color-table-row);
-
-    &:hover {
-      background: var(--app-background-table-hover-header-color) !important;
-    }
-
-    &.zebra {
-      background-color: var(--app-background-table-zebra-color) !important;
-    }
+    &:hover { background: var(--app-background-table-hover-header-color) !important; }
+    &.zebra { background-color: var(--app-background-table-zebra-color) !important; }
   }
 
   // Cell styles
@@ -81,11 +63,8 @@ elix-table {
     padding: 0.5rem 0.75rem;
     background-color: var(--app-background-color-table-cell);
 
-    .column-text__edit,
-    .column-number__edit,
-    .p-dropdown {
-      .p-inputtext,
-      .p-dropdown-label.p-inputtext {
+    .column-text__edit, .column-number__edit, .p-dropdown {
+      .p-inputtext, .p-dropdown-label.p-inputtext {
         border: 1px solid var(--primary-border-color);
         box-shadow: var(--app-shadow-input-focus);
         padding: 0.25rem 0.5rem;
@@ -100,7 +79,6 @@ elix-table {
       border: 1px solid var(--primary-border-color);
       padding: 0.25rem 0.5rem;
       box-sizing: border-box;
-
       &:focus-visible {
         outline: none;
         border: 1px solid var(--primary-color-input);
@@ -119,17 +97,15 @@ elix-table {
     background-color: var(--app-background-color-table-footer);
     border-top: 1px solid var(--app-border-color-table-footer);
   }
-
   .p-datatable-tfoot > tr > td {
     text-align: left;
     padding: 0.5rem 0.75rem;
     color: var(--app-text-color);
   }
 
-  // Extensible row detail styles
+  // Detail row
   .example-detail-row {
     min-height: 0 !important;
-
     td {
       min-height: inherit;
       display: flex !important;
@@ -138,55 +114,49 @@ elix-table {
     }
   }
 
+  // Paginator
   .mat-mdc-paginator {
     background: var(--app-paginator-background);
     color: var(--app-paginator-text-color);
-
-    .p-paginator-left-content,
-    .p-paginator-right-content {
+    .p-paginator-left-content, .p-paginator-right-content {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .p-paginator-pages {
-      .p-paginator-page {
-        min-width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 0.25rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        color: var(--app-paginator-page-color);
-        background-color: var(--app-paginator-page-background);
-        border: 1px solid transparent;
-
-        &:not(.p-highlight):hover {
-          background-color: var(--app-paginator-page-hover-background);
-          color: var(--app-paginator-page-hover-color);
-        }
-
-        &.p-highlight {
-          background-color: var(--app-paginator-active-page-background);
-          color: var(--app-paginator-active-page-color);
-          font-weight: bold;
-          border-color: var(--app-paginator-active-page-border-color);
-        }
+    // Pages
+    .p-paginator-pages .p-paginator-page {
+      min-width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--app-paginator-page-color);
+      background-color: var(--app-paginator-page-background);
+      border: 1px solid transparent;
+      &:not(.p-highlight):hover {
+        background-color: var(--app-paginator-page-hover-background);
+        color: var(--app-paginator-page-hover-color);
+      }
+      &.p-highlight {
+        background-color: var(--app-paginator-active-page-background);
+        color: var(--app-paginator-active-page-color);
+        font-weight: bold;
+        border-color: var(--app-paginator-active-page-border-color);
       }
     }
-
     
+    // Navigation
     .mat-mdc-paginator-navigation-previous,
     .p-paginator-prev,
     .mat-mdc-paginator-navigation-next,
     .p-paginator-last,
-    .mat-mdc-select-value
-   {
+    .mat-mdc-select-value {
       color: var(--app-paginator-icon-color);
-      
       min-width: 2rem;
       height: 2rem;
       border-radius: 50%;
@@ -195,59 +165,47 @@ elix-table {
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s ease;
-
       &:not(.p-disabled):hover {
         background-color: var(--app-paginator-icon-hover-background);
         color: var(--app-paginator-icon-hover-color);
       }
-      svg{
-        fill: var(--app-paginator-icon-color);
-      }
+      svg { fill: var(--app-paginator-icon-color); }
       &.mat-mdc-button-disabled {
         opacity: 0.6;
         cursor: not-allowed;
-        color: var(--app-paginator-dropdown-item-hover-background);      }
+        color: var(--app-paginator-dropdown-item-hover-background);
+      }
     }
 
     .cdk-overlay-pane {
-
       background-color: var(--app-paginator-dropdown-background);
-      color: var(--app-paginator-dropdown-text-color); // This variable must be a light color!
+      color: var(--app-paginator-dropdown-text-color);
       border: 1px solid var(--app-paginator-dropdown-border-color);
       border-radius: var(--app-paginator-dropdown-border-radius);
       padding: 0.25rem 0.5rem;
-      min-height: 1.95rem; /* Ensure consistent height with other inputs */
-      display: flex; /* Allow content to align */
-      align-items: center; /* Vertically center content */
-
+      min-height: 1.95rem;
+      display: flex;
+      align-items: center;
     }
   }
 
-  // PRIME NG DROPDOWN PANEL STYLES (for page size options)
+  // Dropdown panel
   .p-dropdown-panel {
     background-color: var(--app-paginator-dropdown-panel-background);
     border: 1px solid var(--app-paginator-dropdown-panel-border-color);
     border-radius: var(--app-paginator-dropdown-panel-border-radius);
     box-shadow: var(--app-shadow-medium);
-    z-index: 9999 !important; /* Try a very high value */
-
-    .p-dropdown-items-wrapper {
-      // This is where you might set max-height and overflow if the list is long
-      // max-height: 150px;
-      // overflow-y: auto;
-    }
-
+    z-index: 9999 !important;
+    
     .p-dropdown-item {
       color: var(--app-paginator-dropdown-item-color);
       padding: 0.5rem 1rem;
       cursor: pointer;
       transition: background-color 0.2s ease, color 0.2s ease;
-
       &:not(.p-highlight):hover {
         background-color: var(--app-paginator-dropdown-item-hover-background);
         color: var(--app-paginator-dropdown-item-hover-color);
       }
-
       &.p-highlight {
         background-color: var(--app-paginator-dropdown-item-active-background);
         color: var(--app-paginator-dropdown-item-active-color);
@@ -256,11 +214,8 @@ elix-table {
     }
   }
 
-  // CDK Drag and Drop styles (should remain fine)
-  .cdk-drop-list-dragging .cdk-drag {
-    transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
-  }
-
+  // Drag and drop
+  .cdk-drop-list-dragging .cdk-drag { transition: transform 350ms cubic-bezier(0, 0, 0.2, 1); }
   .cdk-drag-preview {
     z-index: 200;
     background-color: var(--app-background-color-cdk-drag-preview);
@@ -271,29 +226,23 @@ elix-table {
     align-items: center;
     padding-left: 0.75rem;
   }
+  .cdk-drag-animating { transition: transform 350ms cubic-bezier(0, 0, 0.2, 1); }
 
-  .cdk-drag-animating {
-    transition: transform 350ms cubic-bezier(0, 0, 0.2, 1);
-  }
-
-  // New Entry Button styles (should remain fine)
+  // New entry button
   .new {
     display: flex;
     align-items: center;
     padding: 1rem 0 1rem 0.5rem;
     cursor: pointer;
-
     &-entry {
       color: var(--app-text-color-dark) !important;
       padding-right: 0.5rem;
       font-size: 1.5rem;
     }
-
     p {
       color: var(--app-text-color-dark) !important;
       margin: 0;
     }
   }
 }
-
 
