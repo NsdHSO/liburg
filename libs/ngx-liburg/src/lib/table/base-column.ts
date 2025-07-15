@@ -6,31 +6,66 @@ import { Component, Input, TemplateRef } from '@angular/core';
 })
 export abstract class BaseColumn {
   // PrimeNG does not use MatColumnDef, but we keep 'field' and 'name'
-  @Input()
-  public name: string = ''; // Display name for the column header
 
+  /**
+   * @description Display name for the column header.
+   */
   @Input()
-  public field: string = ''; // The data property name
+  public name: string = '';
 
+
+  /**
+   * @description The data property name for this column.
+   */
   @Input()
-  public className: string = ''; // CSS class for the column
+  public field: string = '';
 
+
+  /**
+   * @description CSS class for the column.
+   */
   @Input()
-  public iconClass: string = ''; // For action columns or icons in headers
+  public className: string = '';
 
+
+  /**
+   * @description CSS class for icons in action columns or headers.
+   */
   @Input()
-  public editRow: boolean = false; // Flag for editable rows
+  public iconClass: string = '';
 
+
+  /**
+   * @description Flag indicating if the row is editable.
+   */
   @Input()
-  public footerMessage: string | number | null = null; // Message for the footer cell
+  public editRow: boolean = false;
 
-  // New: TemplateRefs for PrimeNG column definitions
+
+  /**
+   * @description Message to display in the footer cell for this column.
+   */
+  @Input()
+  public footerMessage: string | number | null = null;
+
+
+  /**
+   * @description Template reference for the column header.
+   */
   @Input()
   public headerTemplate?: TemplateRef<any>;
 
+
+  /**
+   * @description Template reference for the column body.
+   */
   @Input()
   public bodyTemplate?: TemplateRef<any>;
 
+
+  /**
+   * @description Template reference for the column footer.
+   */
   @Input()
   public footerTemplate?: TemplateRef<any>;
 }

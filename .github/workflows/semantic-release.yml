@@ -120,22 +120,47 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
-      - name: Get current version from package.json
+      - name: Get current version from package.json and increment patch version
         id: get_version
-        run: echo "version=$(node -p "require('./libs/ngx-liburg/package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Semantic Release for ngx-liburg
+        run: |
+          CURRENT_VERSION=$(node -p "require('./libs/ngx-liburg/package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into major.minor.patch
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          echo "New version will be: $NEW_VERSION"
+          
+          # Update the package.json with the new version
+          node -e "const pkg = require('./libs/ngx-liburg/package.json'); pkg.version = '$NEW_VERSION'; require('fs').writeFileSync('./libs/ngx-liburg/package.json', JSON.stringify(pkg, null, 2));"
+          
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Build library with new version
+        run: pnpm nx build ngx-liburg --configuration=production
+      
+      - name: Publish to npm
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode with version ${{ steps.get_version.outputs.version }}"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg --initial-version=${{ steps.get_version.outputs.version }}
+            echo "Dry run: Would publish ngx-liburg version ${{ steps.get_version.outputs.version }} to npm"
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg --initial-version=${{ steps.get_version.outputs.version }}
+            cd dist/libs/ngx-liburg
+            npm publish
           fi
+      
+      - name: Commit version changes back to the repository
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git add libs/ngx-liburg/package.json
+          git commit -m "chore(release): bump ngx-liburg version to ${{ steps.get_version.outputs.version }} [skip ci]"
+          git tag -a "ngx-liburg-v${{ steps.get_version.outputs.version }}" -m "Release ngx-liburg v${{ steps.get_version.outputs.version }}"
+          git push
+          git push --tags
 
   release_ngx_liburg_icon:
     needs: analyze_commits
@@ -209,22 +234,47 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
-      - name: Get current version from package.json for ngx-liburg-icon
+      - name: Get current version from package.json and increment patch version for ngx-liburg-icon
         id: get_icon_version
-        run: echo "version=$(node -p "require('./libs/ngx-liburg-icon/package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Semantic Release for ngx-liburg-icon
+        run: |
+          CURRENT_VERSION=$(node -p "require('./libs/ngx-liburg-icon/package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into major.minor.patch
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          echo "New version will be: $NEW_VERSION"
+          
+          # Update the package.json with the new version
+          node -e "const pkg = require('./libs/ngx-liburg-icon/package.json'); pkg.version = '$NEW_VERSION'; require('fs').writeFileSync('./libs/ngx-liburg-icon/package.json', JSON.stringify(pkg, null, 2));"
+          
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Build library with new version for ngx-liburg-icon
+        run: pnpm nx build ngx-liburg-icon --configuration=production
+      
+      - name: Publish ngx-liburg-icon to npm
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode with version ${{ steps.get_icon_version.outputs.version }}"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon --initial-version=${{ steps.get_icon_version.outputs.version }}
+            echo "Dry run: Would publish ngx-liburg-icon version ${{ steps.get_icon_version.outputs.version }} to npm"
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon --initial-version=${{ steps.get_icon_version.outputs.version }}
+            cd dist/libs/ngx-liburg-icon
+            npm publish
           fi
+      
+      - name: Commit version changes back to the repository for ngx-liburg-icon
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git add libs/ngx-liburg-icon/package.json
+          git commit -m "chore(release): bump ngx-liburg-icon version to ${{ steps.get_icon_version.outputs.version }} [skip ci]"
+          git tag -a "ngx-liburg-icon-v${{ steps.get_icon_version.outputs.version }}" -m "Release ngx-liburg-icon v${{ steps.get_icon_version.outputs.version }}"
+          git push
+          git push --tags
 
   release_ngx_liburg_frame_side:
     needs: analyze_commits
@@ -298,19 +348,44 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
-      - name: Get current version from package.json for ngx-liburg-frame-side
+      - name: Get current version from package.json and increment patch version for ngx-liburg-frame-side
         id: get_frame_version
-        run: echo "version=$(node -p "require('./libs/ngx-liburg-frame-side/package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Semantic Release for ngx-liburg-frame-side
+        run: |
+          CURRENT_VERSION=$(node -p "require('./libs/ngx-liburg-frame-side/package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into major.minor.patch
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          echo "New version will be: $NEW_VERSION"
+          
+          # Update the package.json with the new version
+          node -e "const pkg = require('./libs/ngx-liburg-frame-side/package.json'); pkg.version = '$NEW_VERSION'; require('fs').writeFileSync('./libs/ngx-liburg-frame-side/package.json', JSON.stringify(pkg, null, 2));"
+          
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Build library with new version for ngx-liburg-frame-side
+        run: pnpm nx build ngx-liburg-frame-side --configuration=production
+      
+      - name: Publish ngx-liburg-frame-side to npm
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode with version ${{ steps.get_frame_version.outputs.version }}"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side --initial-version=${{ steps.get_frame_version.outputs.version }}
+            echo "Dry run: Would publish ngx-liburg-frame-side version ${{ steps.get_frame_version.outputs.version }} to npm"
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side --initial-version=${{ steps.get_frame_version.outputs.version }}
+            cd dist/libs/ngx-liburg-frame-side
+            npm publish
           fi
+      
+      - name: Commit version changes back to the repository for ngx-liburg-frame-side
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git add libs/ngx-liburg-frame-side/package.json
+          git commit -m "chore(release): bump ngx-liburg-frame-side version to ${{ steps.get_frame_version.outputs.version }} [skip ci]"
+          git tag -a "ngx-liburg-frame-side-v${{ steps.get_frame_version.outputs.version }}" -m "Release ngx-liburg-frame-side v${{ steps.get_frame_version.outputs.version }}"
+          git push
+          git push --tags
