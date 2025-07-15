@@ -1,5 +1,5 @@
 {
-  "branches": ["main"],
+  "branches": ["master"],
   "tagFormat": "ngx-liburg-v${version}",
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -11,7 +11,7 @@
       "pkgRoot": "dist/libs/ngx-liburg"
     }],
     ["@semantic-release/git", {
-      "assets": ["package.json", "CHANGELOG.md", "dist/libs/ngx-liburg/**"],
+      "assets": ["package.json", "CHANGELOG.md"],
       "message": "chore(release): ngx-liburg ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     }],
     "@semantic-release/github"

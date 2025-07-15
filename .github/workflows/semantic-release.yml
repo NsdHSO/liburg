@@ -123,9 +123,9 @@ jobs:
           cd libs/ngx-liburg
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run
+            semantic-release --dry-run --no-ci
           else
-            semantic-release
+            semantic-release --no-ci
           fi
 
   release_ngx_liburg_icon:
@@ -203,9 +203,9 @@ jobs:
           cd libs/ngx-liburg-icon
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run
+            semantic-release --dry-run --no-ci
           else
-            semantic-release
+            semantic-release --no-ci
           fi
 
   release_ngx_liburg_frame_side:
@@ -283,7 +283,7 @@ jobs:
           cd libs/ngx-liburg-frame-side
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run
+            semantic-release --dry-run --no-ci
           else
-            semantic-release
+            semantic-release --no-ci
           fi
