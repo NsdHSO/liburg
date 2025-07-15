@@ -1,0 +1,19 @@
+{
+  "branches": ["main"],
+  "tagFormat": "ngx-liburg-icon-v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/changelog", {
+      "changelogFile": "CHANGELOG.md"
+    }],
+    ["@semantic-release/npm", {
+      "pkgRoot": "dist/libs/ngx-liburg-icon"
+    }],
+    ["@semantic-release/git", {
+      "assets": ["package.json", "CHANGELOG.md", "dist/libs/ngx-liburg-icon/**"],
+      "message": "chore(release): ngx-liburg-icon ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }],
+    "@semantic-release/github"
+  ]
+}
