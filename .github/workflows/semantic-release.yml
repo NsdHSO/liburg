@@ -90,6 +90,7 @@ jobs:
           {
             "branches": ["master"],
             "tagFormat": "ngx-liburg-v${version}",
+            "dryRun": false,
             "plugins": [
               "@semantic-release/commit-analyzer",
               "@semantic-release/release-notes-generator",
@@ -119,6 +120,10 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
+      - name: Get current version from package.json
+        id: get_version
+        run: echo "version=$(node -p "require('./libs/ngx-liburg/package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Semantic Release for ngx-liburg
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -126,10 +131,10 @@ jobs:
         run: |
           # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg
+            echo "Running in dry-run mode with version ${{ steps.get_version.outputs.version }}"
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg --initial-version=${{ steps.get_version.outputs.version }}
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg --initial-version=${{ steps.get_version.outputs.version }}
           fi
 
   release_ngx_liburg_icon:
@@ -174,6 +179,7 @@ jobs:
           {
             "branches": ["master"],
             "tagFormat": "ngx-liburg-icon-v${version}",
+            "dryRun": false,
             "plugins": [
               "@semantic-release/commit-analyzer",
               "@semantic-release/release-notes-generator",
@@ -203,6 +209,10 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
+      - name: Get current version from package.json for ngx-liburg-icon
+        id: get_icon_version
+        run: echo "version=$(node -p "require('./libs/ngx-liburg-icon/package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Semantic Release for ngx-liburg-icon
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -210,10 +220,10 @@ jobs:
         run: |
           # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon
+            echo "Running in dry-run mode with version ${{ steps.get_icon_version.outputs.version }}"
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon --initial-version=${{ steps.get_icon_version.outputs.version }}
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon --initial-version=${{ steps.get_icon_version.outputs.version }}
           fi
 
   release_ngx_liburg_frame_side:
@@ -258,6 +268,7 @@ jobs:
           {
             "branches": ["master"],
             "tagFormat": "ngx-liburg-frame-side-v${version}",
+            "dryRun": false,
             "plugins": [
               "@semantic-release/commit-analyzer",
               "@semantic-release/release-notes-generator",
@@ -287,6 +298,10 @@ jobs:
         run: |
           pnpm add -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/github
       
+      - name: Get current version from package.json for ngx-liburg-frame-side
+        id: get_frame_version
+        run: echo "version=$(node -p "require('./libs/ngx-liburg-frame-side/package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Semantic Release for ngx-liburg-frame-side
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -294,8 +309,8 @@ jobs:
         run: |
           # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
-            echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side
+            echo "Running in dry-run mode with version ${{ steps.get_frame_version.outputs.version }}"
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side --initial-version=${{ steps.get_frame_version.outputs.version }}
           else
-            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side --initial-version=${{ steps.get_frame_version.outputs.version }}
           fi
