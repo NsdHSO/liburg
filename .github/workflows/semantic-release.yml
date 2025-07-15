@@ -103,7 +103,11 @@ jobs:
                 "assets": ["libs/ngx-liburg/package.json", "libs/ngx-liburg/CHANGELOG.md"],
                 "message": "chore(release): ngx-liburg ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
               }],
-              "@semantic-release/github"
+              ["@semantic-release/github", {
+                "successComment": false,
+                "failComment": false,
+                "releasedLabels": false
+              }]
             ]
           }
           EOF
@@ -183,7 +187,11 @@ jobs:
                 "assets": ["libs/ngx-liburg-icon/package.json", "libs/ngx-liburg-icon/CHANGELOG.md"],
                 "message": "chore(release): ngx-liburg-icon ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
               }],
-              "@semantic-release/github"
+              ["@semantic-release/github", {
+                "successComment": false,
+                "failComment": false,
+                "releasedLabels": false
+              }]
             ]
           }
           EOF
@@ -263,7 +271,11 @@ jobs:
                 "assets": ["libs/ngx-liburg-frame-side/package.json", "libs/ngx-liburg-frame-side/CHANGELOG.md"],
                 "message": "chore(release): ngx-liburg-frame-side ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
               }],
-              "@semantic-release/github"
+              ["@semantic-release/github", {
+                "successComment": false,
+                "failComment": false,
+                "releasedLabels": false
+              }]
             ]
           }
           EOF
