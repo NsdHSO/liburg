@@ -1,0 +1,14 @@
+// Active state styles
+.active {
+  background-color: red;
+  border-radius: 2rem;
+
+  &:hover {
+    border-radius: 0;
+  }
+
+  sidenav-nav__item__link__icon,
+  sidenav-nav__item__link__text {
+    color: red;
+  }
+}

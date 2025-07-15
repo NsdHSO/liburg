@@ -1,0 +1,22 @@
+// Footer styles
+.p-datatable-tfoot > tr {
+  background-color: var(--app-background-color-table-footer);
+  border-top: 1px solid var(--app-border-color-table-footer);
+}
+
+.p-datatable-tfoot > tr > td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  color: var(--app-text-color);
+}
+
+// Extensible row detail styles
+.example-detail-row {
+  min-height: 0 !important;
+  td {
+    min-height: inherit;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 0;
+  }
+}

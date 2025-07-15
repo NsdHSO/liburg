@@ -1,0 +1,30 @@
+// Header styles
+.p-datatable-thead > tr {
+  &.header-color {
+    z-index: 99 !important;
+    background: var(--app-background-table-color) !important;
+    min-height: 1.5rem;
+  }
+  > th {
+    text-align: center;
+    vertical-align: middle;
+    height: 2rem !important;
+    color: var(--app-text-color) !important;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--app-background-table-header-cell);
+    border-color: var(--app-border-color-table-header);
+    
+    .p-column-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      width: 100%;
+    }
+    
+    &.p-datatable-sortable-column:not(.p-datatable-column-sorted):hover {
+      background: var(--app-datatable-header-cell-hover-background) !important;
+      color: var(--app-datatable-header-cell-hover-color) !important;
+    }
+  }
+}

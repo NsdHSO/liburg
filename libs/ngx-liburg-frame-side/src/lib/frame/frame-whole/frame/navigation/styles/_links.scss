@@ -1,0 +1,70 @@
+// Navigation link styles
+.sidenav-nav__item__link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  color: antiquewhite;
+  text-decoration: none;
+  transition: all .4s ease;
+  margin-right: 1.5rem;
+
+  &__icon {
+    display: flex;
+    font-size: 2rem;
+    width: 3rem;
+    min-width: 2rem;
+    margin: 0.2rem;
+    text-align: center;
+    justify-content: center;
+
+    mat-icon {
+      display: flex;
+    }
+  }
+
+  &__text {
+    margin-left: 1.5rem;
+    overflow: hidden;
+  }
+
+  &:hover {
+    background: rgb(43, 68, 76);
+  }
+}
+
+// Sub-router links
+.sidenav-nav__item__link__sub-router {
+  height: auto;
+  display: flex;
+  align-items: center;
+  color: antiquewhite;
+  text-decoration: none;
+  transition: all .4s ease;
+
+  &-r {
+    &:not(:focus) {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    &:hover {
+      background: rgb(125, 171, 183);
+    }
+  }
+
+  &-item {
+    margin-left: 1rem;
+
+    &:not(:visited) {
+      margin: 0.5rem 0.5rem 0.5rem 1rem;
+      width: 100%;
+    }
+  }
+
+  .sidenav-nav__item__link__text {
+    &:not(:focus) {
+      overflow: hidden;
+    }
+  }
+}

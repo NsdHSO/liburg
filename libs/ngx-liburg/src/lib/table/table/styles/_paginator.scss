@@ -1,0 +1,99 @@
+// Paginator styles
+.mat-mdc-paginator {
+  background: var(--app-paginator-background);
+  color: var(--app-paginator-text-color);
+  .p-paginator-left-content, .p-paginator-right-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  // Pages
+  .p-paginator-pages .p-paginator-page {
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--app-paginator-page-color);
+    background-color: var(--app-paginator-page-background);
+    border: 1px solid transparent;
+    :not(.p-highlight):hover {
+      background-color: var(--app-paginator-page-hover-background);
+      color: var(--app-paginator-page-hover-color);
+    }
+    .p-highlight {
+      background-color: var(--app-paginator-active-page-background);
+      color: var(--app-paginator-active-page-color);
+      font-weight: bold;
+      border-color: var(--app-paginator-active-page-border-color);
+    }
+  }
+  
+  // Navigation
+  .mat-mdc-paginator-navigation-previous,
+  .p-paginator-prev,
+  .mat-mdc-paginator-navigation-next,
+  .p-paginator-last,
+  .mat-mdc-select-value {
+    color: var(--app-paginator-icon-color);
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    :not(.p-disabled):hover {
+      background-color: var(--app-paginator-icon-hover-background);
+      color: var(--app-paginator-icon-hover-color);
+    }
+    svg { fill: var(--app-paginator-icon-color); }
+    .mat-mdc-button-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: var(--app-paginator-dropdown-item-hover-background);
+    }
+  }
+
+  .cdk-overlay-pane {
+    background-color: var(--app-paginator-dropdown-background);
+    color: var(--app-paginator-dropdown-text-color);
+    border: 1px solid var(--app-paginator-dropdown-border-color);
+    border-radius: var(--app-paginator-dropdown-border-radius);
+    padding: 0.25rem 0.5rem;
+    min-height: 1.95rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Dropdown panel
+.p-dropdown-panel {
+  background-color: var(--app-paginator-dropdown-panel-background);
+  border: 1px solid var(--app-paginator-dropdown-panel-border-color);
+  border-radius: var(--app-paginator-dropdown-panel-border-radius);
+  box-shadow: var(--app-shadow-medium);
+  z-index: 9999 !important;
+  
+  .p-dropdown-item {
+    color: var(--app-paginator-dropdown-item-color);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    :not(.p-highlight):hover {
+      background-color: var(--app-paginator-dropdown-item-hover-background);
+      color: var(--app-paginator-dropdown-item-hover-color);
+    }
+    .p-highlight {
+      background-color: var(--app-paginator-dropdown-item-active-background);
+      color: var(--app-paginator-dropdown-item-active-color);
+      font-weight: bold;
+    }
+  }
+}

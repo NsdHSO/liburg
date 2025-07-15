@@ -1,0 +1,40 @@
+// Cell styles
+.p-datatable-tbody > tr > td {
+  text-align: center;
+  vertical-align: middle;
+  justify-content: flex-start;
+  position: relative;
+  min-height: 1rem;
+  color: var(--app-text-color-dark);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--app-background-color-table-cell);
+
+  .column-text__edit, .column-number__edit, .p-dropdown {
+    .p-inputtext, .p-dropdown-label.p-inputtext {
+      border: 1px solid var(--primary-border-color);
+      box-shadow: var(--app-shadow-input-focus);
+      padding: 0.25rem 0.5rem;
+      min-height: 1.95rem;
+      box-sizing: border-box;
+    }
+  }
+
+  textarea {
+    background: inherit;
+    height: 1.95rem;
+    border: 1px solid var(--primary-border-color);
+    padding: 0.25rem 0.5rem;
+    box-sizing: border-box;
+    
+    &:focus-visible {
+      outline: none;
+      border: 1px solid var(--primary-color-input);
+      box-shadow: var(--app-shadow-input-focus-visible);
+    }
+  }
+
+  button {
+    padding: 0 !important;
+    min-width: auto !important;
+  }
+}

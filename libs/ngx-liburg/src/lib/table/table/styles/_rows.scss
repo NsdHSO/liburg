@@ -1,0 +1,20 @@
+// Row styles
+.p-datatable-tbody > tr {
+  &.header-border-left { 
+    border-left: 1px solid var(--app-border-color-table-row-left); 
+  }
+  border-bottom: 1px solid var(--app-border-color-table-row-bottom);
+  transition: all ease-in-out 0.1s;
+  min-height: 32px !important;
+  position: relative;
+  height: max-content;
+  background-color: var(--app-background-color-table-row);
+  
+  &:hover { 
+    background: var(--app-background-table-hover-header-color) !important; 
+  }
+  
+  &.zebra { 
+    background-color: var(--app-background-table-zebra-color) !important; 
+  }
+}

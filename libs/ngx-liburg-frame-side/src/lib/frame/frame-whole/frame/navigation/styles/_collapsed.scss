@@ -1,0 +1,24 @@
+// Collapsed state styles
+.sidenav-nav-item__collapsed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .sidenav-nav__item__link__text {
+    overflow: hidden;
+  }
+}
+
+.sidenav-nav-item__ne-collapsed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .sidenav-nav__item__link__sub-router-r {
+    width: 100%;
+  }
+
+  .sidenav-nav__item__link__text {
+    overflow: hidden !important;
+  }
+}

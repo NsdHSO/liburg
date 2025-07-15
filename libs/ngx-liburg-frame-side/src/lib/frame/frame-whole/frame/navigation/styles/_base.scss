@@ -1,0 +1,22 @@
+// Base sidenav styles
+.sidenav {
+  background: #263238;
+  transition: all .5s ease;
+  position: fixed;
+  z-index: 111;
+  top: 0;
+  width: 4.5rem;
+  height: 100%;
+
+  &__logo-container { 
+    display: flex;
+    align-content: center;
+    padding: .8rem 0 0 1.2rem;
+    width: 100%;
+    max-width: 4rem;
+  }
+
+  &-collapsed, &:hover {
+    width: 17rem;
+  }
+}

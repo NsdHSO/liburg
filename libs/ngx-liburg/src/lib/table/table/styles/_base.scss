@@ -1,0 +1,11 @@
+// Base table styles
+.p-datatable {
+  border-collapse: collapse;
+  border-radius: 0.5rem;
+  box-shadow: var(--app-shadow-medium);
+  background-color: var(--app-background-color-table-datatable);
+  
+  .p-datatable-wrapper { 
+    overflow: auto; 
+  }
+}
