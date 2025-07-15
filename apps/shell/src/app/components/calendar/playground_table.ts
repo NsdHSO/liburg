@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { NgForOf } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import {
   ColumnIconActionComponent,
@@ -28,8 +28,9 @@ export interface Driver {
     TableComponent,
     ColumnTextComponent,
     ColumnIconActionComponent,
-    JsonPipe,
+    NgForOf,
     MatButton,
+    TableComponent,
   ],
   styles: `
     :host {
@@ -40,6 +41,10 @@ export interface Driver {
   `,
 })
 export default class PlaygroundTableComponent {
+  onPaginationChange($event: any) {
+    console.log('Pagination changed:', $event);
+  }
+
   private router = inject(Router);
 
   dataSource = signal(
@@ -50,7 +55,7 @@ export default class PlaygroundTableComponent {
       return {
         actions: [
           {
-            iconClass: 'fa_solid:d',
+            iconClass: 'fa_solid:crop-simple',
             classCss: 'edit',
             method: (row: Driver) => console.log(row),
           },
@@ -82,6 +87,44 @@ export default class PlaygroundTableComponent {
       } as DataSourceMaterialTable<Driver>;
     })
   );
+
+  test = [
+    {
+      dataSource: signal(
+        this.dataSource().map((item: any) => JSON.parse(JSON.stringify(item)))
+      ),
+      rows: [
+        {
+          className: 'emergency-ic',
+          field: 'fuelType',
+          name: 'Edit Emergency IC',
+        },
+        {
+          className: 'action3',
+          field: 'action2',
+          name: 'Action',
+        },
+      ],
+    },
+    {
+      dataSource: signal(
+        this.dataSource3().map((item: any) => JSON.parse(JSON.stringify(item)))
+      ),
+      rows: [
+        {
+          className: 'emergency-ic',
+          field: 'test',
+          name: 'Edit Emergency IC',
+        },
+        {
+          className: 'action3',
+          field: 'action',
+          name: 'Action',
+        },
+      ],
+    },
+  ];
+
   /**
    * Navigate to load the table-sidebar component in the drawer outlet
    * and open the drawer

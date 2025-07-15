@@ -17,13 +17,15 @@ import { RouterModule } from '@angular/router';
       </mat-nav-list>
     </div>
   `,
-  styles: [`
-    .sidebar-container {
-      padding: 16px;
-    }
-    h2 {
-      margin-bottom: 16px;
-    }
-  `]
+  styles: [
+    `
+      .sidebar-container {
+        padding: 16px;
+      }
+      h2 {
+        margin-bottom: 16px;
+      }
+    `,
+  ],
 })
 export default class DemoSidebarComponent {}

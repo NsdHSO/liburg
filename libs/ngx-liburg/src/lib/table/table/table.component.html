@@ -1,90 +1,112 @@
-<mat-table
-  mat-table
-  [dataSource]="dataSource"
-  multiTemplateDataRows="true"
-  cdkDropList
-  [cdkDropListData]="dataSource"
-  [style.box-shadow]="addedNewEntry ? 'none': ''"
-  (cdkDropListDropped)="drop($event)"
+<p-table
+  [value]="dataSource()"
+  [rows]="pageSize()"
+  [totalRecords]="lengthPagination()"
+  (onPage)="changePage($event)"
+  [rowsPerPageOptions]="pageSizeOptions()"
+  [multiSortMeta]="[]"
+  dataKey="id"
+  styleClass="p-datatable-gridlines"
+  [style.box-shadow]="addedNewEntry() ? 'none' : ''"
 >
-  <ng-content></ng-content>
-  <mat-header-row
-    class="header-color gap-1"
-    mat-header-row
-    *matHeaderRowDef="columnsToDispaly; sticky: true"
-  >
-  </mat-header-row>
-  <mat-row
-    data-test="mat-row-def"
-    mat-row
-    cdkDrag
-    matRipple
-    *matRowDef="let row; columns: columnsToDispaly; let i = index"
-    class="gap-1 header-border-left"
-    [class.zebra]="dataSource.indexOf(row) % 2 === 0 && zebraColor"
-  ></mat-row>
-  <!-- Footer for tabel -->
-  <ng-container *ngIf="footerShow">
-    <mat-footer-row
-      mat-footer-row
-      *matFooterRowDef="columnsToDispaly"
-      [attr.colspan]="1"
-      [class]="footerMessageClass"
-    >
-    </mat-footer-row>
-  </ng-container>
-
-  <!--  Extanble-->
-  <ng-container *ngIf="extensible">
-    <ng-container matColumnDef="extensibleData">
-      <mat-cell
-        *matCellDef="let element"
-        [attr.colspan]="columnsToDispaly.length"
-        class="overflow-hidden"
-      >
-        <div
-          [@detailExpand]="
-            element === (extandble$ | async) ? 'expanded' : 'collapsed'
-          "
-          class="elix__table"
-        >
+  <ng-template pTemplate="header">
+    <tr class="header-color gap-1">
+      @for (col of columnsToDispaly; track col) {
+        <th pSortableColumn="{{ col }}">
           <ng-container
             *ngTemplateOutlet="
-              newElementExtandble;
-              context: { $implicit: element }
-            "
+            getHeaderTemplate(col) || defaultHeaderTemplate;
+            context: { $implicit: col }
+          "
+          ></ng-container>
+          <p-sortIcon [field]="col"></p-sortIcon>
+        </th>
+      }
+      <th
+        *ngIf="extensible() && (extandble$ | async)"
+        class="extensible-header"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template
+    pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr
+      data-test="mat-row-def"
+      [pSelectableRow]="rowData"
+      class="gap-1 header-border-left"
+      [class.zebra]="rowIndex % 2 === 0 && zebraColor()"
+    >
+      @for (col of columnsToDispaly; track col) {
+        <td>
+          <ng-container
+            *ngTemplateOutlet="
+            getBodyTemplate(col) || defaultBodyTemplate;
+            context: { $implicit: rowData, field: col }
+          "
+          ></ng-container>
+        </td>
+      }
+    </tr>
+
+    <tr
+      *ngIf="extensible() && (extandble$ | async) === rowData"
+      class="example-detail-row gap-1 header-border-left"
+    >
+      <td [attr.colspan]="columnsToDispaly.length" class="overflow-hidden">
+        <div
+          [@detailExpand]="(extandble$ | async) ? 'expanded' : 'collapsed'"
+          class="elix__table">
+          <ng-container
+            *ngTemplateOutlet="newElementExtandble(); context: { $implicit: rowData }"
           >
           </ng-container>
         </div>
-      </mat-cell>
-    </ng-container>
+      </td>
+    </tr>
+  </ng-template>
 
-    <mat-row
-      *matRowDef="let row; columns: ['extensibleData']"
-      class="example-detail-row gap-1 header-border-left"
-    ></mat-row>
-  </ng-container>
-</mat-table>
-<ng-container *ngIf="footerAmount">
-  <lib-footer-amount [amount]="totalAmount" [label]="footerLabel" />
+  <ng-template pTemplate="footer">
+    <tr *ngIf="footerShow()">
+      @for (col of columnsToDispaly; track col) {
+        <td>
+          <ng-container
+            *ngTemplateOutlet="
+            getFooterTemplate(col) || defaultFooterTemplate;
+            context: { $implicit: col }
+          "
+          ></ng-container>
+        </td>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #defaultHeaderTemplate let-col>
+    {{ getColumnHeaderName(col) }}
+  </ng-template>
+  <ng-template #defaultBodyTemplate let-element let-field="field">
+    {{ element.model ? element.model[field] : element[field] }}
+  </ng-template>
+  <ng-template #defaultFooterTemplate let-col>
+    {{ getColumnFooterMessage(col) }}
+  </ng-template>
+</p-table>
+@if (showPagination()) {
+  <mat-paginator
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [class]="paginationClass()"
+    (page)="changePage($event)"
+    [length]="lengthPagination()"
+    [pageSizeOptions]="pageSizeOptions()"
+    aria-label="Select page of periodic elements"
+  />
+}
+
+<ng-container *ngIf="footerAmount()">
+  <lib-footer-amount [amount]="totalAmount()" [label]="footerLabel()" />
 </ng-container>
-<div class="new" *ngIf="addedNewEntry" (click)="addNewEntry()">
-  <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"></mat-icon>
-  <div>
+<div class="new" *ngIf="addedNewEntry()" (click)="addNewEntry()">
+  <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"/>
+
     <p>Added new Entry</p>
-  </div>
 </div>
-<mat-paginator
-  [pageSize]="pageSize()"
-  [pageIndex]="pageIndex()"
-  [class]="paginationClass"
-  *ngIf="showPagination"
-  (page)="changePage($event)"
-  [length]="lenghtPagination"
-  [pageSizeOptions]="pageSizeOptions()"
-  aria-label="Select page of periodic elements"
->
-</mat-paginator>
-@if(rotates$ |async){}
-@if(colForLaylout$ |async){}
-@if(colResponse$ |async){}

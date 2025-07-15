@@ -1,35 +1,36 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { MatColumnDef } from '@angular/material/table';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-base',
-  template: '',
+  template: '', // Empty template, as this is an abstract base
 })
 export abstract class BaseColumn {
-  @ViewChild(MatColumnDef)
-  // @ts-ignore
-  public columnDef: MatColumnDef;
+  // PrimeNG does not use MatColumnDef, but we keep 'field' and 'name'
+  @Input()
+  public name: string = ''; // Display name for the column header
 
   @Input()
-  // @ts-ignore
-  public name: string;
+  public field: string = ''; // The data property name
 
   @Input()
-  // @ts-ignore
-  public field: string;
+  public className: string = ''; // CSS class for the column
 
   @Input()
-  // @ts-ignore
-  public className: string;
+  public iconClass: string = ''; // For action columns or icons in headers
 
   @Input()
-  // @ts-ignore
-  public iconClass: string;
+  public editRow: boolean = false; // Flag for editable rows
 
   @Input()
-  public editRow: boolean = false;
+  public footerMessage: string | number | null = null; // Message for the footer cell
+
+  // New: TemplateRefs for PrimeNG column definitions
+  @Input()
+  public headerTemplate?: TemplateRef<any>;
 
   @Input()
-  // @ts-ignore
-  public footerMessage: string | number | null;
+  public bodyTemplate?: TemplateRef<any>;
+
+  @Input()
+  public footerTemplate?: TemplateRef<any>;
 }

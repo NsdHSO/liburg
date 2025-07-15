@@ -1,33 +1,59 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { ColumnRotateService } from '../service/column-rotate.service';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common'; // Import NgFor
+import { ButtonModule } from 'primeng/button'; // For pButton
+import { RippleModule } from 'primeng/ripple'; // For pRipple
+import { ColumnRotateService } from '../service/column-rotate.service'; // Assuming this path
 import { MatIconModule } from '@angular/material/icon';
-import { NgForOf, NgIf } from '@angular/common';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'elix-column-icon-action',
-    templateUrl: './column-icon-action.component.html',
-    styleUrls: ['./column-icon-action.component.scss'],
-    providers: [
-        {
-            provide: BaseColumn,
-            useExisting: ColumnIconActionComponent,
-        },
-    ],
-    imports: [MatTableModule, MatButtonModule, MatIconModule, NgIf, NgForOf]
+  selector: 'elix-column-icon-action',
+  templateUrl: './column-icon-action.component.html',
+  styleUrls: ['./column-icon-action.component.scss'],
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnIconActionComponent,
+    },
+  ],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    CommonModule, // Provides NgIf and NgFor
+    MatButton,
+    MatIconModule,
+  ],
 })
 export class ColumnIconActionComponent extends BaseColumn {
   @Input()
-  iconAction: boolean = false;
+  public iconAction: boolean = false; // Input to control if action buttons are for scrolling
 
-  constructor(private readonly _columnRotate: ColumnRotateService){
-    super();
-  }
+  @Output()
+  public onScrollColumn: EventEmitter<string> = new EventEmitter<string>();
+
+  private readonly _columnRotate = inject(ColumnRotateService); // Inject ColumnRotateService
+
+  // Reference to the templates defined in the HTML
+  @ViewChild('columnActionHeaderTemplate')
+  public override headerTemplate!: TemplateRef<any>;
+
+  @ViewChild('columnActionBodyTemplate')
+  public override bodyTemplate!: TemplateRef<any>;
+
+  @ViewChild('columnActionFooterTemplate')
+  public override footerTemplate!: TemplateRef<any>;
 
   scrollColumn(left: string){
     this._columnRotate.setSide(left)
   }
-
 }

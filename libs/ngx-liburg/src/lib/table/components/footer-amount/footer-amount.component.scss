@@ -5,13 +5,17 @@
   border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.15);
   align-items: center;
 
+
+
   &__label {
+    color: var(--app-text-color-dark);
     margin-left: 5rem;
     flex: 1;
     font-weight: 800;
   }
 
   &__data {
+    color: var(--app-text-color-dark);
     margin-right: 5rem;
     font-weight: normal;
     width: 1rem;

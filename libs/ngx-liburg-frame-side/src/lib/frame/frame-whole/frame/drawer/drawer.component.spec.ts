@@ -8,10 +8,9 @@ describe('DrawerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrawerComponent, NoopAnimationsModule]
-    })
-    .compileComponents();
-    
+      imports: [DrawerComponent, NoopAnimationsModule],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DrawerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -23,10 +22,10 @@ describe('DrawerComponent', () => {
 
   it('should toggle drawer state', () => {
     expect(component.opened).toBeFalsy();
-    
+
     component.toggleDrawer();
     expect(component.opened).toBeTruthy();
-    
+
     component.toggleDrawer();
     expect(component.opened).toBeFalsy();
   });

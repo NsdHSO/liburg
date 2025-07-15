@@ -1,25 +1,27 @@
-<ng-container [matColumnDef]="field">
-  <mat-header-cell [class]="className" mat-header-cell *matHeaderCellDef>
-    {{ name }}
-  </mat-header-cell>
-  <mat-cell [class]="className" mat-cell *matCellDef="let element">
-    <mat-form-field
-      appearance="outline"
+<ng-template #columnNumberHeaderTemplate let-col>
+  <span [class]="className">{{ name }}</span>
+</ng-template>
+
+<ng-template #columnNumberBodyTemplate let-element>
+  <span [class]="className">
+    <div
       *ngIf="element.editable && editRow; else prettyText"
-      class="column-text__edit"
-    >
+      class="column-number__edit p-field">
       <input
+        pInputText
         type="number"
         [(ngModel)]="element.model[field]"
-        matInput
-        (ngModelChange)="changeEntity(element)"
+        class="p-inputtext p-component"
       />
-    </mat-form-field>
+    </div>
     <ng-template #prettyText>
       {{ element.model[field] }}
     </ng-template>
-  </mat-cell>
-  <mat-footer-cell mat-footer-cell *matFooterCellDef="let element">
-      {{(amountFooter| async) | totalAmount}}
-  </mat-footer-cell>
-</ng-container>
+  </span>
+</ng-template>
+
+<ng-template #columnNumberFooterTemplate let-col>
+  <ng-container>
+    {{ (amountFooter | async) | totalAmount }}
+  </ng-container>
+</ng-template>

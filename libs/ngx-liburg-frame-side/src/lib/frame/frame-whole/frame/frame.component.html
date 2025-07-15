@@ -1,7 +1,9 @@
 <div class="frame-content">
-  <liburg-navigation [collapsed]="collapsed" [indexShows]="indexShows" [navData]="navData" [subToggle]="subToggle"
-                     (toggle)="setSubToggle($event)" />
-  <liburg-drawer >
+  <liburg-navigation
+    [collapsed]="collapsed" [indexShows]="indexShows" [navData]="navData"
+    [subToggle]="subToggle"
+    (toggle)="setSubToggle($event)" />
+  <liburg-drawer>
     <div header>
       <ng-content select="[header]"></ng-content>
     </div>

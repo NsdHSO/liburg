@@ -3,11 +3,16 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { GlobalErrorHandleService } from "./icon-core.service";
+import { GlobalErrorHandleService } from './icon-core.service';
 
 @NgModule({
   imports: [HttpClientModule, RouterModule],
-  providers: [{provide: ErrorHandler, useClass: GlobalErrorHandleService}],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandleService,
+    },
+  ],
 })
 export class IconCoreModule {
   constructor(

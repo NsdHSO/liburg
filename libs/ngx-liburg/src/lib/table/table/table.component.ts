@@ -3,49 +3,50 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
+  AfterContentInit,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ContentChildren,
-  EventEmitter, inject, input,
-  Input,
-  OnDestroy,
+  EventEmitter,
+  inject,
+  input,
   Output,
   QueryList,
   TemplateRef,
-  ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatColumnDef, MatTable, MatTableModule } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseColumn } from '../base-column';
-import { ColumnRotateService } from "../columns/service/column-rotate.service";
-import { TableService } from "./table.service";
-import { AsyncPipe, NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { ColumnRotateService } from '../columns/service/column-rotate.service';
+import { TableService } from './table.service';
+import { CommonModule } from '@angular/common';
 import { FooterAmountComponent } from '../components/footer-amount/footer-amount.component';
+
+// PrimeNG Imports
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIcon } from '@angular/material/icon';
 
 export interface IActionMaterialColumn {
   iconClass: string;
-
   classCss: string;
-
   method: (row?: any) => void;
 }
 
 export interface DataSourceMaterialTable<T> {
   model: T;
-
   editable: boolean;
-
   actions: IActionMaterialColumn[];
-
   id?: number;
 }
 
@@ -70,180 +71,92 @@ export interface DataSourceMaterialTable<T> {
     ]),
   ],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
   imports: [
-    MatTableModule,
-    CdkDropList,
-    CdkDrag,
-    AsyncPipe,
+    CommonModule,
+    TableModule,
     MatPaginatorModule,
-    MatIconModule,
-    NgIf,
-    NgTemplateOutlet,
+    ButtonModule,
+    RippleModule,
     FooterAmountComponent,
+    MatIcon,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush, // Consider OnPush for signal-based components
 })
-export class TableComponent<T> implements AfterViewInit {
-  @Input()
-  // @ts-ignore
-  public dataSource: Array<DataSourceMaterialTable<T>>;
-
-  @Input()
-  public extensible: boolean = false;
-
-  @Input()
-  // @ts-ignore
-  public extandble$: BehaviorSubject<DataSourceMaterialTable<T> | null>;
-
-  // Footer
-  @Input()
-  public footerShow: boolean = false;
-
-  // class for footer
-  @Input()
-  public footerMessageClass: string = '';
-
-  @Input()
-  public footerLabel: string = '';
-
-  @Input()
-  public zebraColor: boolean = false;
-
-  @Input()
-  public footerColumn: string = '';
-
-  // new table in row
-  @Input()
-  // @ts-ignore
-  public newElementExtandble: TemplateRef<any>;
-
-  // flag about if we want to show pagination
-  @Input()
-  public showPagination: boolean = false;
-
-  // numberOf Entry
-  @Input()
-  // @ts-ignore
-  public lenghtPagination: number;
-
-  @Input()
-  // @ts-ignore
-  public paginationClass: string;
-
-
-  /**
-   * Is an array of allowed values.
-   */
-  public pageSizeOptions = input([10, 20, 50])
-  /**
-   * Page Size has a default value but can be configured elsewhere.
-   */
-  public pageSize = input(10)
-
-  /**
-   * Page Index sets the current page number.
-   */
-  public pageIndex = input(1)
-
-  /**
-   * TableService instance for managing table state and responsive behavior.
-   */
-  private readonly _tableState = inject(TableService);
-
-  /**
-   * ColumnRotateService instance for handling column rotation logic.
-   */
-  private readonly _columnRotate = inject(ColumnRotateService);
-
-  /**
-   * ChangeDetectorRef instance for triggering change detection.
-   */
-  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
-  /**
-   *
-   */
-  @Input()
-  footerAmount: any = false;
-
-  @Input()
-  public addedNewEntry = false;
+export class TableComponent<T> implements AfterViewInit, AfterContentInit {
+  // Changed @Input() to signal inputs
+  public dataSource = input<Array<DataSourceMaterialTable<T>>>([]);
+  public extensible = input(false);
+  public extandble$: BehaviorSubject<DataSourceMaterialTable<T> | null> =
+    new BehaviorSubject<DataSourceMaterialTable<T> | null>(null); // Keeping as BehaviorSubject for now
+  public footerShow = input(false);
+  public footerMessageClass = input('');
+  public footerLabel = input('');
+  public zebraColor = input(false);
+  public footerColumn = input('');
+  public newElementExtandble = input<TemplateRef<any> | null>(null); // Made required as it seems critical
+  public showPagination = input(false);
+  public lengthPagination = input(0);
+  public paginationClass = input('');
+  public pageSizeOptions = input([10, 20, 50]);
+  public pageSize = input(10);
+  public pageIndex = input(1);
+  public footerAmount = input<any>(false); // Type `any` might need refinement
+  public addedNewEntry = input(false);
 
   @Output() public onAddEntry: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public onPaginationChange: EventEmitter<any> =
+    new EventEmitter<any>();
 
-  @Output() public onPaginationChange: EventEmitter<PageEvent> =
-    new EventEmitter<PageEvent>();
-
-  @Input()
-  filterTooltip: boolean = true;
-  // this is where the magic happens:
-  // @ts-ignore
-  @ViewChild(MatTable, { static: true }) table: MatTable<T>;
-
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  public filterTooltip = input(true);
 
   @ContentChildren(BaseColumn)
   public columnDefs: QueryList<BaseColumn> | any;
+
   public columnsToDispaly: string[] = [];
-  public totalAmount: number = 0;
-  private doubleColumnToDisplay: string[] = [];
-
-  /**
-   * Observable that listens to column rotation events and updates the displayed columns accordingly.
-   * Rotates columns left or right based on the emitted value from the ColumnRotateService.
-   */
-  protected rotates$ = this._columnRotate.rotate$
-    .pipe(
-      tap((side: string) => {
-        if (side.includes('left')) {
-          this.rotateColumn('left');
-        } else {
-          this.rotateColumn('right');
-        }
-      })
-    );
-
-  /**
-   * Observable that listens to layout column changes from the TableService.
-   * Updates the columnsToDispaly array and triggers change detection.
-   */
-  protected colForLaylout$ = this._tableState.columnDisplay$
-    .pipe(
-      tap((columns) => {
-        this.columnsToDispaly = columns;
-        this._changeDetectorRef.detectChanges();
-      })
-    );
-
-  /**
-   * Observable that triggers the responsive column logic in the TableService.
-   * Ensures the table layout adapts to screen size and column configuration.
-   */
-  protected colResponse$ = this._tableState.responsive(
-    this.columnsToDispaly,
-    this.doubleColumnToDisplay
-  );
-
-
-
-  public ngAfterViewInit(): void {
-    this.columnsToDispaly = this.columnDefs.map(
-      (resp: BaseColumn) => resp.columnDef.name
-    );
-    this.columnDefs
-      .map((resp: BaseColumn) => resp.columnDef)
-      .forEach((rep: MatColumnDef) => this.table.addColumnDef(rep));
-    this.totalAmount = this.dataSource
+  public totalAmount = computed(() => {
+    // totalAmount is now a computed signal
+    return this.dataSource()
       .map((column: any) => {
-        return column.model[this.footerColumn];
+        // Access dataSource as a signal here
+        return column.model?.[this.footerColumn()] ?? 0; // Access footerColumn as a signal
       })
       .reduce((acc, value) => acc + value, 0);
+  });
+  private doubleColumnToDisplay: string[] = [];
+
+  private readonly _tableState = inject(TableService);
+  private readonly _columnRotate = inject(ColumnRotateService);
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+
+  protected rotates$ = this._columnRotate.rotate$.pipe(
+    tap((side: string) => {
+      if (side.includes('left')) {
+        this.rotateColumn('left');
+      } else {
+        this.rotateColumn('right');
+      }
+    })
+  );
+
+  protected colForLaylout$ = this._tableState.columnDisplay$.pipe(
+    tap((columns) => {
+      this.columnsToDispaly = columns;
+      this._changeDetectorRef.detectChanges();
+    })
+  );
+
+  ngAfterContentInit(): void {
+    this.columnsToDispaly = this.columnDefs.map(
+      (resp: BaseColumn) => resp.field
+    );
 
     try {
       const duplicate = this.columnsToDispaly.filter(
         (columnDisplay: string, index: number, self: string[]) =>
           index === self.findIndex((value: string) => value === columnDisplay)
       );
-      this.doubleColumnToDisplay = this.columnsToDispaly;
+      this.doubleColumnToDisplay = [...this.columnsToDispaly];
       if (duplicate.length < this.columnsToDispaly.length) {
         throw new Error(
           'You duplicate value what you want to display, Please look in definitions at columns'
@@ -252,7 +165,12 @@ export class TableComponent<T> implements AfterViewInit {
     } catch (err) {
       console.error(err);
     }
-    this._tableState.pushData(this.totalAmount);
+  }
+
+  public ngAfterViewInit(): void {
+    // totalAmount is now a computed signal, so it updates automatically.
+    // We just need to push its current value to the service.
+    this._tableState.pushData(this.totalAmount()); // Call totalAmount as a signal
     this._changeDetectorRef.detectChanges();
   }
 
@@ -260,47 +178,90 @@ export class TableComponent<T> implements AfterViewInit {
     this.onAddEntry.next(true);
   }
 
-  public changePage(event: PageEvent) {
-    this.onPaginationChange.emit(event);
+  public changePage(materialPageEvent: any): void {
+    this.onPaginationChange.emit(materialPageEvent);
   }
 
   public drop(event: CdkDragDrop<Array<DataSourceMaterialTable<T>>>): void {
-    moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
-    this.table.renderRows();
+    moveItemInArray(this.dataSource(), event.previousIndex, event.currentIndex); // Access dataSource as a signal
+    // Note: When moving items in a signal's array, you might need to
+    // explicitly set the signal again if Angular's change detection doesn't pick it up
+    // automatically after moveItemInArray. However, CdkDragDrop usually
+    // works by directly modifying the array reference.
+    // If you encounter issues, you might need: this.dataSource.set([...this.dataSource()]);
   }
 
-  rowOdd(row: DataSourceMaterialTable<T>) {
-    return this.dataSource.indexOf(row);
+  public dropColumn(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(
+      this.columnsToDispaly,
+      event.previousIndex,
+      event.currentIndex
+    );
+    moveItemInArray(
+      this.doubleColumnToDisplay,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  getHeaderTemplate(colField: string): TemplateRef<any> | undefined {
+    const column = this.columnDefs.find(
+      (c: BaseColumn) => c.field === colField
+    );
+    return column?.headerTemplate;
+  }
+
+  getBodyTemplate(colField: string): TemplateRef<any> | undefined {
+    const column = this.columnDefs.find(
+      (c: BaseColumn) => c.field === colField
+    );
+    return column?.bodyTemplate;
+  }
+
+  getFooterTemplate(colField: string): TemplateRef<any> | undefined {
+    const column = this.columnDefs.find(
+      (c: BaseColumn) => c.field === colField
+    );
+    return column?.footerTemplate;
+  }
+
+  getColumnHeaderName(colField: string): string {
+    const column = this.columnDefs.find(
+      (c: BaseColumn) => c.field === colField
+    );
+    return column?.name || colField;
+  }
+
+  getColumnFooterMessage(colField: string): string | number | null {
+    const column = this.columnDefs.find(
+      (c: BaseColumn) => c.field === colField
+    );
+    return column?.footerMessage ?? null;
   }
 
   private rotateColumn(side: string) {
+    if (this.doubleColumnToDisplay.length <= 1) return;
+
     if (side === 'left') {
       this._rotateLeft();
     } else {
       this._rotateRight();
     }
-    this.columnsToDispaly = [
-      ...this.doubleColumnToDisplay.slice(0, this.columnsToDispaly.length - 1),
-      'action',
-    ];
-  }
-
-  private _rotateLeft() {
-    const intermediateColumn = this.doubleColumnToDisplay[0];
-    this.doubleColumnToDisplay.forEach((column, index) => {
-      this.doubleColumnToDisplay[index] = this.doubleColumnToDisplay[index + 1];
-    });
-    this.doubleColumnToDisplay[this.doubleColumnToDisplay.length - 1] =
-      intermediateColumn;
+    this.columnsToDispaly = [...this.doubleColumnToDisplay];
     this._columnRotate.swapColumn(this.doubleColumnToDisplay);
   }
 
-  private _rotateRight() {
-    const intermediateColumn =
-      this.doubleColumnToDisplay[this.doubleColumnToDisplay.length - 2];
-    for (let i = this.doubleColumnToDisplay.length - 2; i > 0; i--) {
-      this.doubleColumnToDisplay[i] = this.doubleColumnToDisplay[i - 1];
+  private _rotateLeft() {
+    const firstColumn = this.doubleColumnToDisplay.shift();
+    if (firstColumn) {
+      this.doubleColumnToDisplay.push(firstColumn);
     }
-    this.doubleColumnToDisplay[0] = intermediateColumn;
+  }
+
+  private _rotateRight() {
+    const lastColumn = this.doubleColumnToDisplay.pop();
+    if (lastColumn) {
+      this.doubleColumnToDisplay.unshift(lastColumn);
+    }
   }
 }

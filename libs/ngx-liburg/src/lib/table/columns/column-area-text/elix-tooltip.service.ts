@@ -6,11 +6,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
+  ConnectedPosition,
   FlexibleConnectedPositionStrategy,
   Overlay,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { ConnectedPosition } from '@angular/cdk/overlay';
 
 export const configOverlay = {
   LEFT: {

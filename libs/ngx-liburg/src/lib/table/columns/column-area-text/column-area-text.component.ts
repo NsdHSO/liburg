@@ -15,22 +15,22 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-    selector: 'elix-column-area-text',
-    templateUrl: './column-area-text.component.html',
-    styleUrls: ['./column-area-text.component.scss'],
-    providers: [
-        {
-            provide: BaseColumn,
-            useExisting: ColumnAreaTextComponent,
-        },
-    ],
-    imports: [
-        MatTableModule,
-        TooltipComponent,
-        NgStyle,
-        FormsModule,
-        MatInputModule,
-    ]
+  selector: 'elix-column-area-text',
+  templateUrl: './column-area-text.component.html',
+  styleUrls: ['./column-area-text.component.scss'],
+  providers: [
+    {
+      provide: BaseColumn,
+      useExisting: ColumnAreaTextComponent,
+    },
+  ],
+  imports: [
+    MatTableModule,
+    TooltipComponent,
+    NgStyle,
+    FormsModule,
+    MatInputModule,
+  ],
 })
 export class ColumnAreaTextComponent extends BaseColumn {
   value: boolean = false;
