@@ -56,20 +56,30 @@ jobs:
           branch: gh-pages  # Corrected branch name
           folder: dist/apps/shell  # Precise folder to deploy
 
-      - name: Generate Version
+      - name: Determine Next Version
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          # Generate a version based on the date and a timestamp
-          DATE=$(date +%Y.%m.%d)
-          TIMESTAMP=$(date +%H%M)
-          VERSION="$DATE-$TIMESTAMP"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          # Get the latest version tag
+          LATEST_TAG=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest" | jq -r .tag_name)
           
+          # If no previous tag exists, start at v1
+          if [[ "$LATEST_TAG" == "null" ]]; then
+            VERSION="v1"
+          else
+            # Extract the version number and increment it
+            CURRENT_VERSION=${LATEST_TAG#v}
+            NEXT_VERSION=$((CURRENT_VERSION + 1))
+            VERSION="v$NEXT_VERSION"
+          fi
+
+          echo "version=$VERSION"  $GITHUB_OUTPUT
       - name: Create Git Tag
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git tag "app-v${{ steps.version.outputs.version }}"
+          git tag "${{ steps.version.outputs.version }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
 
       - name: Create GitHub Release
@@ -77,10 +87,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: "app-v${{ steps.version.outputs.version }}"
-          release_name: "Application Release v${{ steps.version.outputs.version }}"
+          tag_name: "${{ steps.version.outputs.version }}"
+          release_name: "Application Release ${{ steps.version.outputs.version }}"
           body: |
-            ## Application Release v${{ steps.version.outputs.version }}
+            ## Application Release ${{ steps.version.outputs.version }}
             
             This release contains the latest version of the application.
             
