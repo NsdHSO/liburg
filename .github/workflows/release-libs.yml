@@ -152,9 +152,26 @@ jobs:
             git add libs/ngx-liburg/package.json libs/ngx-liburg/CHANGELOG.md
             git commit -m "chore(ngx-liburg): bump version to ${{ steps.bump-version.outputs.new_version }} [${{ steps.bump-version.outputs.increment_type }}]"
             git tag "ngx-liburg-v${{ steps.bump-version.outputs.new_version }}"
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --tags
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
           fi
+
+      - name: Create GitHub Release
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: "ngx-liburg-v${{ steps.bump-version.outputs.new_version }}"
+          release_name: "ngx-liburg v${{ steps.bump-version.outputs.new_version }}"
+          body: |
+            ## ngx-liburg v${{ steps.bump-version.outputs.new_version }}
+            
+            Automated release of ngx-liburg library.
+            
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/master/libs/ngx-liburg/CHANGELOG.md) for details.
+          draft: false
+          prerelease: false
 
   release-ngx-liburg-icon:
     needs: detect-changes
@@ -238,9 +255,24 @@ jobs:
             git add libs/ngx-liburg-icon/package.json
             git commit -m "chore(ngx-liburg-icon): bump version to ${{ steps.bump-version.outputs.new_version }} [${{ steps.bump-version.outputs.increment_type }}]"
             git tag "ngx-liburg-icon-v${{ steps.bump-version.outputs.new_version }}"
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --tags
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
           fi
+
+      - name: Create GitHub Release
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: "ngx-liburg-icon-v${{ steps.bump-version.outputs.new_version }}"
+          release_name: "ngx-liburg-icon v${{ steps.bump-version.outputs.new_version }}"
+          body: |
+            ## ngx-liburg-icon v${{ steps.bump-version.outputs.new_version }}
+            
+            Automated release of ngx-liburg-icon library.
+          draft: false
+          prerelease: false
 
   release-ngx-liburg-frame-side:
     needs: detect-changes
@@ -324,6 +356,21 @@ jobs:
             git add libs/ngx-liburg-frame-side/package.json
             git commit -m "chore(ngx-liburg-frame-side): bump version to ${{ steps.bump-version.outputs.new_version }} [${{ steps.bump-version.outputs.increment_type }}]"
             git tag "ngx-liburg-frame-side-v${{ steps.bump-version.outputs.new_version }}"
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --tags
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+            git push https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git --tags
           fi
+
+      - name: Create GitHub Release
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: "ngx-liburg-frame-side-v${{ steps.bump-version.outputs.new_version }}"
+          release_name: "ngx-liburg-frame-side v${{ steps.bump-version.outputs.new_version }}"
+          body: |
+            ## ngx-liburg-frame-side v${{ steps.bump-version.outputs.new_version }}
+            
+            Automated release of ngx-liburg-frame-side library.
+          draft: false
+          prerelease: false
