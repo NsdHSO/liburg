@@ -101,7 +101,7 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
   public pageSizeOptions = input([10, 20, 50]);
   public pageSize = input(10);
   public pageIndex = input(1);
-  public footerAmount = input<any>(false); // Type `any` might need refinement
+  public footerAmount = input<any>(false); 
   public addedNewEntry = input(false);
 
   @Output() public onAddEntry: EventEmitter<any> = new EventEmitter<any>();
