@@ -120,12 +120,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          cd libs/ngx-liburg
+          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg
           else
-            semantic-release --no-ci --branches master
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg
           fi
 
   release_ngx_liburg_icon:
@@ -200,12 +200,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          cd libs/ngx-liburg-icon
+          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon
           else
-            semantic-release --no-ci --branches master
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-icon
           fi
 
   release_ngx_liburg_frame_side:
@@ -280,10 +280,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          cd libs/ngx-liburg-frame-side
+          # Run semantic-release from the root directory but specify the package.json location
           if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
             echo "Running in dry-run mode"
-            semantic-release --dry-run --no-ci --branches master
+            semantic-release --dry-run --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side
           else
-            semantic-release --no-ci --branches master
+            semantic-release --no-ci --branches master --pkgRoot=libs/ngx-liburg-frame-side
           fi
