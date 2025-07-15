@@ -77,7 +77,7 @@ jobs:
           run_install: false
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Setup Git identity
         run: |
@@ -153,7 +153,7 @@ jobs:
           run_install: false
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Setup Git identity
         run: |
@@ -229,7 +229,7 @@ jobs:
           run_install: false
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Setup Git identity
         run: |
