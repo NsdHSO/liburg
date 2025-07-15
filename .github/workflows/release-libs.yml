@@ -116,7 +116,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add libs/ngx-liburg/package.json libs/ngx-liburg/CHANGELOG.md
           git commit -m "chore: bump ngx-liburg to ${{ steps.bump-version.outputs.new_version }}"
-          git push
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
 
   release-ngx-liburg-icon:
     needs: detect-changes
@@ -177,7 +177,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add libs/ngx-liburg-icon/package.json
           git commit -m "chore: bump ngx-liburg-icon to ${{ steps.bump-version.outputs.new_version }}"
-          git push
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
 
   release-ngx-liburg-frame-side:
     needs: detect-changes
@@ -238,4 +238,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add libs/ngx-liburg-frame-side/package.json
           git commit -m "chore: bump ngx-liburg-frame-side to ${{ steps.bump-version.outputs.new_version }}"
-          git push
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}

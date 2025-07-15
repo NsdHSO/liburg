@@ -1,0 +1,237 @@
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to your main branch name
+  workflow_dispatch:
+
+jobs:
+  analyze_commits:
+    runs-on: ubuntu-latest
+    outputs:
+      has_ngx_liburg_changes: ${{ steps.check_changes.outputs.has_ngx_liburg_changes }}
+      has_ngx_liburg_icon_changes: ${{ steps.check_changes.outputs.has_ngx_liburg_icon_changes }}
+      has_ngx_liburg_frame_side_changes: ${{ steps.check_changes.outputs.has_ngx_liburg_frame_side_changes }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for library changes
+        id: check_changes
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "^libs/ngx-liburg/"; then
+            echo "has_ngx_liburg_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_ngx_liburg_changes=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "^libs/ngx-liburg-icon/"; then
+            echo "has_ngx_liburg_icon_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_ngx_liburg_icon_changes=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "^libs/ngx-liburg-frame-side/"; then
+            echo "has_ngx_liburg_frame_side_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_ngx_liburg_frame_side_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+  release_ngx_liburg:
+    needs: analyze_commits
+    if: ${{ needs.analyze_commits.outputs.has_ngx_liburg_changes == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Setup Git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      
+      - name: Create semantic-release configuration for ngx-liburg
+        run: |
+          cat > libs/ngx-liburg/.releaserc.json << 'EOF'
+          {
+            "branches": ["main"],
+            "tagFormat": "ngx-liburg-v${version}",
+            "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              ["@semantic-release/changelog", {
+                "changelogFile": "CHANGELOG.md"
+              }],
+              ["@semantic-release/npm", {
+                "pkgRoot": "dist/libs/ngx-liburg"
+              }],
+              ["@semantic-release/git", {
+                "assets": ["libs/ngx-liburg/package.json", "libs/ngx-liburg/CHANGELOG.md"],
+                "message": "chore(release): ngx-liburg ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+              }],
+              "@semantic-release/github"
+            ]
+          }
+          EOF
+      
+      - name: Build library
+        run: nx build ngx-liburg --configuration=production
+      
+      - name: Semantic Release for ngx-liburg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd libs/ngx-liburg
+          npx semantic-release
+
+  release_ngx_liburg_icon:
+    needs: analyze_commits
+    if: ${{ needs.analyze_commits.outputs.has_ngx_liburg_icon_changes == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Setup Git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      
+      - name: Create semantic-release configuration for ngx-liburg-icon
+        run: |
+          cat > libs/ngx-liburg-icon/.releaserc.json << 'EOF'
+          {
+            "branches": ["main"],
+            "tagFormat": "ngx-liburg-icon-v${version}",
+            "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              ["@semantic-release/changelog", {
+                "changelogFile": "CHANGELOG.md"
+              }],
+              ["@semantic-release/npm", {
+                "pkgRoot": "dist/libs/ngx-liburg-icon"
+              }],
+              ["@semantic-release/git", {
+                "assets": ["libs/ngx-liburg-icon/package.json", "libs/ngx-liburg-icon/CHANGELOG.md"],
+                "message": "chore(release): ngx-liburg-icon ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+              }],
+              "@semantic-release/github"
+            ]
+          }
+          EOF
+      
+      - name: Build library
+        run: nx build ngx-liburg-icon --configuration=production
+      
+      - name: Semantic Release for ngx-liburg-icon
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd libs/ngx-liburg-icon
+          npx semantic-release
+
+  release_ngx_liburg_frame_side:
+    needs: analyze_commits
+    if: ${{ needs.analyze_commits.outputs.has_ngx_liburg_frame_side_changes == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Setup Git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      
+      - name: Create semantic-release configuration for ngx-liburg-frame-side
+        run: |
+          cat > libs/ngx-liburg-frame-side/.releaserc.json << 'EOF'
+          {
+            "branches": ["main"],
+            "tagFormat": "ngx-liburg-frame-side-v${version}",
+            "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              ["@semantic-release/changelog", {
+                "changelogFile": "CHANGELOG.md"
+              }],
+              ["@semantic-release/npm", {
+                "pkgRoot": "dist/libs/ngx-liburg-frame-side"
+              }],
+              ["@semantic-release/git", {
+                "assets": ["libs/ngx-liburg-frame-side/package.json", "libs/ngx-liburg-frame-side/CHANGELOG.md"],
+                "message": "chore(release): ngx-liburg-frame-side ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+              }],
+              "@semantic-release/github"
+            ]
+          }
+          EOF
+      
+      - name: Build library
+        run: nx build ngx-liburg-frame-side --configuration=production
+      
+      - name: Semantic Release for ngx-liburg-frame-side
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd libs/ngx-liburg-frame-side
+          npx semantic-release
