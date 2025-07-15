@@ -84,24 +84,90 @@ export interface DataSourceMaterialTable<T> {
   changeDetection: ChangeDetectionStrategy.OnPush, // Consider OnPush for signal-based components
 })
 export class TableComponent<T> implements AfterViewInit, AfterContentInit {
-  // Changed @Input() to signal inputs
+  /**
+   * The data to display in the table. Should be an array of DataSourceMaterialTable<T>.
+   */
   public dataSource = input<Array<DataSourceMaterialTable<T>>>([]);
+
+  /**
+   * Enables expandable rows if true.
+   */
   public extensible = input(false);
+
+  /**
+   * Holds the currently expanded row for extensible tables.
+   */
   public extandble$: BehaviorSubject<DataSourceMaterialTable<T> | null> =
-    new BehaviorSubject<DataSourceMaterialTable<T> | null>(null); // Keeping as BehaviorSubject for now
+    new BehaviorSubject<DataSourceMaterialTable<T> | null>(null);
+
+  /**
+   * Show the table footer if true.
+   */
   public footerShow = input(false);
+
+  /**
+   * CSS class for the footer row.
+   */
   public footerMessageClass = input('');
+
+  /**
+   * Label to display in the footer.
+   */
   public footerLabel = input('');
+
+  /**
+   * Enables zebra striping for rows if true.
+   */
   public zebraColor = input(false);
+
+  /**
+   * The field name to use for footer aggregation (e.g., sum).
+   */
   public footerColumn = input('');
-  public newElementExtandble = input<TemplateRef<any> | null>(null); // Made required as it seems critical
+
+  /**
+   * Template for rendering new expandable row content.
+   */
+  public newElementExtandble = input<TemplateRef<any> | null>(null);
+
+  /**
+   * Show pagination controls if true.
+   */
   public showPagination = input(false);
+
+  /**
+   * Total number of records for pagination.
+   */
   public lengthPagination = input(0);
+
+  /**
+   * CSS class for the paginator.
+   */
   public paginationClass = input('');
+
+  /**
+   * Available page size options for the paginator.
+   */
   public pageSizeOptions = input([10, 20, 50]);
+
+  /**
+   * Number of rows per page.
+   */
   public pageSize = input(10);
+
+  /**
+   * Current page index (zero-based).
+   */
   public pageIndex = input(1);
-  public footerAmount = input<any>(false); 
+
+  /**
+   * Show footer amount aggregation if true. Type can be refined as needed.
+   */
+  public footerAmount = input<any>(false);
+
+  /**
+   * Show the "Add new entry" button if true.
+   */
   public addedNewEntry = input(false);
 
   @Output() public onAddEntry: EventEmitter<any> = new EventEmitter<any>();
@@ -174,14 +240,31 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     this._changeDetectorRef.detectChanges();
   }
 
-  public addNewEntry() {
+
+  /**
+   * @description Emits an event to add a new entry to the table.
+   * @return void
+   */
+  public addNewEntry(): void {
     this.onAddEntry.next(true);
   }
 
+
+  /**
+   * @description Emits a pagination change event when the page is changed.
+   * @param materialPageEvent The event object from the paginator.
+   * @return void
+   */
   public changePage(materialPageEvent: any): void {
     this.onPaginationChange.emit(materialPageEvent);
   }
 
+
+  /**
+   * @description Handles row drag-and-drop to reorder table rows.
+   * @param event The drag-and-drop event containing previous and current index.
+   * @return void
+   */
   public drop(event: CdkDragDrop<Array<DataSourceMaterialTable<T>>>): void {
     moveItemInArray(this.dataSource(), event.previousIndex, event.currentIndex); // Access dataSource as a signal
     // Note: When moving items in a signal's array, you might need to
@@ -191,6 +274,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     // If you encounter issues, you might need: this.dataSource.set([...this.dataSource()]);
   }
 
+
+  /**
+   * @description Handles drag-and-drop to reorder table columns.
+   * @param event The drag-and-drop event containing previous and current index.
+   * @return void
+   */
   public dropColumn(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
       this.columnsToDispaly,
@@ -204,6 +293,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     );
   }
 
+
+  /**
+   * @description Returns the header template for a given column field.
+   * @param colField The field name of the column.
+   * @return The header template or undefined if not found.
+   */
   getHeaderTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -211,6 +306,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     return column?.headerTemplate;
   }
 
+
+  /**
+   * @description Returns the body template for a given column field.
+   * @param colField The field name of the column.
+   * @return The body template or undefined if not found.
+   */
   getBodyTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -218,6 +319,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     return column?.bodyTemplate;
   }
 
+
+  /**
+   * @description Returns the footer template for a given column field.
+   * @param colField The field name of the column.
+   * @return The footer template or undefined if not found.
+   */
   getFooterTemplate(colField: string): TemplateRef<any> | undefined {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -225,6 +332,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     return column?.footerTemplate;
   }
 
+
+  /**
+   * @description Returns the display name for a column header.
+   * @param colField The field name of the column.
+   * @return The display name or the field name if not found.
+   */
   getColumnHeaderName(colField: string): string {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
@@ -232,6 +345,12 @@ export class TableComponent<T> implements AfterViewInit, AfterContentInit {
     return column?.name || colField;
   }
 
+
+  /**
+   * @description Returns the footer message for a given column field.
+   * @param colField The field name of the column.
+   * @return The footer message, or null if not found.
+   */
   getColumnFooterMessage(colField: string): string | number | null {
     const column = this.columnDefs.find(
       (c: BaseColumn) => c.field === colField
