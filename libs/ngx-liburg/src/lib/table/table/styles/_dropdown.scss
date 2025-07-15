@@ -1,0 +1,24 @@
+// Dropdown panel styles
+elix-table .p-dropdown-panel {
+  background-color: var(--app-paginator-dropdown-panel-background);
+  border: 1px solid var(--app-paginator-dropdown-panel-border-color);
+  border-radius: var(--app-paginator-dropdown-panel-border-radius);
+  box-shadow: var(--app-shadow-medium);
+  z-index: 9999 !important;
+  
+  .p-dropdown-item {
+    color: var(--app-paginator-dropdown-item-color);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    &:not(.p-highlight):hover {
+      background-color: var(--app-paginator-dropdown-item-hover-background);
+      color: var(--app-paginator-dropdown-item-hover-color);
+    }
+    &.p-highlight {
+      background-color: var(--app-paginator-dropdown-item-active-background);
+      color: var(--app-paginator-dropdown-item-active-color);
+      font-weight: bold;
+    }
+  }
+}

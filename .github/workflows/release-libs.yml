@@ -64,7 +64,7 @@ jobs:
           version: 8
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Bump version
         id: bump-version
@@ -139,7 +139,7 @@ jobs:
           version: 8
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Bump version
         id: bump-version
@@ -200,7 +200,7 @@ jobs:
           version: 8
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       
       - name: Bump version
         id: bump-version

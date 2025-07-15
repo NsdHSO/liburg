@@ -5,9 +5,9 @@
 @use './styles/cells' as cells;
 @use './styles/footer' as footer;
 @use './styles/paginator' as paginator;
+@use './styles/dropdown' as dropdown;
 @use './styles/new-entry' as newentry;
 
 elix-table {
   transition: all 0.5s ease-in;
 }
-
