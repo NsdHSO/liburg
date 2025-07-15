@@ -3,8 +3,15 @@ name: Semantic Release
 on:
   push:
     branches:
-      - master  # Adjust this to your main branch name
+      - main  # Adjust this to your main branch name
+    paths:
+      - 'libs/**'  # Only trigger on changes to library files
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in dry-run mode (no actual releases)'  
+        type: boolean
+        default: false
 
 jobs:
   analyze_commits:
@@ -104,7 +111,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd libs/ngx-liburg
-          npx semantic-release
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            echo "Running in dry-run mode"
+            npx semantic-release --dry-run
+          else
+            npx semantic-release
+          fi
 
   release_ngx_liburg_icon:
     needs: analyze_commits
@@ -169,7 +181,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd libs/ngx-liburg-icon
-          npx semantic-release
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            echo "Running in dry-run mode"
+            npx semantic-release --dry-run
+          else
+            npx semantic-release
+          fi
 
   release_ngx_liburg_frame_side:
     needs: analyze_commits
@@ -234,4 +251,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd libs/ngx-liburg-frame-side
-          npx semantic-release
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            echo "Running in dry-run mode"
+            npx semantic-release --dry-run
+          else
+            npx semantic-release
+          fi

@@ -60,6 +60,49 @@ Nx comes with local caching already built-in (check your `nx.json`). On CI you m
 - [Set up task distribution across multiple machines](https://nx.dev/core-features/distribute-task-execution)
 - [Learn more how to setup CI](https://nx.dev/recipes/ci)
 
+## Library Release Process
+
+This project uses semantic-release to automatically publish library updates based on commit messages.
+
+### Commit Convention
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+**Scopes**: `ngx-liburg`, `ngx-liburg-icon`, `ngx-liburg-frame-side`, `repo`
+
+**Examples**:
+- `feat(ngx-liburg): add new table sorting feature`
+- `fix(ngx-liburg-icon): resolve icon alignment issue`
+
+### Setting Up Locally
+
+Run the setup script to install necessary dependencies:
+
+```bash
+./scripts/setup-semantic-release.sh
+```
+
+### Automated Release Process
+
+When you push to the `main` branch with changes to library files, GitHub Actions will:
+
+1. Detect which libraries have changes
+2. Determine version bumps based on commit messages
+3. Update changelogs and package versions
+4. Publish the libraries to npm
+
+You can also manually trigger a dry run from the GitHub Actions tab.
+
 ## Connect with us!
 
 - [Join the community](https://nx.dev/community)
