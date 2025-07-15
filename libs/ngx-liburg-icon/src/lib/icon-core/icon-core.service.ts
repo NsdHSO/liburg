@@ -4,9 +4,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class GlobalErrorHandleService {
+
+  /**
+   * @description Constructs the GlobalErrorHandleService with dependency injection.
+   * @param _injectable Angular Injector for runtime service resolution.
+   */
   constructor(private _injectable: Injector) {}
 
-  handleError(error: any) {
+
+  /**
+   * @description Handles and logs errors globally, including HTTP and navigation errors.
+   * @param error The error object to handle (can be HttpErrorResponse or any error).
+   * @return void
+   */
+  handleError(error: any): void {
     const routerProperty = this._injectable.get(Router);
     console.warn(`${routerProperty.url}`);
 

@@ -1,13 +1,18 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { GlobalErrorHandleService } from './icon-core.service';
 
+
+/**
+ * @description Angular module that provides icon registry setup and global error handling for the application.
+ */
 @NgModule({
-  imports: [HttpClientModule, RouterModule],
   providers: [
+    provideHttpClient(),
+    provideRouter([]),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandleService,
@@ -15,6 +20,11 @@ import { GlobalErrorHandleService } from './icon-core.service';
   ],
 })
 export class IconCoreModule {
+  /**
+   * @description Registers SVG icon sets for different namespaces using Angular Material's icon registry.
+   * @param _domSanitizer Angular DomSanitizer for safe resource URLs.
+   * @param _matIconRegistry Angular Material icon registry for registering icon sets.
+   */
   constructor(
     private _domSanitizer: DomSanitizer,
     private _matIconRegistry: MatIconRegistry
