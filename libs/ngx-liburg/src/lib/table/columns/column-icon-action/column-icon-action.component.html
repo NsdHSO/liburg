@@ -1,13 +1,13 @@
 <ng-template #columnActionHeaderTemplate let-col>
   <span [class]="className">
-    <ng-container *ngIf="!iconAction">
+    @if (!iconAction) {
       {{ name }}
-    </ng-container>
-    <ng-container *ngIf="iconAction">
+    }
+    @if (iconAction) {
       <button
         mat-button
         (click)="scrollColumn('left')"
-      >
+        >
         <mat-icon
           [svgIcon]="'fa_solid:arrow-left'"
         ></mat-icon>
@@ -15,33 +15,35 @@
       <button
         mat-button
         (click)="scrollColumn('right')"
-      >
+        >
         <mat-icon
           [svgIcon]="'fa_solid:arrow-right'"
         ></mat-icon>
       </button>
-    </ng-container>
+    }
   </span>
 </ng-template>
 
 <ng-template #columnActionBodyTemplate let-element>
   <span [class]="className">
-    <ng-container *ngIf="!iconAction">
-      <ng-container *ngFor="let action of element.actions">
+    @if (!iconAction) {
+      @for (action of element.actions; track action) {
         <button
-        mat-button
+          mat-button
           (click)="action.method(element)"
           [class]="action.classCss"
-        >
-          <mat-icon *ngIf="action.iconClass.startsWith('fa_')" [svgIcon]="action.iconClass"></mat-icon>
-          </button>
-      </ng-container>
-    </ng-container>
+          >
+          @if (action.iconClass.startsWith('fa_')) {
+            <mat-icon [svgIcon]="action.iconClass"></mat-icon>
+          }
+        </button>
+      }
+    }
   </span>
 </ng-template>
 
 <ng-template #columnActionFooterTemplate>
-  <ng-container *ngIf="!iconAction">
+  @if (!iconAction) {
     {{ footerMessage }}
-  </ng-container>
+  }
 </ng-template>

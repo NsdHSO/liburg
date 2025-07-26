@@ -1,4 +1,4 @@
-import { NgForOf } from '@angular/common';
+
 import { Component, inject, signal } from '@angular/core';
 import {
   ColumnIconActionComponent,
@@ -28,10 +28,9 @@ export interface Driver {
     TableComponent,
     ColumnTextComponent,
     ColumnIconActionComponent,
-    NgForOf,
     MatButton,
-    TableComponent,
-  ],
+    TableComponent
+],
   styles: `
     :host {
       h1 {

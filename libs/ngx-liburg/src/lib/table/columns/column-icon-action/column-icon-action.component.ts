@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { CommonModule } from '@angular/common'; // Import NgFor
+ // Import NgFor
 import { ButtonModule } from 'primeng/button'; // For pButton
 import { RippleModule } from 'primeng/ripple'; // For pRipple
 import { ColumnRotateService } from '../service/column-rotate.service'; // Assuming this path
@@ -29,10 +29,9 @@ import { MatButton } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
-    CommonModule, // Provides NgIf and NgFor
     MatButton,
-    MatIconModule,
-  ],
+    MatIconModule
+],
 })
 export class ColumnIconActionComponent extends BaseColumn {
   @Input()

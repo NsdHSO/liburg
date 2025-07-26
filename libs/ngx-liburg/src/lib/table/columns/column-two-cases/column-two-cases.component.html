@@ -4,12 +4,12 @@
   </mat-header-cell>
   <mat-cell [class]="className" mat-cell *matCellDef="let element">
 
-    <mat-slide-toggle
-      *ngIf="element.editable && editRow; else prettyText"
+    @if (element.editable && editRow) {
+      <mat-slide-toggle
       [(ngModel)]="element.model[field]"></mat-slide-toggle>
-    <ng-template #prettyText>
+    } @else {
       {{ element.model[field] }}
-    </ng-template>
+    }
   </mat-cell>
   <mat-footer-cell *matFooterCellDef>
     {{ footerMessage }}

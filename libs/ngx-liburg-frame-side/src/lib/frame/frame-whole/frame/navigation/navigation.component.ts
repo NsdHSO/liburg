@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { FrameService } from '@ngx-liburg-frame-side';
@@ -8,15 +8,13 @@ import { FrameService } from '@ngx-liburg-frame-side';
   selector: 'liburg-navigation',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     RouterLink,
     MatIcon,
     NgClass,
     RouterLink,
     RouterLinkActive,
-    MatIcon,
-  ],
+    MatIcon
+],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })

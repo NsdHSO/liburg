@@ -11,9 +11,9 @@ import {
 import { BaseColumn } from '../../base-column';
 import { DataSourceMaterialTable } from '../../table/table.component'; // Ensure this path is correct
 import { FormsModule } from '@angular/forms'; // For ngModel
-import { CommonModule } from '@angular/common'; // Import CommonModule, NgFor, NgIf
+ // Import CommonModule, NgFor, NgIf
 // PrimeNG Imports
-import { DropdownModule } from 'primeng/dropdown'; // For p-dropdown
+import { SelectModule } from 'primeng/select'; // For p-select
 
 export interface ColumnSelect<T> {
   index: number;
@@ -34,10 +34,9 @@ export interface ColumnSelect<T> {
   encapsulation: ViewEncapsulation.None,
   standalone: true, // Enable standalone component
   imports: [
-    CommonModule, // For NgIf, NgFor
-    FormsModule, // For ngModel
-    DropdownModule, // PrimeNG Dropdown Module
-  ],
+    FormsModule,
+    SelectModule
+],
 })
 export class ColumnSelectComponent<T> extends BaseColumn implements OnInit {
   @Input()

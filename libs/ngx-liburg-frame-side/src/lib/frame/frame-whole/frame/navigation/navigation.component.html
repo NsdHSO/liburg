@@ -3,7 +3,7 @@
     <a
       class="sidenav__logo-container-logo"
       routerLink="/"
-    >
+      >
       <mat-icon
         style="width: 100%;height: 100%"
         [svgIcon]="navData?.iconApp ?  navData?.iconApp : 'fa_solid:1'">
@@ -13,58 +13,62 @@
     <div class="sidenav__logo-container-logo"></div>
   </div>
   <ul class="sidenav-nav">
-    <li
-      class="sidenav-nav__item"
-      *ngFor="let route of navData?.routerDataConfig; let index = index"
-      [routerLinkActive]="'active'">
-      <a
-        [href]="route.path" class="sidenav-nav__item__link"
-        [routerLink]="route.path"
-        *ngIf="!route.subRouter; else multipleRoute">
-        <i class="sidenav-nav__item__link__icon" [class]="route.path">
-          <mat-icon
-            [svgIcon]="route.icon"
-            class="ml-1.5 mr-2.5"
-          ></mat-icon>
-        </i>
-        <span class="sidenav-nav__item__link__text">{{ route.text }}</span>
-      </a>
-      <ng-template #multipleRoute>
-        <div
-          class="sidenav-nav__item__link__sub-router"
-          [ngClass]="subToggle ? 'sidenav-nav-item__collapsed' : 'sidenav-nav-item__ne-collapsed' ">
-          <div
-            class="sidenav-nav__item__link__sub-router-r"
-            (click)="setSubToggle(index)">
+    @for (route of navData?.routerDataConfig; track route; let index = $index) {
+      <li
+        class="sidenav-nav__item"
+        [routerLinkActive]="'active'">
+        @if (!route.subRouter) {
+          <a
+            [href]="route.path" class="sidenav-nav__item__link"
+            [routerLink]="route.path"
+            >
             <i class="sidenav-nav__item__link__icon" [class]="route.path">
               <mat-icon
                 [svgIcon]="route.icon"
+                class="ml-1.5 mr-2.5"
               ></mat-icon>
             </i>
-            <span class="sidenav-nav__item__link__text">
-          {{ route.text }}
-        </span>
-          </div>
+            <span class="sidenav-nav__item__link__text">{{ route.text }}</span>
+          </a>
+        } @else {
           <div
-            *ngIf="subToggle && index === indexShows"
-            class="sidenav-nav__item__link__sub-router-item">
-            <a
-              *ngFor="let subRout of navData?.routerDataConfig[index].subRouter"
-              [href]="route.path"
-              class="sidenav-nav__item__link"
-              [routerLink]="subRout.path" [routerLinkActive]="'active'">
+            class="sidenav-nav__item__link__sub-router"
+            [ngClass]="subToggle ? 'sidenav-nav-item__collapsed' : 'sidenav-nav-item__ne-collapsed' ">
+            <div
+              class="sidenav-nav__item__link__sub-router-r"
+              (click)="setSubToggle(index)">
               <i class="sidenav-nav__item__link__icon" [class]="route.path">
                 <mat-icon
-                  [svgIcon]="subRout.icon"
-                  class="ml-1.5 mr-2.5 sidenav-nav__item__link__icon__action"
+                  [svgIcon]="route.icon"
                 ></mat-icon>
               </i>
-              <span
-                class="sidenav-nav__item__link__text">{{ subRout.text }}</span>
-            </a>
+              <span class="sidenav-nav__item__link__text">
+                {{ route.text }}
+              </span>
+            </div>
+            @if (subToggle && index === indexShows) {
+              <div
+                class="sidenav-nav__item__link__sub-router-item">
+                @for (subRout of navData?.routerDataConfig[index].subRouter; track subRout) {
+                  <a
+                    [href]="route.path"
+                    class="sidenav-nav__item__link"
+                    [routerLink]="subRout.path" [routerLinkActive]="'active'">
+                    <i class="sidenav-nav__item__link__icon" [class]="route.path">
+                      <mat-icon
+                        [svgIcon]="subRout.icon"
+                        class="ml-1.5 mr-2.5 sidenav-nav__item__link__icon__action"
+                      ></mat-icon>
+                    </i>
+                    <span
+                    class="sidenav-nav__item__link__text">{{ subRout.text }}</span>
+                  </a>
+                }
+              </div>
+            }
           </div>
-        </div>
-      </ng-template>
-    </li>
+        }
+      </li>
+    }
   </ul>
 </nav>

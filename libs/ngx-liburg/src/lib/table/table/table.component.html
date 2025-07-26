@@ -8,7 +8,7 @@
   dataKey="id"
   styleClass="p-datatable-gridlines"
   [style.box-shadow]="addedNewEntry() ? 'none' : ''"
->
+  >
   <ng-template pTemplate="header">
     <tr class="header-color gap-1">
       @for (col of columnsToDispaly; track col) {
@@ -22,9 +22,10 @@
           <p-sortIcon [field]="col"></p-sortIcon>
         </th>
       }
-      <th
-        *ngIf="extensible() && (extandble$ | async)"
+      @if (extensible() && (extandble$ | async)) {
+        <th
         class="extensible-header"></th>
+      }
     </tr>
   </ng-template>
 
@@ -35,7 +36,7 @@
       [pSelectableRow]="rowData"
       class="gap-1 header-border-left"
       [class.zebra]="rowIndex % 2 === 0 && zebraColor()"
-    >
+      >
       @for (col of columnsToDispaly; track col) {
         <td>
           <ng-container
@@ -48,36 +49,39 @@
       }
     </tr>
 
-    <tr
-      *ngIf="extensible() && (extandble$ | async) === rowData"
-      class="example-detail-row gap-1 header-border-left"
-    >
-      <td [attr.colspan]="columnsToDispaly.length" class="overflow-hidden">
-        <div
-          [@detailExpand]="(extandble$ | async) ? 'expanded' : 'collapsed'"
-          class="elix__table">
-          <ng-container
-            *ngTemplateOutlet="newElementExtandble(); context: { $implicit: rowData }"
-          >
-          </ng-container>
-        </div>
-      </td>
-    </tr>
+    @if (extensible() && (extandble$ | async) === rowData) {
+      <tr
+        class="example-detail-row gap-1 header-border-left"
+        >
+        <td [attr.colspan]="columnsToDispaly.length" class="overflow-hidden">
+          <div
+            [@detailExpand]="(extandble$ | async) ? 'expanded' : 'collapsed'"
+            class="elix__table">
+            <ng-container
+              *ngTemplateOutlet="newElementExtandble(); context: { $implicit: rowData }"
+              >
+            </ng-container>
+          </div>
+        </td>
+      </tr>
+    }
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <tr *ngIf="footerShow()">
-      @for (col of columnsToDispaly; track col) {
-        <td>
-          <ng-container
+    @if (footerShow()) {
+      <tr>
+        @for (col of columnsToDispaly; track col) {
+          <td>
+            <ng-container
             *ngTemplateOutlet="
             getFooterTemplate(col) || defaultFooterTemplate;
             context: { $implicit: col }
           "
-          ></ng-container>
-        </td>
-      }
-    </tr>
+            ></ng-container>
+          </td>
+        }
+      </tr>
+    }
   </ng-template>
 
   <ng-template #defaultHeaderTemplate let-col>
@@ -99,14 +103,15 @@
     [length]="lengthPagination()"
     [pageSizeOptions]="pageSizeOptions()"
     aria-label="Select page of periodic elements"
-  />
+    />
 }
 
-<ng-container *ngIf="footerAmount()">
+@if (footerAmount()) {
   <lib-footer-amount [amount]="totalAmount()" [label]="footerLabel()" />
-</ng-container>
-<div class="new" *ngIf="addedNewEntry()" (click)="addNewEntry()">
-  <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"/>
-
+}
+@if (addedNewEntry()) {
+  <div class="new" (click)="addNewEntry()">
+    <mat-icon [svgIcon]="'fa_solid:circle-plus'" class="new-entry"/>
     <p>Added new Entry</p>
-</div>
+  </div>
+}

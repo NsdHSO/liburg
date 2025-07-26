@@ -15,7 +15,7 @@
   </button>
 </div>
 TEST TABLE
-<ng-container *ngFor="let item of test">
+@for (item of test; track item) {
   same pointer
   <!-- Table with dataSource as a function -->
   <!-- Using the dataSource function to get the data for the table -->
@@ -25,7 +25,7 @@ TEST TABLE
     [showPagination]="true"
     (onPaginationChange)="onPaginationChange($event)"
     [lengthPagination]="item.dataSource().length"
-  >
+    >
     @for (row of item.rows; track row) {
       @if (!$last) {
         <elix-column-text
@@ -37,16 +37,14 @@ TEST TABLE
           [className]="row.className"
           [field]="row.field"
           [name]="row.name" />
-
       }
     }
   </elix-table>
-
-</ng-container>
+}
 Separate pointer
 <elix-table
   [dataSource]="dataSource3()"
->
+  >
   <elix-column-text
     className="driver-name"
     field="test"
@@ -63,7 +61,7 @@ Separate pointer
 
 <elix-table
   [dataSource]="dataSource()"
->
+  >
   <elix-column-text
     className="driver-name"
     field="driverName"

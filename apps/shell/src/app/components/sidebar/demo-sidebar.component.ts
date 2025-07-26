@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'liburg-demo-sidebar',
   standalone: true,
-  imports: [CommonModule, MatListModule, RouterModule],
+  imports: [MatListModule, RouterModule],
   template: `
     <div class="sidebar-container">
       <h2>Demo Options</h2>

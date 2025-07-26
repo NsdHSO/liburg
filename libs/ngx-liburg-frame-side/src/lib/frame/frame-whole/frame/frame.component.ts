@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
 import * as RouterData from '../frame-service';
 import { FrameService } from '../frame-service';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
 import { DrawerComponent } from './drawer/drawer.component';
 
@@ -11,7 +11,7 @@ import { DrawerComponent } from './drawer/drawer.component';
   selector: 'ngx-frame-side',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss'],
-  imports: [NgIf, AsyncPipe, NavigationComponent, DrawerComponent],
+  imports: [AsyncPipe, NavigationComponent, DrawerComponent],
 })
 export class FrameComponent {
   public navData: FrameService | any;

@@ -9,7 +9,7 @@ import { BaseColumn } from '../../base-column';
 import { DataSourceMaterialTable } from '../../table/table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { NgIf } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 enum SelectEnum {
@@ -28,7 +28,7 @@ enum SelectEnum {
       useExisting: ColumnTwoCasesComponent,
     },
   ],
-  imports: [MatTableModule, MatSlideToggleModule, NgIf, FormsModule],
+  imports: [MatTableModule, MatSlideToggleModule, FormsModule],
 })
 export class ColumnTwoCasesComponent<T> extends BaseColumn implements OnInit {
   @Output()

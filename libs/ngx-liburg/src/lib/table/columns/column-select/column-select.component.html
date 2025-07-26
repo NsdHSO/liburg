@@ -6,14 +6,14 @@
   <span [class]="className">
     <div class="flex">
       @if (element.editable && editRow) {
-        <p-dropdown
+        <p-select
           [options]="options"
           [(ngModel)]="element.model[field]"
           (ngModelChange)="element.model[field] = $event; changeEntity(element)"
           optionLabel="name" [style]="{'width': '100%'}"
           [editable]="false"
           placeholder="Select an option"
-        ></p-dropdown>
+        />
       } @else {
         <div class="text-disable dark:text-white">
           {{ element.model?.[field]?.name || element?.[field]?.name }}

@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { BaseColumn } from '../../base-column';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+ // Import CommonModule
 import { FormsModule } from '@angular/forms';
 
 // PrimeNG Imports
@@ -26,10 +26,9 @@ import { InputTextModule } from 'primeng/inputtext'; // For pInputText directive
   encapsulation: ViewEncapsulation.None,
   standalone: true, // Enable standalone component
   imports: [
-    CommonModule, // For NgIf
     FormsModule,
-    InputTextModule, // PrimeNG InputText module
-  ],
+    InputTextModule
+],
 })
 export class ColumnTextComponent<T> extends BaseColumn {
   @Output()

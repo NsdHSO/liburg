@@ -4,16 +4,19 @@
 
 <ng-template #columnNumberBodyTemplate let-element>
   <span [class]="className">
-    <div
-      *ngIf="element.editable && editRow; else prettyText"
-      class="column-number__edit p-field">
-      <input
-        pInputText
-        type="number"
-        [(ngModel)]="element.model[field]"
-        class="p-inputtext p-component"
-      />
-    </div>
+    @if (element.editable && editRow) {
+      <div
+        class="column-number__edit p-field">
+        <input
+          pInputText
+          type="number"
+          [(ngModel)]="element.model[field]"
+          class="p-inputtext p-component"
+          />
+      </div>
+    } @else {
+      {{ element.model[field] }}
+    }
     <ng-template #prettyText>
       {{ element.model[field] }}
     </ng-template>
