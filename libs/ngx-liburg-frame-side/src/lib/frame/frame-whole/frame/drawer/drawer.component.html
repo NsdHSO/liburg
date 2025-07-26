@@ -6,6 +6,7 @@
   <mat-drawer
     #drawer [mode]="mode" [opened]="opened" [position]="position"
     [style.width]="width"
+    (closed)="onBackdropClick()"
   >
     <section class="content-drawer">
       <div
